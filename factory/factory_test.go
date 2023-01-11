@@ -3,9 +3,9 @@ package factory
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 	"testing"
+	"time"
 
 	truncator "github.com/aquilax/truncate"
 	"github.com/senzing/go-helpers/g2engineconfigurationjson"
@@ -17,8 +17,11 @@ const (
 )
 
 var (
-	sdkAbstractFactoryLocalSingleton SdkAbstractFactory
+	iniParams                        string
+	moduleName                       string = "Test module name"
 	sdkAbstractFactoryGrpcSingleton  SdkAbstractFactory
+	sdkAbstractFactoryLocalSingleton SdkAbstractFactory
+	verboseLogging                   int = 0
 )
 
 // ----------------------------------------------------------------------------
@@ -27,36 +30,15 @@ var (
 
 func getTestObjectLocal(ctx context.Context, test *testing.T) SdkAbstractFactory {
 	if sdkAbstractFactoryLocalSingleton == nil {
-		engineConfigurationJson, err := g2engineconfigurationjson.BuildSimpleSystemConfigurationJson("")
-		if err != nil {
-			test.Logf("Could not construct engineConfigurationJson. Error: %v", err)
-		}
-
-		sdkAbstractFactoryLocalSingleton = &SdkAbstractFactoryImpl{
-			EngineConfigurationJson: engineConfigurationJson,
-			ModuleName:              "Test module name",
-			VerboseLogging:          0,
-		}
-		log.SetFlags(0)
+		sdkAbstractFactoryLocalSingleton = &SdkAbstractFactoryImpl{}
 	}
 	return sdkAbstractFactoryLocalSingleton
 }
 
 func getTestObjectGrpc(ctx context.Context, test *testing.T) SdkAbstractFactory {
 	if sdkAbstractFactoryGrpcSingleton == nil {
-		engineConfigurationJson, err := g2engineconfigurationjson.BuildSimpleSystemConfigurationJson("")
-		if err != nil {
-			test.Logf("Could not construct engineConfigurationJson. Error: %v", err)
-		}
-
-		if sdkAbstractFactoryGrpcSingleton == nil {
-			sdkAbstractFactoryGrpcSingleton = &SdkAbstractFactoryImpl{
-				EngineConfigurationJson: engineConfigurationJson,
-				GrpcAddress:             "localhost:8258",
-				ModuleName:              "Test module name",
-				VerboseLogging:          0,
-			}
-			log.SetFlags(0)
+		sdkAbstractFactoryGrpcSingleton = &SdkAbstractFactoryImpl{
+			GrpcAddress: "localhost:8258",
 		}
 	}
 	return sdkAbstractFactoryGrpcSingleton
@@ -109,6 +91,7 @@ func TestMain(m *testing.M) {
 
 func setup() error {
 	var err error = nil
+	iniParams, err = g2engineconfigurationjson.BuildSimpleSystemConfigurationJson("")
 	return err
 }
 
@@ -127,13 +110,13 @@ func TestBuildSimpleSystemConfigurationJson(test *testing.T) {
 }
 
 // ----------------------------------------------------------------------------
-// Test interface functions
+// Test helper functions
 // ----------------------------------------------------------------------------
 
-func TestSdkAbstractFactoryImpl_GetG2config_local(test *testing.T) {
-	ctx := context.TODO()
-	testObject := getTestObjectLocal(ctx, test)
+func helperSdkAbstractFactoryImpl_GetG2config(test *testing.T, ctx context.Context, testObject SdkAbstractFactory) {
 	g2config, err := testObject.GetG2config(ctx)
+	testError(test, ctx, err)
+	err = g2config.Init(ctx, moduleName, iniParams, verboseLogging)
 	testError(test, ctx, err)
 	configHandle, err := g2config.Create(ctx)
 	testError(test, ctx, err)
@@ -144,16 +127,118 @@ func TestSdkAbstractFactoryImpl_GetG2config_local(test *testing.T) {
 	testError(test, ctx, err)
 }
 
-func TestSdkAbstractFactoryImpl_GetG2config_gRPC(test *testing.T) {
-	ctx := context.TODO()
-	testObject := getTestObjectGrpc(ctx, test)
+func helperSdkAbstractFactoryImpl_GetG2configmgr(test *testing.T, ctx context.Context, testObject SdkAbstractFactory) {
 	g2config, err := testObject.GetG2config(ctx)
+	testError(test, ctx, err)
+	err = g2config.Init(ctx, moduleName, iniParams, verboseLogging)
 	testError(test, ctx, err)
 	configHandle, err := g2config.Create(ctx)
 	testError(test, ctx, err)
-	actual, err := g2config.ListDataSources(ctx, configHandle)
+	configStr, err := g2config.Save(ctx, configHandle)
+	testError(test, ctx, err)
+
+	g2configmgr, err := testObject.GetG2configmgr(ctx)
+	testError(test, ctx, err)
+	err = g2configmgr.Init(ctx, moduleName, iniParams, verboseLogging)
+	testError(test, ctx, err)
+	now := time.Now()
+	configComments := fmt.Sprintf("Created by g2diagnostic_test at %s", now.UTC())
+	configID, err := g2configmgr.AddConfig(ctx, configStr, configComments)
+	testError(test, ctx, err)
+	err = g2configmgr.SetDefaultConfigID(ctx, configID)
+	testError(test, ctx, err)
+}
+
+func helperSdkAbstractFactoryImpl_GetG2diagnostic(test *testing.T, ctx context.Context, testObject SdkAbstractFactory) {
+	g2diagnostic, err := testObject.GetG2diagnostic(ctx)
+	testError(test, ctx, err)
+	err = g2diagnostic.Init(ctx, moduleName, iniParams, verboseLogging)
+	testError(test, ctx, err)
+	actual, err := g2diagnostic.GetTotalSystemMemory(ctx)
 	testError(test, ctx, err)
 	printActual(test, actual)
-	err = g2config.Close(ctx, configHandle)
+}
+
+func helperSdkAbstractFactoryImpl_GetG2engine(test *testing.T, ctx context.Context, testObject SdkAbstractFactory) {
+	g2engine, err := testObject.GetG2engine(ctx)
 	testError(test, ctx, err)
+	err = g2engine.Init(ctx, moduleName, iniParams, verboseLogging)
+	testError(test, ctx, err)
+	actual, err := g2engine.Stats(ctx)
+	testError(test, ctx, err)
+	printActual(test, actual)
+}
+
+func helperSdkAbstractFactoryImpl_GetG2product(test *testing.T, ctx context.Context, testObject SdkAbstractFactory) {
+	g2product, err := testObject.GetG2product(ctx)
+	testError(test, ctx, err)
+	err = g2product.Init(ctx, moduleName, iniParams, verboseLogging)
+	testError(test, ctx, err)
+	actual, err := g2product.License(ctx)
+	testError(test, ctx, err)
+	printActual(test, actual)
+}
+
+// ----------------------------------------------------------------------------
+// Test interface functions
+// ----------------------------------------------------------------------------
+
+func TestSdkAbstractFactoryImpl_GetG2config_local(test *testing.T) {
+	ctx := context.TODO()
+	testObject := getTestObjectLocal(ctx, test)
+	helperSdkAbstractFactoryImpl_GetG2config(test, ctx, testObject)
+}
+
+func TestSdkAbstractFactoryImpl_GetG2config_gRPC(test *testing.T) {
+	ctx := context.TODO()
+	testObject := getTestObjectGrpc(ctx, test)
+	helperSdkAbstractFactoryImpl_GetG2config(test, ctx, testObject)
+}
+
+func TestSdkAbstractFactoryImpl_GetG2configmgr_local(test *testing.T) {
+	ctx := context.TODO()
+	testObject := getTestObjectLocal(ctx, test)
+	helperSdkAbstractFactoryImpl_GetG2configmgr(test, ctx, testObject)
+}
+
+func TestSdkAbstractFactoryImpl_GetG2configmgr_gRPC(test *testing.T) {
+	ctx := context.TODO()
+	testObject := getTestObjectGrpc(ctx, test)
+	helperSdkAbstractFactoryImpl_GetG2configmgr(test, ctx, testObject)
+}
+
+func TestSdkAbstractFactoryImpl_GetG2diagnostic_local(test *testing.T) {
+	ctx := context.TODO()
+	testObject := getTestObjectLocal(ctx, test)
+	helperSdkAbstractFactoryImpl_GetG2diagnostic(test, ctx, testObject)
+}
+
+func TestSdkAbstractFactoryImpl_GetG2diagnostic_gRPC(test *testing.T) {
+	ctx := context.TODO()
+	testObject := getTestObjectGrpc(ctx, test)
+	helperSdkAbstractFactoryImpl_GetG2diagnostic(test, ctx, testObject)
+}
+
+func TestSdkAbstractFactoryImpl_GetG2engine_local(test *testing.T) {
+	ctx := context.TODO()
+	testObject := getTestObjectLocal(ctx, test)
+	helperSdkAbstractFactoryImpl_GetG2engine(test, ctx, testObject)
+}
+
+func TestSdkAbstractFactoryImpl_GetG2engine_gRPC(test *testing.T) {
+	ctx := context.TODO()
+	testObject := getTestObjectGrpc(ctx, test)
+	helperSdkAbstractFactoryImpl_GetG2engine(test, ctx, testObject)
+}
+
+func TestSdkAbstractFactoryImpl_GetG2product_local(test *testing.T) {
+	ctx := context.TODO()
+	testObject := getTestObjectLocal(ctx, test)
+	helperSdkAbstractFactoryImpl_GetG2product(test, ctx, testObject)
+}
+
+func TestSdkAbstractFactoryImpl_GetG2product_gRPC(test *testing.T) {
+	ctx := context.TODO()
+	testObject := getTestObjectGrpc(ctx, test)
+	helperSdkAbstractFactoryImpl_GetG2product(test, ctx, testObject)
 }

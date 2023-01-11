@@ -30,21 +30,18 @@ import (
 
 // SdkAbstractFactoryImpl is the default implementation of the SdkAbstractFactory interface.
 type SdkAbstractFactoryImpl struct {
-	EngineConfigurationJson string
-	GrpcAddress             string
-	ModuleName              string
-	VerboseLogging          int
-	g2configmgrSingleton    g2configmgr.G2configmgr
-	g2configmgrSyncOnce     sync.Once
-	g2configSingleton       g2config.G2config
-	g2configSyncOnce        sync.Once
-	g2diagnosticSingleton   g2diagnostic.G2diagnostic
-	g2diagnosticSyncOnce    sync.Once
-	g2engineSingleton       g2engine.G2engine
-	g2engineSyncOnce        sync.Once
-	g2productSingleton      g2product.G2product
-	g2productSyncOnce       sync.Once
-	logger                  messagelogger.MessageLoggerInterface
+	GrpcAddress           string
+	g2configmgrSingleton  g2configmgr.G2configmgr
+	g2configmgrSyncOnce   sync.Once
+	g2configSingleton     g2config.G2config
+	g2configSyncOnce      sync.Once
+	g2diagnosticSingleton g2diagnostic.G2diagnostic
+	g2diagnosticSyncOnce  sync.Once
+	g2engineSingleton     g2engine.G2engine
+	g2engineSyncOnce      sync.Once
+	g2productSingleton    g2product.G2product
+	g2productSyncOnce     sync.Once
+	logger                messagelogger.MessageLoggerInterface
 }
 
 // ----------------------------------------------------------------------------
@@ -88,9 +85,6 @@ Output
 func (factory *SdkAbstractFactoryImpl) GetG2config(ctx context.Context) (g2config.G2config, error) {
 	var err error = nil
 	factory.g2configSyncOnce.Do(func() {
-
-		// Determine which instantiation of the G2config interface to create.
-
 		if len(factory.GrpcAddress) > 0 {
 			grpcConnection := factory.getGrpcConnection()
 			factory.g2configSingleton = &g2configclient.G2configClient{
@@ -98,13 +92,6 @@ func (factory *SdkAbstractFactoryImpl) GetG2config(ctx context.Context) (g2confi
 			}
 		} else {
 			factory.g2configSingleton = &g2config.G2configImpl{}
-		}
-
-		// Initialize the object.
-
-		err = factory.g2configSingleton.Init(ctx, factory.ModuleName, factory.EngineConfigurationJson, factory.VerboseLogging)
-		if err != nil {
-			factory.getLogger().Log(4001, err)
 		}
 	})
 	return factory.g2configSingleton, err
@@ -126,9 +113,6 @@ Output
 func (factory *SdkAbstractFactoryImpl) GetG2configmgr(ctx context.Context) (g2configmgr.G2configmgr, error) {
 	var err error = nil
 	factory.g2configmgrSyncOnce.Do(func() {
-
-		// Determine which instantiation of the G2configmgr interface to create.
-
 		if len(factory.GrpcAddress) > 0 {
 			grpcConnection := factory.getGrpcConnection()
 			factory.g2configmgrSingleton = &g2configmgrclient.G2configmgrClient{
@@ -136,13 +120,6 @@ func (factory *SdkAbstractFactoryImpl) GetG2configmgr(ctx context.Context) (g2co
 			}
 		} else {
 			factory.g2configmgrSingleton = &g2configmgr.G2configmgrImpl{}
-		}
-
-		// Initialize the object.
-
-		err = factory.g2configmgrSingleton.Init(ctx, factory.ModuleName, factory.EngineConfigurationJson, factory.VerboseLogging)
-		if err != nil {
-			factory.getLogger().Log(4002, err)
 		}
 	})
 	return factory.g2configmgrSingleton, err
@@ -164,9 +141,6 @@ Output
 func (factory *SdkAbstractFactoryImpl) GetG2diagnostic(ctx context.Context) (g2diagnostic.G2diagnostic, error) {
 	var err error = nil
 	factory.g2diagnosticSyncOnce.Do(func() {
-
-		// Determine which instantiation of the G2diagnostic interface to create.
-
 		if len(factory.GrpcAddress) > 0 {
 			grpcConnection := factory.getGrpcConnection()
 			factory.g2diagnosticSingleton = &g2diagnosticclient.G2diagnosticClient{
@@ -174,13 +148,6 @@ func (factory *SdkAbstractFactoryImpl) GetG2diagnostic(ctx context.Context) (g2d
 			}
 		} else {
 			factory.g2diagnosticSingleton = &g2diagnostic.G2diagnosticImpl{}
-		}
-
-		// Initialize the object.
-
-		err = factory.g2diagnosticSingleton.Init(ctx, factory.ModuleName, factory.EngineConfigurationJson, factory.VerboseLogging)
-		if err != nil {
-			factory.getLogger().Log(4003, err)
 		}
 	})
 	return factory.g2diagnosticSingleton, err
@@ -202,9 +169,6 @@ Output
 func (factory *SdkAbstractFactoryImpl) GetG2engine(ctx context.Context) (g2engine.G2engine, error) {
 	var err error = nil
 	factory.g2engineSyncOnce.Do(func() {
-
-		// Determine which instantiation of the G2engine interface to create.
-
 		if len(factory.GrpcAddress) > 0 {
 			grpcConnection := factory.getGrpcConnection()
 			factory.g2engineSingleton = &g2engineclient.G2engineClient{
@@ -212,13 +176,6 @@ func (factory *SdkAbstractFactoryImpl) GetG2engine(ctx context.Context) (g2engin
 			}
 		} else {
 			factory.g2engineSingleton = &g2engine.G2engineImpl{}
-		}
-
-		// Initialize the object.
-
-		err = factory.g2engineSingleton.Init(ctx, factory.ModuleName, factory.EngineConfigurationJson, factory.VerboseLogging)
-		if err != nil {
-			factory.getLogger().Log(4004, err)
 		}
 	})
 	return factory.g2engineSingleton, err
@@ -240,9 +197,6 @@ Output
 func (factory *SdkAbstractFactoryImpl) GetG2product(ctx context.Context) (g2product.G2product, error) {
 	var err error = nil
 	factory.g2productSyncOnce.Do(func() {
-
-		// Determine which instantiation of the G2product interface to create.
-
 		if len(factory.GrpcAddress) > 0 {
 			grpcConnection := factory.getGrpcConnection()
 			factory.g2productSingleton = &g2productclient.G2productClient{
@@ -250,13 +204,6 @@ func (factory *SdkAbstractFactoryImpl) GetG2product(ctx context.Context) (g2prod
 			}
 		} else {
 			factory.g2productSingleton = &g2product.G2productImpl{}
-		}
-
-		// Initialize the object.
-
-		err = factory.g2productSingleton.Init(ctx, factory.ModuleName, factory.EngineConfigurationJson, factory.VerboseLogging)
-		if err != nil {
-			factory.getLogger().Log(4005, err)
 		}
 	})
 	return factory.g2productSingleton, err
