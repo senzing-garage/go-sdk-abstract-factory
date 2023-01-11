@@ -110,6 +110,19 @@ func (factory *SdkAbstractFactoryImpl) GetG2config(ctx context.Context) (g2confi
 	return factory.g2configSingleton, err
 }
 
+/*
+The GetG2configmgr method returns a G2configmgr object based on the
+information passed in the SdkAbstractFactoryImpl structure.
+If GrpcAddress is spectified, an implementation that communicates over gRPC will be returned.
+If GrpcAddress is empty, an implementation that uses a local Senzing Go SDK will be returned.
+
+Input
+  - ctx: A context to control lifecycle.
+
+Output
+  - An initialized G2configmgr object.
+    See the example output.
+*/
 func (factory *SdkAbstractFactoryImpl) GetG2configmgr(ctx context.Context) (g2configmgr.G2configmgr, error) {
 	var err error = nil
 	factory.g2configmgrSyncOnce.Do(func() {
@@ -135,6 +148,19 @@ func (factory *SdkAbstractFactoryImpl) GetG2configmgr(ctx context.Context) (g2co
 	return factory.g2configmgrSingleton, err
 }
 
+/*
+The GetG2diagnostic method returns a G2diagnostic object based on the
+information passed in the SdkAbstractFactoryImpl structure.
+If GrpcAddress is spectified, an implementation that communicates over gRPC will be returned.
+If GrpcAddress is empty, an implementation that uses a local Senzing Go SDK will be returned.
+
+Input
+  - ctx: A context to control lifecycle.
+
+Output
+  - An initialized G2diagnostic object.
+    See the example output.
+*/
 func (factory *SdkAbstractFactoryImpl) GetG2diagnostic(ctx context.Context) (g2diagnostic.G2diagnostic, error) {
 	var err error = nil
 	factory.g2diagnosticSyncOnce.Do(func() {
@@ -160,6 +186,19 @@ func (factory *SdkAbstractFactoryImpl) GetG2diagnostic(ctx context.Context) (g2d
 	return factory.g2diagnosticSingleton, err
 }
 
+/*
+The GetG2engine method returns a G2engine object based on the
+information passed in the SdkAbstractFactoryImpl structure.
+If GrpcAddress is spectified, an implementation that communicates over gRPC will be returned.
+If GrpcAddress is empty, an implementation that uses a local Senzing Go SDK will be returned.
+
+Input
+  - ctx: A context to control lifecycle.
+
+Output
+  - An initialized G2engine object.
+    See the example output.
+*/
 func (factory *SdkAbstractFactoryImpl) GetG2engine(ctx context.Context) (g2engine.G2engine, error) {
 	var err error = nil
 	factory.g2engineSyncOnce.Do(func() {
@@ -185,6 +224,19 @@ func (factory *SdkAbstractFactoryImpl) GetG2engine(ctx context.Context) (g2engin
 	return factory.g2engineSingleton, err
 }
 
+/*
+The GetG2product method returns a G2product object based on the
+information passed in the SdkAbstractFactoryImpl structure.
+If GrpcAddress is spectified, an implementation that communicates over gRPC will be returned.
+If GrpcAddress is empty, an implementation that uses a local Senzing Go SDK will be returned.
+
+Input
+  - ctx: A context to control lifecycle.
+
+Output
+  - An initialized G2product object.
+    See the example output.
+*/
 func (factory *SdkAbstractFactoryImpl) GetG2product(ctx context.Context) (g2product.G2product, error) {
 	var err error = nil
 	factory.g2productSyncOnce.Do(func() {

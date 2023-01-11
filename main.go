@@ -173,20 +173,14 @@ func main() {
 		logger.Log(5000, err)
 	}
 
-	// Test logger.
-
-	programmMetadataMap := map[string]interface{}{
-		"ProgramName":    programName,
-		"BuildVersion":   buildVersion,
-		"BuildIteration": buildIteration,
-	}
-
-	logger.Log(2001, "Just a test of logging", programmMetadataMap)
+	// Create Senzing's Engine Configuration JSON.
 
 	engineConfigurationJson, err := g2engineconfigurationjson.BuildSimpleSystemConfigurationJson("")
 	if err != nil {
 		logger.Log(5001, err)
 	}
+
+	// Iterate through different instantiations of SdkAbstractFactory.
 
 	for _, runNumber := range []int{1, 2} {
 		fmt.Printf("\n-------------------------------------------------------------------------------\n\n")
@@ -286,4 +280,5 @@ func main() {
 			logger.Log(5014, err)
 		}
 	}
+	fmt.Printf("\n-------------------------------------------------------------------------------\n\n")
 }
