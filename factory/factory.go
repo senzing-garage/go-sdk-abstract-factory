@@ -31,6 +31,7 @@ import (
 // SdkAbstractFactoryImpl is the default implementation of the SdkAbstractFactory interface.
 type SdkAbstractFactoryImpl struct {
 	GrpcAddress           string
+	GrpcOptions           []grpc.DialOption
 	g2configmgrSingleton  g2configmgr.G2configmgr
 	g2configmgrSyncOnce   sync.Once
 	g2configSingleton     g2config.G2config
@@ -49,8 +50,11 @@ type SdkAbstractFactoryImpl struct {
 // ----------------------------------------------------------------------------
 
 // Get the gRPC connection.
-func (factory *SdkAbstractFactoryImpl) getGrpcConnection() *grpc.ClientConn {
-	result, err := grpc.Dial(factory.GrpcAddress, grpc.WithTransportCredentials(insecure.NewCredentials()))
+func (factory *SdkAbstractFactoryImpl) getGrpcConnection(ctx context.Context) *grpc.ClientConn {
+	if factory.GrpcOptions == nil {
+		factory.GrpcOptions = []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
+	}
+	result, err := grpc.DialContext(ctx, factory.GrpcAddress, factory.GrpcOptions...)
 	if err != nil {
 		factory.getLogger().Log(4010, err)
 	}
@@ -86,7 +90,7 @@ func (factory *SdkAbstractFactoryImpl) GetG2config(ctx context.Context) (g2confi
 	var err error = nil
 	factory.g2configSyncOnce.Do(func() {
 		if len(factory.GrpcAddress) > 0 {
-			grpcConnection := factory.getGrpcConnection()
+			grpcConnection := factory.getGrpcConnection(ctx)
 			factory.g2configSingleton = &g2configclient.G2configClient{
 				GrpcClient: pbg2config.NewG2ConfigClient(grpcConnection),
 			}
@@ -114,7 +118,7 @@ func (factory *SdkAbstractFactoryImpl) GetG2configmgr(ctx context.Context) (g2co
 	var err error = nil
 	factory.g2configmgrSyncOnce.Do(func() {
 		if len(factory.GrpcAddress) > 0 {
-			grpcConnection := factory.getGrpcConnection()
+			grpcConnection := factory.getGrpcConnection(ctx)
 			factory.g2configmgrSingleton = &g2configmgrclient.G2configmgrClient{
 				GrpcClient: pbg2configmgr.NewG2ConfigMgrClient(grpcConnection),
 			}
@@ -142,7 +146,7 @@ func (factory *SdkAbstractFactoryImpl) GetG2diagnostic(ctx context.Context) (g2d
 	var err error = nil
 	factory.g2diagnosticSyncOnce.Do(func() {
 		if len(factory.GrpcAddress) > 0 {
-			grpcConnection := factory.getGrpcConnection()
+			grpcConnection := factory.getGrpcConnection(ctx)
 			factory.g2diagnosticSingleton = &g2diagnosticclient.G2diagnosticClient{
 				GrpcClient: pbg2diagnostic.NewG2DiagnosticClient(grpcConnection),
 			}
@@ -170,7 +174,7 @@ func (factory *SdkAbstractFactoryImpl) GetG2engine(ctx context.Context) (g2engin
 	var err error = nil
 	factory.g2engineSyncOnce.Do(func() {
 		if len(factory.GrpcAddress) > 0 {
-			grpcConnection := factory.getGrpcConnection()
+			grpcConnection := factory.getGrpcConnection(ctx)
 			factory.g2engineSingleton = &g2engineclient.G2engineClient{
 				GrpcClient: pbg2engine.NewG2EngineClient(grpcConnection),
 			}
@@ -198,7 +202,7 @@ func (factory *SdkAbstractFactoryImpl) GetG2product(ctx context.Context) (g2prod
 	var err error = nil
 	factory.g2productSyncOnce.Do(func() {
 		if len(factory.GrpcAddress) > 0 {
-			grpcConnection := factory.getGrpcConnection()
+			grpcConnection := factory.getGrpcConnection(ctx)
 			factory.g2productSingleton = &g2productclient.G2productClient{
 				GrpcClient: pbg2product.NewG2ProductClient(grpcConnection),
 			}
