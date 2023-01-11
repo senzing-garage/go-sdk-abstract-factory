@@ -16,11 +16,11 @@ import (
 
 // The SdkAbstractFactory interface shows what Senzing objects that can be retrieved from the abstract factory.
 type SdkAbstractFactory interface {
-	GetG2Config(ctx context.Context) (g2config.G2config, error)
-	GetG2ConfigMgr(ctx context.Context) (g2configmgr.G2configmgr, error)
-	GetG2Diagnostic(ctx context.Context) (g2diagnostic.G2diagnostic, error)
-	GetG2Engine(ctx context.Context) (g2engine.G2engine, error)
-	GetG2Product(ctx context.Context) (g2product.G2product, error)
+	GetG2config(ctx context.Context) (g2config.G2config, error)
+	GetG2configmgr(ctx context.Context) (g2configmgr.G2configmgr, error)
+	GetG2diagnostic(ctx context.Context) (g2diagnostic.G2diagnostic, error)
+	GetG2engine(ctx context.Context) (g2engine.G2engine, error)
+	GetG2product(ctx context.Context) (g2product.G2product, error)
 }
 
 // ----------------------------------------------------------------------------

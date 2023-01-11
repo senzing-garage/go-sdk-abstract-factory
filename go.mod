@@ -6,6 +6,7 @@ require (
 	github.com/senzing/g2-sdk-go v0.2.5
 	github.com/senzing/g2-sdk-go-grpc v0.0.0-20230110201719-ed34d657a574
 	github.com/senzing/g2-sdk-proto/go v0.0.0-20230104150250-c9b2ad067374
+	github.com/senzing/go-helpers v0.1.0
 	github.com/senzing/go-logging v1.1.3
 	google.golang.org/grpc v1.52.0
 )
