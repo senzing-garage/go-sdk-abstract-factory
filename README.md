@@ -35,6 +35,10 @@ Depending upon the parameters passed to the factory, the underlying implementati
 
 ### Install Senzing library
 
+If using an existing Senzing SDK gRPC server,
+[g2-sdk-go-grpc](https://github.com/Senzing/g2-sdk-go-grpc),
+this step is not required.
+
 If configuring the go-sdk-abstract factory to use the local
 [g2-sdk-go](https://github.com/Senzing/g2-sdk-go)
 implementation,  the Senzing library is a prerequisite, it must be installed first.
@@ -134,7 +138,7 @@ This is important as the compiling of the code expects Senzing to be in `/opt/se
     done
     ```
 
-### Test using SQLite database
+### Test locally using SQLite database
 
 1. Identify git repository.
 
@@ -153,7 +157,7 @@ This is important as the compiling of the code expects Senzing to be in `/opt/se
 
     ```console
     cd ${GIT_REPOSITORY_DIR}
-    make test
+    make test-local
 
     ```
 
@@ -174,7 +178,12 @@ This is important as the compiling of the code expects Senzing to be in `/opt/se
 
    Visit [localhost:9174](http://localhost:9174).
 
-### Run test cases
+### Run all test cases
+
+These instructions run testcases for both local and gRPC implementations of the Senzing Go SDK.
+A Senzing SDK gRPC server,
+[g2-sdk-go-grpc](https://github.com/Senzing/g2-sdk-go-grpc),
+listening on `localhost:8258` is required.
 
 1. Identify git repository.
 
