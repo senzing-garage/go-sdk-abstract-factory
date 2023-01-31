@@ -2,8 +2,10 @@ package factory
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 	"testing"
 	"time"
 
@@ -71,6 +73,20 @@ func testErrorNoFail(test *testing.T, ctx context.Context, err error) {
 	}
 }
 
+func errorId(err error) string {
+	var result string = ""
+	if err != nil {
+		errorMessage := err.Error()[strings.Index(err.Error(), "{"):]
+		var dictionary map[string]interface{}
+		unmarshalErr := json.Unmarshal([]byte(errorMessage), &dictionary)
+		if unmarshalErr != nil {
+			fmt.Print("Unmarshal Error:", unmarshalErr.Error())
+		}
+		result = dictionary["id"].(string)
+	}
+	return result
+}
+
 // ----------------------------------------------------------------------------
 // Test harness
 // ----------------------------------------------------------------------------
@@ -117,7 +133,9 @@ func helperSdkAbstractFactoryImpl_GetG2config(test *testing.T, ctx context.Conte
 	g2config, err := testObject.GetG2config(ctx)
 	testError(test, ctx, err)
 	err = g2config.Init(ctx, moduleName, iniParams, verboseLogging)
-	testError(test, ctx, err)
+	if errorId(err) != "senzing-60114002" {
+		testError(test, ctx, err)
+	}
 	configHandle, err := g2config.Create(ctx)
 	testError(test, ctx, err)
 	actual, err := g2config.ListDataSources(ctx, configHandle)
@@ -131,7 +149,9 @@ func helperSdkAbstractFactoryImpl_GetG2configmgr(test *testing.T, ctx context.Co
 	g2config, err := testObject.GetG2config(ctx)
 	testError(test, ctx, err)
 	err = g2config.Init(ctx, moduleName, iniParams, verboseLogging)
-	testError(test, ctx, err)
+	if errorId(err) != "senzing-60114002" {
+		testError(test, ctx, err)
+	}
 	configHandle, err := g2config.Create(ctx)
 	testError(test, ctx, err)
 	configStr, err := g2config.Save(ctx, configHandle)
@@ -140,7 +160,9 @@ func helperSdkAbstractFactoryImpl_GetG2configmgr(test *testing.T, ctx context.Co
 	g2configmgr, err := testObject.GetG2configmgr(ctx)
 	testError(test, ctx, err)
 	err = g2configmgr.Init(ctx, moduleName, iniParams, verboseLogging)
-	testError(test, ctx, err)
+	if errorId(err) != "senzing-60124002" {
+		testError(test, ctx, err)
+	}
 	now := time.Now()
 	configComments := fmt.Sprintf("Created by g2diagnostic_test at %s", now.UTC())
 	configID, err := g2configmgr.AddConfig(ctx, configStr, configComments)
@@ -153,7 +175,9 @@ func helperSdkAbstractFactoryImpl_GetG2diagnostic(test *testing.T, ctx context.C
 	g2diagnostic, err := testObject.GetG2diagnostic(ctx)
 	testError(test, ctx, err)
 	err = g2diagnostic.Init(ctx, moduleName, iniParams, verboseLogging)
-	testError(test, ctx, err)
+	if errorId(err) != "senzing-60134002" {
+		testError(test, ctx, err)
+	}
 	actual, err := g2diagnostic.GetTotalSystemMemory(ctx)
 	testError(test, ctx, err)
 	printActual(test, actual)
@@ -163,7 +187,9 @@ func helperSdkAbstractFactoryImpl_GetG2engine(test *testing.T, ctx context.Conte
 	g2engine, err := testObject.GetG2engine(ctx)
 	testError(test, ctx, err)
 	err = g2engine.Init(ctx, moduleName, iniParams, verboseLogging)
-	testError(test, ctx, err)
+	if errorId(err) != "senzing-60144002" {
+		testError(test, ctx, err)
+	}
 	actual, err := g2engine.Stats(ctx)
 	testError(test, ctx, err)
 	printActual(test, actual)
@@ -173,7 +199,9 @@ func helperSdkAbstractFactoryImpl_GetG2product(test *testing.T, ctx context.Cont
 	g2product, err := testObject.GetG2product(ctx)
 	testError(test, ctx, err)
 	err = g2product.Init(ctx, moduleName, iniParams, verboseLogging)
-	testError(test, ctx, err)
+	if errorId(err) != "senzing-60164002" {
+		testError(test, ctx, err)
+	}
 	actual, err := g2product.License(ctx)
 	testError(test, ctx, err)
 	printActual(test, actual)

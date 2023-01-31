@@ -30,8 +30,6 @@ import (
 
 // SdkAbstractFactoryImpl is the default implementation of the SdkAbstractFactory interface.
 type SdkAbstractFactoryImpl struct {
-	GrpcAddress           string
-	GrpcOptions           []grpc.DialOption
 	g2configmgrSingleton  g2configmgr.G2configmgr
 	g2configmgrSyncOnce   sync.Once
 	g2configSingleton     g2config.G2config
@@ -42,6 +40,8 @@ type SdkAbstractFactoryImpl struct {
 	g2engineSyncOnce      sync.Once
 	g2productSingleton    g2product.G2product
 	g2productSyncOnce     sync.Once
+	GrpcAddress           string
+	GrpcOptions           []grpc.DialOption
 	logger                messagelogger.MessageLoggerInterface
 }
 

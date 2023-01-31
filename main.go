@@ -2,10 +2,12 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"math/rand"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/senzing/g2-sdk-go/g2config"
@@ -166,33 +168,61 @@ func demonstrateAdditionalFunctions(ctx context.Context, g2Diagnostic g2diagnost
 
 func destroyObjects(ctx context.Context, g2Config g2config.G2config, g2Configmgr g2configmgr.G2configmgr, g2Diagnostic g2diagnostic.G2diagnostic, g2Engine g2engine.G2engine, g2Product g2product.G2product) error {
 	var err error = nil
+	errorList := []string{}
 
 	err = g2Config.Destroy(ctx)
-	if err != nil {
+	if (err != nil) && (errorId(err) != "senzing-60114001") {
 		logger.Log(5401, err)
+		errorList = append(errorList, "g2Config")
 	}
 
 	err = g2Configmgr.Destroy(ctx)
-	if err != nil {
+	if (err != nil) && (errorId(err) != "senzing-60124001") {
 		logger.Log(5402, err)
+		errorList = append(errorList, "g2Configmgr")
 	}
 
 	err = g2Diagnostic.Destroy(ctx)
-	if err != nil {
+	if (err != nil) && (errorId(err) != "senzing-60134001") {
 		logger.Log(5403, err)
+		errorList = append(errorList, "g2Diagnostic")
 	}
 
 	err = g2Engine.Destroy(ctx)
-	if err != nil {
+	if (err != nil) && (errorId(err) != "senzing-60144001") {
 		logger.Log(5404, err)
+		errorList = append(errorList, "g2Engine")
+
 	}
 
 	err = g2Product.Destroy(ctx)
-	if err != nil {
+	if (err != nil) && (errorId(err) != "senzing-60164001") {
 		logger.Log(5405, err)
+		errorList = append(errorList, "g2Product")
+	}
+
+	if len(errorList) == 0 {
+		err = nil
+	} else {
+		errorListString := strings.Join(errorList, ", ")
+		err = fmt.Errorf("errors in %s", errorListString)
 	}
 
 	return err
+}
+
+func errorId(err error) string {
+	var result string = ""
+	if err != nil {
+		errorMessage := err.Error()[strings.Index(err.Error(), "{"):]
+		var dictionary map[string]interface{}
+		unmarshalErr := json.Unmarshal([]byte(errorMessage), &dictionary)
+		if unmarshalErr != nil {
+			fmt.Print("Unmarshal Error:", unmarshalErr.Error())
+		}
+		result = dictionary["id"].(string)
+	}
+	return result
 }
 
 // ----------------------------------------------------------------------------
@@ -252,7 +282,7 @@ func main() {
 			logger.Log(5003, err)
 		}
 		err = g2Config.Init(ctx, moduleName, iniParams, verboseLogging)
-		if err != nil {
+		if (err != nil) && (errorId(err) != "senzing-60114002") {
 			logger.Log(5004, err)
 		}
 
@@ -261,7 +291,7 @@ func main() {
 			logger.Log(5005, err)
 		}
 		err = g2Configmgr.Init(ctx, moduleName, iniParams, verboseLogging)
-		if err != nil {
+		if (err != nil) && (errorId(err) != "senzing-60124002") {
 			logger.Log(5006, err)
 		}
 
@@ -279,7 +309,7 @@ func main() {
 			logger.Log(5008, err)
 		}
 		err = g2Diagnostic.Init(ctx, moduleName, iniParams, verboseLogging)
-		if err != nil {
+		if (err != nil) && (errorId(err) != "senzing-60134002") {
 			logger.Log(5009, err)
 		}
 
@@ -288,7 +318,7 @@ func main() {
 			logger.Log(5010, err)
 		}
 		err = g2Engine.Init(ctx, moduleName, iniParams, verboseLogging)
-		if err != nil {
+		if (err != nil) && (errorId(err) != "senzing-60144002") {
 			logger.Log(5011, err)
 		}
 
@@ -297,7 +327,7 @@ func main() {
 			logger.Log(5012, err)
 		}
 		err = g2Product.Init(ctx, moduleName, iniParams, verboseLogging)
-		if err != nil {
+		if (err != nil) && (errorId(err) != "senzing-60164002") {
 			logger.Log(5013, err)
 		}
 
