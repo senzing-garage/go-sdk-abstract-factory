@@ -178,6 +178,29 @@ This is important as the compiling of the code expects Senzing to be in `/opt/se
 
    Visit [localhost:9174](http://localhost:9174).
 
+### Test using gRPC server
+
+1. Identify git repository.
+
+    ```console
+    export GIT_ACCOUNT=senzing
+    export GIT_REPOSITORY=go-sdk-abstract-factory
+    export GIT_ACCOUNT_DIR=~/${GIT_ACCOUNT}.git
+    export GIT_REPOSITORY_DIR="${GIT_ACCOUNT_DIR}/${GIT_REPOSITORY}"
+
+    ```
+
+1. Using the environment variables values just set, follow steps in
+   [clone-repository](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/clone-repository.md) to install the Git repository.
+
+1. Run tests.
+
+    ```console
+    cd ${GIT_REPOSITORY_DIR}
+    make test-grpc
+
+    ```
+
 ### Run all test cases
 
 These instructions run testcases for both local and gRPC implementations of the Senzing Go SDK.
