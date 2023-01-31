@@ -45,8 +45,6 @@ default: help
 
 LD_LIBRARY_PATH ?= ${SENZING_G2_DIR}/lib
 
-
-
 # -----------------------------------------------------------------------------
 # Build
 # -----------------------------------------------------------------------------
@@ -70,6 +68,7 @@ test:
 #	@go test -v ./.
 #	@go test -v ./factory
 
+
 .PHONY: test-local
 test-local: export SENZING_TOOLS_TESTCASE_NUMBER=1
 test-local:
@@ -77,6 +76,7 @@ test-local:
 	@mkdir  /tmp/sqlite
 	@cp testdata/sqlite/G2C.db /tmp/sqlite/G2C.db
 	@go test -v ./.
+
 
 .PHONY: test-grpc
 test-grpc: export SENZING_TOOLS_TESTCASE_NUMBER=2
