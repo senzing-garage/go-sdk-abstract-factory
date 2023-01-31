@@ -180,6 +180,10 @@ This is important as the compiling of the code expects Senzing to be in `/opt/se
 
 ### Test using gRPC server
 
+1. Start a Senzing SDK gRPC server,
+   [servegrpc](https://github.com/Senzing/servegrpc),
+   listening on `localhost:8258`.
+
 1. Identify git repository.
 
     ```console
@@ -204,9 +208,10 @@ This is important as the compiling of the code expects Senzing to be in `/opt/se
 ### Run all test cases
 
 These instructions run testcases for both local and gRPC implementations of the Senzing Go SDK.
-A Senzing SDK gRPC server,
-[g2-sdk-go-grpc](https://github.com/Senzing/g2-sdk-go-grpc),
-listening on `localhost:8258` is required.
+
+1. Start a Senzing SDK gRPC server,
+   [servegrpc](https://github.com/Senzing/servegrpc),
+   listening on `localhost:8258`.
 
 1. Identify git repository.
 
