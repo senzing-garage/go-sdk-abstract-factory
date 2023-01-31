@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -232,6 +233,7 @@ func errorId(err error) string {
 func main() {
 	var err error = nil
 	var senzingFactory factory.SdkAbstractFactory
+	var testcaseList []int
 	ctx := context.TODO()
 
 	// Randomize random number generator.
@@ -255,9 +257,23 @@ func main() {
 	}
 	verboseLogging := 0
 
+	// Determine if specific testcase is requested.
+
+	testcaseNumber := os.Getenv("SENZING_TOOLS_TESTCASE_NUMBER")
+	if len(testcaseNumber) > 0 {
+		testcaseInt, err := strconv.Atoi(testcaseNumber)
+		if err != nil {
+			logger.Log(5016, err)
+		}
+		testcaseList = append(testcaseList, testcaseInt)
+
+	} else {
+		testcaseList = append(testcaseList, 1, 2)
+	}
+
 	// Iterate through different instantiations of SdkAbstractFactory.
 
-	for _, runNumber := range []int{1, 2} {
+	for _, runNumber := range testcaseList {
 		fmt.Printf("\n-------------------------------------------------------------------------------\n\n")
 
 		// Choose different implementations.
