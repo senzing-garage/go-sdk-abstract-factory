@@ -26,16 +26,18 @@ The Senzing go-sdk-abstract-factory package creates Senzing objects that each ad
 1. [G2engine interface](https://github.com/Senzing/g2-sdk-go/blob/main/g2engine/main.go)
 1. [G2Product interface](https://github.com/Senzing/g2-sdk-go/blob/main/g2product/main.go)
 
-Depending upon the parameters passed to the factory, the underlying implementations may be:
+Depending upon the parameters passed to the factory, the underlying implementation may be:
 
-1. [g2-sdk-go](https://github.com/Senzing/g2-sdk-go) which talks to the native
+1. [g2-sdk-go](https://github.com/Senzing/g2-sdk-go) which talks to the native Senzing SDK C API
 1. [g2-sdk-go-grpc](https://github.com/Senzing/g2-sdk-go-grpc) which communicates with a Senzing gRPC server
 
 ## Developing with go-sdk-abstract-factory
 
 ### Install Senzing library
 
-Since the Senzing library is a prerequisite, it must be installed first.
+If configuring the go-sdk-abstract factory to use the local
+[g2-sdk-go](https://github.com/Senzing/g2-sdk-go)
+implementation,  the Senzing library is a prerequisite, it must be installed first.
 This can be done by installing the Senzing package using `apt`, `yum`,
 or a technique using Docker containers.
 Once complete, the Senzing library will be installed in the `/opt/senzing` directory.
@@ -114,14 +116,22 @@ This is important as the compiling of the code expects Senzing to be in `/opt/se
    Example:
 
     ```console
-      sudo mkdir /etc/opt/senzing
-      sudo cp /opt/senzing/g2/resources/templates/cfgVariant.json     /etc/opt/senzing
-      sudo cp /opt/senzing/g2/resources/templates/customGn.txt        /etc/opt/senzing
-      sudo cp /opt/senzing/g2/resources/templates/customOn.txt        /etc/opt/senzing
-      sudo cp /opt/senzing/g2/resources/templates/customSn.txt        /etc/opt/senzing
-      sudo cp /opt/senzing/g2/resources/templates/defaultGNRCP.config /etc/opt/senzing
-      sudo cp /opt/senzing/g2/resources/templates/stb.config          /etc/opt/senzing
+    export SENZING_ETC_FILES=( \
+    "cfgVariant.json" \
+    "customGn.txt" \
+    "customOn.txt" \
+    "customSn.txt" \
+    "defaultGNRCP.config" \
+    "g2config.json" \
+    "G2Module.ini" \
+    "stb.config" \
+    )
 
+    sudo mkdir /etc/opt/senzing
+    for SENZING_ETC_FILE in ${SENZING_ETC_FILES[@]}; \
+    do \
+        sudo --preserve-env cp /opt/senzing/g2/resources/templates/${SENZING_ETC_FILE} /etc/opt/senzing/${SENZING_ETC_FILE}
+    done
     ```
 
 ### Test using SQLite database
