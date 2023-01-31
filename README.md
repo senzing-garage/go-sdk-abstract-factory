@@ -117,14 +117,14 @@ This is important as the compiling of the code expects Senzing to be in `/opt/se
 
     ```console
     export SENZING_ETC_FILES=( \
-    "cfgVariant.json" \
-    "customGn.txt" \
-    "customOn.txt" \
-    "customSn.txt" \
-    "defaultGNRCP.config" \
-    "g2config.json" \
-    "G2Module.ini" \
-    "stb.config" \
+        "cfgVariant.json" \
+        "customGn.txt" \
+        "customOn.txt" \
+        "customSn.txt" \
+        "defaultGNRCP.config" \
+        "g2config.json" \
+        "G2Module.ini" \
+        "stb.config" \
     )
 
     sudo mkdir /etc/opt/senzing
