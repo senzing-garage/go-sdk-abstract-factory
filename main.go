@@ -50,7 +50,7 @@ var Messages = map[int]string{
 var logger messagelogger.MessageLoggerInterface = nil
 
 // ----------------------------------------------------------------------------
-// Internal methods - names begin with lower case
+// Internal methods
 // ----------------------------------------------------------------------------
 
 func getLogger(ctx context.Context) (messagelogger.MessageLoggerInterface, error) {
