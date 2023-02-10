@@ -16,9 +16,8 @@ github.com/senzing/g2-sdk-go-grpc v0.1.0 h1:09udIoF5oHQOqWdzhSTzo67pEvgQEKMdY8jJ
 github.com/senzing/g2-sdk-go-grpc v0.1.0/go.mod h1:QXPczoVIJr6YZ1TsyuVmV4DIVHLrZ6yyAuGOHeD9QH0=
 github.com/senzing/g2-sdk-proto/go v0.0.0-20230126140313-273e96bc7dbd h1:FWU5eJlkfWAPkzha9YlJiJ+Xqurs5uQtfW/iYB0TsJA=
 github.com/senzing/g2-sdk-proto/go v0.0.0-20230126140313-273e96bc7dbd/go.mod h1:MJDH/VHktx3vOOmFLKmi84HZuv3kcgiO544XzcqhVV4=
-github.com/senzing/go-common v0.0.0-20230126153452-241288b3f6e1 h1:RsEPjljngKS/O76V59c5zEFSjzaA50H1xtmmomul2i0=
-github.com/senzing/go-helpers v0.1.0 h1:xsBNNiAKmodgUC4rUDyubsIKaZXTxllzVRV7+sPEXlM=
-github.com/senzing/go-helpers v0.1.0/go.mod h1:EmY93Zn5sw07VmswPcmdV4VeXDtrnQXKj7PClp1pbto=
+github.com/senzing/go-common v0.1.1 h1:JRKS3ZfChXa1XjesBIHYxTeISwcu0ksFMULaVQfZ+LA=
+github.com/senzing/go-common v0.1.1/go.mod h1:hjYQNbBxwbnGYOFRUyFBEt6hx9X0ypffwAzqE1Olndc=
 github.com/senzing/go-logging v1.1.3 h1:eTWuEgI+4bwyS0gSpYKNbz8gL8ATAqByA3q1sbRJCu4=
 github.com/senzing/go-logging v1.1.3/go.mod h1:FarStyY/kYd7+ymtawOXvOk48j/6fHRZ8unSwpi4FzI=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=

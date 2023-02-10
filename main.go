@@ -17,7 +17,7 @@ import (
 	"github.com/senzing/g2-sdk-go/g2engine"
 	"github.com/senzing/g2-sdk-go/g2product"
 	"github.com/senzing/g2-sdk-go/testhelpers"
-	"github.com/senzing/go-helpers/g2engineconfigurationjson"
+	"github.com/senzing/go-common/g2engineconfigurationjson"
 	"github.com/senzing/go-logging/messageformat"
 	"github.com/senzing/go-logging/messageid"
 	"github.com/senzing/go-logging/messagelevel"
