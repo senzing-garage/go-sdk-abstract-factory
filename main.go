@@ -11,13 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/senzing/g2-sdk-go/g2config"
-	"github.com/senzing/g2-sdk-go/g2configmgr"
-	"github.com/senzing/g2-sdk-go/g2diagnostic"
-	"github.com/senzing/g2-sdk-go/g2engine"
-	"github.com/senzing/g2-sdk-go/g2product"
-	"github.com/senzing/g2-sdk-go/testhelpers"
+	"github.com/senzing/g2-sdk-go/g2api"
 	"github.com/senzing/go-common/g2engineconfigurationjson"
+	"github.com/senzing/go-common/truthset"
 	"github.com/senzing/go-logging/messageformat"
 	"github.com/senzing/go-logging/messageid"
 	"github.com/senzing/go-logging/messagelevel"
@@ -70,7 +66,7 @@ func getLogger(ctx context.Context) (messagelogger.MessageLoggerInterface, error
 	return messagelogger.New(messageFormat, messageIdTemplate, messageLevel, messageStatus, messageText, messagelogger.LevelInfo)
 }
 
-func demonstrateConfigFunctions(ctx context.Context, g2Config g2config.G2config, g2Configmgr g2configmgr.G2configmgr) error {
+func demonstrateConfigFunctions(ctx context.Context, g2Config g2api.G2configInterface, g2Configmgr g2api.G2configmgrInterface) error {
 	now := time.Now()
 
 	// Using G2Config: Create a default configuration in memory
@@ -82,8 +78,8 @@ func demonstrateConfigFunctions(ctx context.Context, g2Config g2config.G2config,
 
 	// Using G2Config: Add data source to in-memory configuration.
 
-	for _, testDataSource := range testhelpers.TestDataSources {
-		_, err := g2Config.AddDataSource(ctx, configHandle, testDataSource.Data)
+	for _, testDataSource := range truthset.TruthsetDataSources {
+		_, err := g2Config.AddDataSource(ctx, configHandle, testDataSource.Json)
 		if err != nil {
 			return logger.Error(5101, err)
 		}
@@ -114,7 +110,7 @@ func demonstrateConfigFunctions(ctx context.Context, g2Config g2config.G2config,
 	return err
 }
 
-func demonstrateAddRecord(ctx context.Context, g2Engine g2engine.G2engine) (string, error) {
+func demonstrateAddRecord(ctx context.Context, g2Engine g2api.G2engineInterface) (string, error) {
 	dataSourceCode := "TEST"
 	recordID := strconv.Itoa(rand.Intn(1000000000))
 	jsonData := fmt.Sprintf(
@@ -130,7 +126,7 @@ func demonstrateAddRecord(ctx context.Context, g2Engine g2engine.G2engine) (stri
 	return g2Engine.AddRecordWithInfo(ctx, dataSourceCode, recordID, jsonData, loadID, flags)
 }
 
-func demonstrateAdditionalFunctions(ctx context.Context, g2Diagnostic g2diagnostic.G2diagnostic, g2Engine g2engine.G2engine, g2Product g2product.G2product) error {
+func demonstrateAdditionalFunctions(ctx context.Context, g2Diagnostic g2api.G2diagnosticInterface, g2Engine g2api.G2engineInterface, g2Product g2api.G2productInterface) error {
 	var err error = nil
 
 	// Using G2Diagnostic: Check physical cores.
@@ -167,7 +163,7 @@ func demonstrateAdditionalFunctions(ctx context.Context, g2Diagnostic g2diagnost
 	return err
 }
 
-func destroyObjects(ctx context.Context, g2Config g2config.G2config, g2Configmgr g2configmgr.G2configmgr, g2Diagnostic g2diagnostic.G2diagnostic, g2Engine g2engine.G2engine, g2Product g2product.G2product) error {
+func destroyObjects(ctx context.Context, g2Config g2api.G2configInterface, g2Configmgr g2api.G2configmgrInterface, g2Diagnostic g2api.G2diagnosticInterface, g2Engine g2api.G2engineInterface, g2Product g2api.G2productInterface) error {
 	var err error = nil
 	errorList := []string{}
 
@@ -240,10 +236,6 @@ func main() {
 	var senzingFactory factory.SdkAbstractFactory
 	var testcaseList []int
 	ctx := context.TODO()
-
-	// Randomize random number generator.
-
-	rand.Seed(time.Now().UnixNano())
 
 	// Configure the "log" standard library.
 
