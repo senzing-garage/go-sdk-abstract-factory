@@ -66,7 +66,7 @@ func getLogger(ctx context.Context) (messagelogger.MessageLoggerInterface, error
 	return messagelogger.New(messageFormat, messageIdTemplate, messageLevel, messageStatus, messageText, messagelogger.LevelInfo)
 }
 
-func demonstrateConfigFunctions(ctx context.Context, g2Config g2api.G2configInterface, g2Configmgr g2api.G2configmgrInterface) error {
+func demonstrateConfigFunctions(ctx context.Context, g2Config g2api.G2config, g2Configmgr g2api.G2configmgr) error {
 	now := time.Now()
 
 	// Using G2Config: Create a default configuration in memory
@@ -110,7 +110,7 @@ func demonstrateConfigFunctions(ctx context.Context, g2Config g2api.G2configInte
 	return err
 }
 
-func demonstrateAddRecord(ctx context.Context, g2Engine g2api.G2engineInterface) (string, error) {
+func demonstrateAddRecord(ctx context.Context, g2Engine g2api.G2engine) (string, error) {
 	dataSourceCode := "TEST"
 	recordID := strconv.Itoa(rand.Intn(1000000000))
 	jsonData := fmt.Sprintf(
@@ -126,7 +126,7 @@ func demonstrateAddRecord(ctx context.Context, g2Engine g2api.G2engineInterface)
 	return g2Engine.AddRecordWithInfo(ctx, dataSourceCode, recordID, jsonData, loadID, flags)
 }
 
-func demonstrateAdditionalFunctions(ctx context.Context, g2Diagnostic g2api.G2diagnosticInterface, g2Engine g2api.G2engineInterface, g2Product g2api.G2productInterface) error {
+func demonstrateAdditionalFunctions(ctx context.Context, g2Diagnostic g2api.G2diagnostic, g2Engine g2api.G2engine, g2Product g2api.G2product) error {
 	var err error = nil
 
 	// Using G2Diagnostic: Check physical cores.
@@ -163,7 +163,7 @@ func demonstrateAdditionalFunctions(ctx context.Context, g2Diagnostic g2api.G2di
 	return err
 }
 
-func destroyObjects(ctx context.Context, g2Config g2api.G2configInterface, g2Configmgr g2api.G2configmgrInterface, g2Diagnostic g2api.G2diagnosticInterface, g2Engine g2api.G2engineInterface, g2Product g2api.G2productInterface) error {
+func destroyObjects(ctx context.Context, g2Config g2api.G2config, g2Configmgr g2api.G2configmgr, g2Diagnostic g2api.G2diagnostic, g2Engine g2api.G2engine, g2Product g2api.G2product) error {
 	var err error = nil
 	errorList := []string{}
 

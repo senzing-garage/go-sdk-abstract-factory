@@ -31,15 +31,15 @@ import (
 
 // SdkAbstractFactoryImpl is the default implementation of the SdkAbstractFactory interface.
 type SdkAbstractFactoryImpl struct {
-	g2configmgrSingleton  g2api.G2configmgrInterface
+	g2configmgrSingleton  g2api.G2configmgr
 	g2configmgrSyncOnce   sync.Once
-	g2configSingleton     g2api.G2configInterface
+	g2configSingleton     g2api.G2config
 	g2configSyncOnce      sync.Once
-	g2diagnosticSingleton g2api.G2diagnosticInterface
+	g2diagnosticSingleton g2api.G2diagnostic
 	g2diagnosticSyncOnce  sync.Once
-	g2engineSingleton     g2api.G2engineInterface
+	g2engineSingleton     g2api.G2engine
 	g2engineSyncOnce      sync.Once
-	g2productSingleton    g2api.G2productInterface
+	g2productSingleton    g2api.G2product
 	g2productSyncOnce     sync.Once
 	GrpcAddress           string
 	GrpcOptions           []grpc.DialOption
@@ -87,7 +87,7 @@ Output
   - An initialized G2config object.
     See the example output.
 */
-func (factory *SdkAbstractFactoryImpl) GetG2config(ctx context.Context) (g2api.G2configInterface, error) {
+func (factory *SdkAbstractFactoryImpl) GetG2config(ctx context.Context) (g2api.G2config, error) {
 	var err error = nil
 	factory.g2configSyncOnce.Do(func() {
 		if len(factory.GrpcAddress) > 0 {
@@ -115,7 +115,7 @@ Output
   - An initialized G2configmgr object.
     See the example output.
 */
-func (factory *SdkAbstractFactoryImpl) GetG2configmgr(ctx context.Context) (g2api.G2configmgrInterface, error) {
+func (factory *SdkAbstractFactoryImpl) GetG2configmgr(ctx context.Context) (g2api.G2configmgr, error) {
 	var err error = nil
 	factory.g2configmgrSyncOnce.Do(func() {
 		if len(factory.GrpcAddress) > 0 {
@@ -143,7 +143,7 @@ Output
   - An initialized G2diagnostic object.
     See the example output.
 */
-func (factory *SdkAbstractFactoryImpl) GetG2diagnostic(ctx context.Context) (g2api.G2diagnosticInterface, error) {
+func (factory *SdkAbstractFactoryImpl) GetG2diagnostic(ctx context.Context) (g2api.G2diagnostic, error) {
 	var err error = nil
 	factory.g2diagnosticSyncOnce.Do(func() {
 		if len(factory.GrpcAddress) > 0 {
@@ -171,7 +171,7 @@ Output
   - An initialized G2engine object.
     See the example output.
 */
-func (factory *SdkAbstractFactoryImpl) GetG2engine(ctx context.Context) (g2api.G2engineInterface, error) {
+func (factory *SdkAbstractFactoryImpl) GetG2engine(ctx context.Context) (g2api.G2engine, error) {
 	var err error = nil
 	factory.g2engineSyncOnce.Do(func() {
 		if len(factory.GrpcAddress) > 0 {
@@ -199,7 +199,7 @@ Output
   - An initialized G2product object.
     See the example output.
 */
-func (factory *SdkAbstractFactoryImpl) GetG2product(ctx context.Context) (g2api.G2productInterface, error) {
+func (factory *SdkAbstractFactoryImpl) GetG2product(ctx context.Context) (g2api.G2product, error) {
 	var err error = nil
 	factory.g2productSyncOnce.Do(func() {
 		if len(factory.GrpcAddress) > 0 {
