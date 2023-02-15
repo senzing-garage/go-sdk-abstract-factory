@@ -25,7 +25,7 @@ The Senzing go-sdk-abstract-factory package creates Senzing objects that each ad
 1. [G2engine](https://pkg.go.dev/github.com/senzing/g2-sdk-go/g2api#G2engine)
 1. [G2product](https://pkg.go.dev/github.com/senzing/g2-sdk-go/g2api#G2product)
 
-Depending upon the parameters passed to the factory, the underlying implementation may be:
+Depending upon the parameters passed to the factory, the underlying implementation may be returned:
 
 1. [g2-sdk-go-base](https://github.com/Senzing/g2-sdk-go-base) - for calling Senzing Go SDK APIs natively
 1. [g2-sdk-go-grpc](https://github.com/Senzing/g2-sdk-go-grpc) - for calling Senzing Go SDK APIs via Senzing gRPC server
@@ -74,7 +74,7 @@ Since the Senzing library is a prerequisite, it must be installed first.
 
     ```console
     cd ${GIT_REPOSITORY_DIR}
-    make test-local
+    make test-base
 
     ```
 
