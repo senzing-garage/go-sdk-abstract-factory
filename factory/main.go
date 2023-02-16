@@ -23,8 +23,8 @@ type SdkAbstractFactory interface {
 // Constants
 // ----------------------------------------------------------------------------
 
-// Identfier of the factory package found messages having the format "senzing-6030xxxx".
-const ProductId = 6030
+// Identfier of the factory package found messages having the format "senzing-6041xxxx".
+const ProductId = 6041
 
 // ----------------------------------------------------------------------------
 // Variables
