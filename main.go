@@ -145,10 +145,10 @@ func demonstrateAdditionalFunctions(ctx context.Context, g2Diagnostic g2api.G2di
 
 	// Using G2Engine: Purge repository.
 
-	// err = g2Engine.PurgeRepository(ctx)
-	// if err != nil {
-	// 	failOnError(5301, err)
-	// }
+	err = g2Engine.PurgeRepository(ctx)
+	if err != nil {
+		failOnError(5301, err)
+	}
 
 	// Using G2Engine: Add records with information returned.
 
