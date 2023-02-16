@@ -40,6 +40,7 @@ var Messages = map[int]string{
 	2002: "Physical cores: %d.",
 	2003: "withInfo",
 	2004: "License",
+	2005: "Implementation: %s",
 	2999: "Cannot retrieve last error message.",
 }
 
@@ -69,7 +70,12 @@ func getLogger(ctx context.Context) (messagelogger.MessageLoggerInterface, error
 func demonstrateConfigFunctions(ctx context.Context, g2Config g2api.G2config, g2Configmgr g2api.G2configmgr) error {
 	now := time.Now()
 
-	// Using G2Config: Create a default configuration in memory
+	// Print the SDK implementation.
+
+	sdkId, _ := g2Config.GetSdkId(ctx)
+	logger.Log(2005, sdkId)
+
+	// Using G2Config: Create a default configuration in memory.
 
 	configHandle, err := g2Config.Create(ctx)
 	if err != nil {
@@ -139,10 +145,10 @@ func demonstrateAdditionalFunctions(ctx context.Context, g2Diagnostic g2api.G2di
 
 	// Using G2Engine: Purge repository.
 
-	err = g2Engine.PurgeRepository(ctx)
-	if err != nil {
-		failOnError(5301, err)
-	}
+	// err = g2Engine.PurgeRepository(ctx)
+	// if err != nil {
+	// 	failOnError(5301, err)
+	// }
 
 	// Using G2Engine: Add records with information returned.
 
@@ -167,35 +173,40 @@ func destroyObjects(ctx context.Context, g2Config g2api.G2config, g2Configmgr g2
 	var err error = nil
 	errorList := []string{}
 
-	err = g2Config.Destroy(ctx)
-	if (err != nil) && (errorId(err) != "senzing-60114001") {
-		failOnError(5401, err)
-		errorList = append(errorList, "g2Config")
-	}
+	// Destroy is only needed for "base" implementation.
 
-	err = g2Configmgr.Destroy(ctx)
-	if (err != nil) && (errorId(err) != "senzing-60124001") {
-		failOnError(5402, err)
-		errorList = append(errorList, "g2Configmgr")
-	}
+	sdkId, _ := g2Config.GetSdkId(ctx)
+	if sdkId == "base" {
+		err = g2Config.Destroy(ctx)
+		if err != nil {
+			failOnError(5401, err)
+			errorList = append(errorList, "g2Config")
+		}
 
-	err = g2Diagnostic.Destroy(ctx)
-	if (err != nil) && (errorId(err) != "senzing-60134001") {
-		failOnError(5403, err)
-		errorList = append(errorList, "g2Diagnostic")
-	}
+		err = g2Configmgr.Destroy(ctx)
+		if err != nil {
+			failOnError(5402, err)
+			errorList = append(errorList, "g2Configmgr")
+		}
 
-	err = g2Engine.Destroy(ctx)
-	if (err != nil) && (errorId(err) != "senzing-60144001") {
-		failOnError(5404, err)
-		errorList = append(errorList, "g2Engine")
+		err = g2Diagnostic.Destroy(ctx)
+		if err != nil {
+			failOnError(5403, err)
+			errorList = append(errorList, "g2Diagnostic")
+		}
 
-	}
+		err = g2Engine.Destroy(ctx)
+		if err != nil {
+			failOnError(5404, err)
+			errorList = append(errorList, "g2Engine")
 
-	err = g2Product.Destroy(ctx)
-	if (err != nil) && (errorId(err) != "senzing-60164001") {
-		failOnError(5405, err)
-		errorList = append(errorList, "g2Product")
+		}
+
+		err = g2Product.Destroy(ctx)
+		if err != nil {
+			failOnError(5405, err)
+			errorList = append(errorList, "g2Product")
+		}
 	}
 
 	if len(errorList) == 0 {
@@ -294,18 +305,24 @@ func main() {
 		if err != nil {
 			failOnError(5003, err)
 		}
-		err = g2Config.Init(ctx, moduleName, iniParams, verboseLogging)
-		if (err != nil) && (errorId(err) != "senzing-60114002") {
-			failOnError(5004, err)
-		}
 
 		g2Configmgr, err := senzingFactory.GetG2configmgr(ctx)
 		if err != nil {
 			failOnError(5005, err)
 		}
-		err = g2Configmgr.Init(ctx, moduleName, iniParams, verboseLogging)
-		if (err != nil) && (errorId(err) != "senzing-60124002") {
-			failOnError(5006, err)
+
+		// Initialize "base" implementations.
+
+		sdkId, _ := g2Config.GetSdkId(ctx)
+		if sdkId == "base" {
+			err = g2Config.Init(ctx, moduleName, iniParams, verboseLogging)
+			if err != nil {
+				failOnError(5004, err)
+			}
+			err = g2Configmgr.Init(ctx, moduleName, iniParams, verboseLogging)
+			if err != nil {
+				failOnError(5006, err)
+			}
 		}
 
 		// Persist the Senzing configuration to the Senzing repository.
@@ -321,27 +338,32 @@ func main() {
 		if err != nil {
 			failOnError(5008, err)
 		}
-		err = g2Diagnostic.Init(ctx, moduleName, iniParams, verboseLogging)
-		if (err != nil) && (errorId(err) != "senzing-60134002") {
-			failOnError(5009, err)
-		}
 
 		g2Engine, err := senzingFactory.GetG2engine(ctx)
 		if err != nil {
 			failOnError(5010, err)
-		}
-		err = g2Engine.Init(ctx, moduleName, iniParams, verboseLogging)
-		if (err != nil) && (errorId(err) != "senzing-60144002") {
-			failOnError(5011, err)
 		}
 
 		g2Product, err := senzingFactory.GetG2product(ctx)
 		if err != nil {
 			failOnError(5012, err)
 		}
-		err = g2Product.Init(ctx, moduleName, iniParams, verboseLogging)
-		if (err != nil) && (errorId(err) != "senzing-60164002") {
-			failOnError(5013, err)
+
+		// Initialize "base" implementations.
+
+		if sdkId == "base" {
+			err = g2Diagnostic.Init(ctx, moduleName, iniParams, verboseLogging)
+			if err != nil {
+				failOnError(5009, err)
+			}
+			err = g2Engine.Init(ctx, moduleName, iniParams, verboseLogging)
+			if err != nil {
+				failOnError(5011, err)
+			}
+			err = g2Product.Init(ctx, moduleName, iniParams, verboseLogging)
+			if err != nil {
+				failOnError(5013, err)
+			}
 		}
 
 		// Demonstrate tests.

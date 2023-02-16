@@ -8,7 +8,7 @@ the recommendation is not to use it yet.
 
 ## Synopsis
 
-The Senzing go-sdk-abstract-factory provides an
+The Senzing `go-sdk-abstract-factory` provides an
 [abstract factory](https://en.wikipedia.org/wiki/Abstract_factory_pattern)
 that constructs G2Config, G2Configmgr, G2Diagnostic, G2Engine, and G2Product Senzing objects.
 
@@ -17,7 +17,7 @@ that constructs G2Config, G2Configmgr, G2Diagnostic, G2Engine, and G2Product Sen
 
 ## Overview
 
-The Senzing go-sdk-abstract-factory package creates Senzing objects that each adhere to their respective interfaces:
+The Senzing `go-sdk-abstract-factory` package creates Senzing objects that each adhere to their respective interfaces:
 
 1. [G2config](https://pkg.go.dev/github.com/senzing/g2-sdk-go/g2api#G2config)
 1. [G2configmgr](https://pkg.go.dev/github.com/senzing/g2-sdk-go/g2api#G2configmgr)
@@ -25,7 +25,7 @@ The Senzing go-sdk-abstract-factory package creates Senzing objects that each ad
 1. [G2engine](https://pkg.go.dev/github.com/senzing/g2-sdk-go/g2api#G2engine)
 1. [G2product](https://pkg.go.dev/github.com/senzing/g2-sdk-go/g2api#G2product)
 
-Depending upon the parameters passed to the factory, the underlying implementation may be returned:
+Depending upon the parameters passed to the factory, one of the following implementations will be returned:
 
 1. [g2-sdk-go-base](https://github.com/Senzing/g2-sdk-go-base) - for calling Senzing Go SDK APIs natively
 1. [g2-sdk-go-grpc](https://github.com/Senzing/g2-sdk-go-grpc) - for calling Senzing Go SDK APIs via Senzing gRPC server
