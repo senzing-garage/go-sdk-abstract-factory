@@ -3,11 +3,7 @@ package factory
 import (
 	"context"
 
-	"github.com/senzing/g2-sdk-go/g2config"
-	"github.com/senzing/g2-sdk-go/g2configmgr"
-	"github.com/senzing/g2-sdk-go/g2diagnostic"
-	"github.com/senzing/g2-sdk-go/g2engine"
-	"github.com/senzing/g2-sdk-go/g2product"
+	"github.com/senzing/g2-sdk-go/g2api"
 )
 
 // ----------------------------------------------------------------------------
@@ -16,19 +12,19 @@ import (
 
 // The SdkAbstractFactory interface shows what Senzing objects that can be retrieved from the abstract factory.
 type SdkAbstractFactory interface {
-	GetG2config(ctx context.Context) (g2config.G2config, error)
-	GetG2configmgr(ctx context.Context) (g2configmgr.G2configmgr, error)
-	GetG2diagnostic(ctx context.Context) (g2diagnostic.G2diagnostic, error)
-	GetG2engine(ctx context.Context) (g2engine.G2engine, error)
-	GetG2product(ctx context.Context) (g2product.G2product, error)
+	GetG2config(ctx context.Context) (g2api.G2config, error)
+	GetG2configmgr(ctx context.Context) (g2api.G2configmgr, error)
+	GetG2diagnostic(ctx context.Context) (g2api.G2diagnostic, error)
+	GetG2engine(ctx context.Context) (g2api.G2engine, error)
+	GetG2product(ctx context.Context) (g2api.G2product, error)
 }
 
 // ----------------------------------------------------------------------------
 // Constants
 // ----------------------------------------------------------------------------
 
-// Identfier of the factory package found messages having the format "senzing-6030xxxx".
-const ProductId = 6030
+// Identfier of the factory package found messages having the format "senzing-6041xxxx".
+const ProductId = 6041
 
 // ----------------------------------------------------------------------------
 // Variables

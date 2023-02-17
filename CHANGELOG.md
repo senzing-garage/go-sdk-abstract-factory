@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [0.2.0] - 2023-02-16
+
+### Added to 0.2.0
+
+- Use updated interfaces
+- Use Truth Set data in tests
+
 ## [0.1.0] - 2023-01-31
 
 ### Added to 0.1.0

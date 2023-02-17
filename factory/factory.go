@@ -4,21 +4,22 @@ import (
 	"context"
 	"sync"
 
-	"github.com/senzing/g2-sdk-go-grpc/g2configclient"
-	"github.com/senzing/g2-sdk-go-grpc/g2configmgrclient"
-	"github.com/senzing/g2-sdk-go-grpc/g2diagnosticclient"
-	"github.com/senzing/g2-sdk-go-grpc/g2engineclient"
-	"github.com/senzing/g2-sdk-go-grpc/g2productclient"
-	"github.com/senzing/g2-sdk-go/g2config"
-	"github.com/senzing/g2-sdk-go/g2configmgr"
-	"github.com/senzing/g2-sdk-go/g2diagnostic"
-	"github.com/senzing/g2-sdk-go/g2engine"
-	"github.com/senzing/g2-sdk-go/g2product"
-	pbg2config "github.com/senzing/g2-sdk-proto/go/g2config"
-	pbg2configmgr "github.com/senzing/g2-sdk-proto/go/g2configmgr"
-	pbg2diagnostic "github.com/senzing/g2-sdk-proto/go/g2diagnostic"
-	pbg2engine "github.com/senzing/g2-sdk-proto/go/g2engine"
-	pbg2product "github.com/senzing/g2-sdk-proto/go/g2product"
+	g2configbase "github.com/senzing/g2-sdk-go-base/g2config"
+	g2configmgrbase "github.com/senzing/g2-sdk-go-base/g2configmgr"
+	g2diagnosticbase "github.com/senzing/g2-sdk-go-base/g2diagnostic"
+	g2enginebase "github.com/senzing/g2-sdk-go-base/g2engine"
+	g2productbase "github.com/senzing/g2-sdk-go-base/g2product"
+	g2configgrpc "github.com/senzing/g2-sdk-go-grpc/g2config"
+	g2configmgrgrpc "github.com/senzing/g2-sdk-go-grpc/g2configmgr"
+	g2diagnosticgrpc "github.com/senzing/g2-sdk-go-grpc/g2diagnostic"
+	g2enginegrpc "github.com/senzing/g2-sdk-go-grpc/g2engine"
+	g2productgrpc "github.com/senzing/g2-sdk-go-grpc/g2product"
+	"github.com/senzing/g2-sdk-go/g2api"
+	g2configpb "github.com/senzing/g2-sdk-proto/go/g2config"
+	g2configmgrpb "github.com/senzing/g2-sdk-proto/go/g2configmgr"
+	g2diagnosticpb "github.com/senzing/g2-sdk-proto/go/g2diagnostic"
+	g2enginepb "github.com/senzing/g2-sdk-proto/go/g2engine"
+	g2productpb "github.com/senzing/g2-sdk-proto/go/g2product"
 	"github.com/senzing/go-logging/messagelogger"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -30,15 +31,15 @@ import (
 
 // SdkAbstractFactoryImpl is the default implementation of the SdkAbstractFactory interface.
 type SdkAbstractFactoryImpl struct {
-	g2configmgrSingleton  g2configmgr.G2configmgr
+	g2configmgrSingleton  g2api.G2configmgr
 	g2configmgrSyncOnce   sync.Once
-	g2configSingleton     g2config.G2config
+	g2configSingleton     g2api.G2config
 	g2configSyncOnce      sync.Once
-	g2diagnosticSingleton g2diagnostic.G2diagnostic
+	g2diagnosticSingleton g2api.G2diagnostic
 	g2diagnosticSyncOnce  sync.Once
-	g2engineSingleton     g2engine.G2engine
+	g2engineSingleton     g2api.G2engine
 	g2engineSyncOnce      sync.Once
-	g2productSingleton    g2product.G2product
+	g2productSingleton    g2api.G2product
 	g2productSyncOnce     sync.Once
 	GrpcAddress           string
 	GrpcOptions           []grpc.DialOption
@@ -86,16 +87,16 @@ Output
   - An initialized G2config object.
     See the example output.
 */
-func (factory *SdkAbstractFactoryImpl) GetG2config(ctx context.Context) (g2config.G2config, error) {
+func (factory *SdkAbstractFactoryImpl) GetG2config(ctx context.Context) (g2api.G2config, error) {
 	var err error = nil
 	factory.g2configSyncOnce.Do(func() {
 		if len(factory.GrpcAddress) > 0 {
 			grpcConnection := factory.getGrpcConnection(ctx)
-			factory.g2configSingleton = &g2configclient.G2configClient{
-				GrpcClient: pbg2config.NewG2ConfigClient(grpcConnection),
+			factory.g2configSingleton = &g2configgrpc.G2config{
+				GrpcClient: g2configpb.NewG2ConfigClient(grpcConnection),
 			}
 		} else {
-			factory.g2configSingleton = &g2config.G2configImpl{}
+			factory.g2configSingleton = &g2configbase.G2config{}
 		}
 	})
 	return factory.g2configSingleton, err
@@ -114,16 +115,16 @@ Output
   - An initialized G2configmgr object.
     See the example output.
 */
-func (factory *SdkAbstractFactoryImpl) GetG2configmgr(ctx context.Context) (g2configmgr.G2configmgr, error) {
+func (factory *SdkAbstractFactoryImpl) GetG2configmgr(ctx context.Context) (g2api.G2configmgr, error) {
 	var err error = nil
 	factory.g2configmgrSyncOnce.Do(func() {
 		if len(factory.GrpcAddress) > 0 {
 			grpcConnection := factory.getGrpcConnection(ctx)
-			factory.g2configmgrSingleton = &g2configmgrclient.G2configmgrClient{
-				GrpcClient: pbg2configmgr.NewG2ConfigMgrClient(grpcConnection),
+			factory.g2configmgrSingleton = &g2configmgrgrpc.G2configmgr{
+				GrpcClient: g2configmgrpb.NewG2ConfigMgrClient(grpcConnection),
 			}
 		} else {
-			factory.g2configmgrSingleton = &g2configmgr.G2configmgrImpl{}
+			factory.g2configmgrSingleton = &g2configmgrbase.G2configmgr{}
 		}
 	})
 	return factory.g2configmgrSingleton, err
@@ -142,16 +143,16 @@ Output
   - An initialized G2diagnostic object.
     See the example output.
 */
-func (factory *SdkAbstractFactoryImpl) GetG2diagnostic(ctx context.Context) (g2diagnostic.G2diagnostic, error) {
+func (factory *SdkAbstractFactoryImpl) GetG2diagnostic(ctx context.Context) (g2api.G2diagnostic, error) {
 	var err error = nil
 	factory.g2diagnosticSyncOnce.Do(func() {
 		if len(factory.GrpcAddress) > 0 {
 			grpcConnection := factory.getGrpcConnection(ctx)
-			factory.g2diagnosticSingleton = &g2diagnosticclient.G2diagnosticClient{
-				GrpcClient: pbg2diagnostic.NewG2DiagnosticClient(grpcConnection),
+			factory.g2diagnosticSingleton = &g2diagnosticgrpc.G2diagnostic{
+				GrpcClient: g2diagnosticpb.NewG2DiagnosticClient(grpcConnection),
 			}
 		} else {
-			factory.g2diagnosticSingleton = &g2diagnostic.G2diagnosticImpl{}
+			factory.g2diagnosticSingleton = &g2diagnosticbase.G2diagnostic{}
 		}
 	})
 	return factory.g2diagnosticSingleton, err
@@ -170,16 +171,16 @@ Output
   - An initialized G2engine object.
     See the example output.
 */
-func (factory *SdkAbstractFactoryImpl) GetG2engine(ctx context.Context) (g2engine.G2engine, error) {
+func (factory *SdkAbstractFactoryImpl) GetG2engine(ctx context.Context) (g2api.G2engine, error) {
 	var err error = nil
 	factory.g2engineSyncOnce.Do(func() {
 		if len(factory.GrpcAddress) > 0 {
 			grpcConnection := factory.getGrpcConnection(ctx)
-			factory.g2engineSingleton = &g2engineclient.G2engineClient{
-				GrpcClient: pbg2engine.NewG2EngineClient(grpcConnection),
+			factory.g2engineSingleton = &g2enginegrpc.G2engine{
+				GrpcClient: g2enginepb.NewG2EngineClient(grpcConnection),
 			}
 		} else {
-			factory.g2engineSingleton = &g2engine.G2engineImpl{}
+			factory.g2engineSingleton = &g2enginebase.G2engine{}
 		}
 	})
 	return factory.g2engineSingleton, err
@@ -198,16 +199,16 @@ Output
   - An initialized G2product object.
     See the example output.
 */
-func (factory *SdkAbstractFactoryImpl) GetG2product(ctx context.Context) (g2product.G2product, error) {
+func (factory *SdkAbstractFactoryImpl) GetG2product(ctx context.Context) (g2api.G2product, error) {
 	var err error = nil
 	factory.g2productSyncOnce.Do(func() {
 		if len(factory.GrpcAddress) > 0 {
 			grpcConnection := factory.getGrpcConnection(ctx)
-			factory.g2productSingleton = &g2productclient.G2productClient{
-				GrpcClient: pbg2product.NewG2ProductClient(grpcConnection),
+			factory.g2productSingleton = &g2productgrpc.G2product{
+				GrpcClient: g2productpb.NewG2ProductClient(grpcConnection),
 			}
 		} else {
-			factory.g2productSingleton = &g2product.G2productImpl{}
+			factory.g2productSingleton = &g2productbase.G2product{}
 		}
 	})
 	return factory.g2productSingleton, err
