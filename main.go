@@ -76,7 +76,7 @@ func demonstrateConfigFunctions(ctx context.Context, g2Config g2api.G2config, g2
 
 	// Print the SDK implementation.
 
-	sdkId, _ := g2Config.GetSdkId(ctx)
+	sdkId := g2Config.GetSdkId(ctx)
 	logger.Log(2005, sdkId)
 
 	// Using G2Config: Create a default configuration in memory.
@@ -179,11 +179,11 @@ func demonstrateAdditionalFunctions(ctx context.Context, g2Diagnostic g2api.G2di
 }
 
 func destroyObjects(ctx context.Context, g2Config g2api.G2config, g2Configmgr g2api.G2configmgr, g2Diagnostic g2api.G2diagnostic, g2Engine g2api.G2engine, g2Product g2api.G2product) error {
+	var err error = nil
 
 	// Destroy is only needed for "base" implementation.
 
-	sdkId, err := g2Config.GetSdkId(ctx)
-	if sdkId == "base" {
+	if g2Config.GetSdkId(ctx) == "base" {
 		err = g2Config.Destroy(ctx)
 		if err != nil {
 			failOnError(5401, err)
@@ -316,8 +316,7 @@ func main() {
 
 		// Initialize "base" implementations.
 
-		sdkId, _ := g2Config.GetSdkId(ctx)
-		if sdkId == "base" {
+		if g2Config.GetSdkId(ctx) == "base" {
 			err = g2Config.Init(ctx, moduleName, iniParams, verboseLogging)
 			if err != nil {
 				failOnError(5006, err)
@@ -357,7 +356,7 @@ func main() {
 
 		// Initialize "base" implementations.
 
-		if sdkId == "base" {
+		if g2Diagnostic.GetSdkId(ctx) == "base" {
 			err = g2Diagnostic.Init(ctx, moduleName, iniParams, verboseLogging)
 			if err != nil {
 				failOnError(5012, err)
