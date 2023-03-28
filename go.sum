@@ -12,8 +12,8 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/senzing/g2-sdk-go v0.5.0 h1:rCHKr53i0mM/Vi3C6KjefDOqCTleFDIBviNWgZTsMbo=
 github.com/senzing/g2-sdk-go v0.5.0/go.mod h1:SpYcLeU8slSpl76FDivuc8C7mD7Hw2uUkTgb6ANovlY=
-github.com/senzing/g2-sdk-go-base v0.1.3 h1:QI9KHJibkdgMLZvR43E15NTdWI775u7W1/0/1EYGJwM=
-github.com/senzing/g2-sdk-go-base v0.1.3/go.mod h1:dY1tc9MdIWyV9QWKBHRLBcU9gJCMytMZ9L4E8IoyD5I=
+github.com/senzing/g2-sdk-go-base v0.1.4 h1:MxnzsPtUH+Px0G71Hx1FGtar/+Sezn4s/YHypDQqWi4=
+github.com/senzing/g2-sdk-go-base v0.1.4/go.mod h1:dY1tc9MdIWyV9QWKBHRLBcU9gJCMytMZ9L4E8IoyD5I=
 github.com/senzing/g2-sdk-go-grpc v0.2.1 h1:flqxH7LQbdg8EqQtfxxPOTIKR/CKWNOCUwldRuCB2hg=
 github.com/senzing/g2-sdk-go-grpc v0.2.1/go.mod h1:v3TSAS9woVwCVWGn5kmlX/vp5ymJNmHu5dg8pkANuNI=
 github.com/senzing/g2-sdk-proto/go v0.0.0-20230126140313-273e96bc7dbd h1:FWU5eJlkfWAPkzha9YlJiJ+Xqurs5uQtfW/iYB0TsJA=
