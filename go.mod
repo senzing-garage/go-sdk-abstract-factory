@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/aquilax/truncate v1.0.0
 	github.com/senzing/g2-sdk-go v0.6.0
-	github.com/senzing/g2-sdk-go-base v0.1.6
+	github.com/senzing/g2-sdk-go-base v0.1.7
 	github.com/senzing/g2-sdk-go-grpc v0.2.2
 	github.com/senzing/g2-sdk-proto/go v0.0.0-20230315125947-e4aea8f381eb
 	github.com/senzing/go-common v0.1.2
@@ -19,6 +19,8 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/senzing/go-messaging v0.1.1 // indirect
+	golang.org/x/exp v0.0.0-20230419192730-864b3d6c5c2c // indirect
 	golang.org/x/net v0.8.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect
 	golang.org/x/text v0.8.0 // indirect
