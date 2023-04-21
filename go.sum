@@ -15,8 +15,8 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/rogpeppe/go-internal v1.10.0 h1:TMyTOH3F/DB16zRVcYyreMH6GnZZrwQVAoYjRBZyWFQ=
 github.com/senzing/g2-sdk-go v0.6.0 h1:lAnUKiN8ltPRnfggfmHvNygZv4n61AsMKBxzC5Wq6Nw=
 github.com/senzing/g2-sdk-go v0.6.0/go.mod h1:QHnTnAQwk9EeqHIx60W0f7p/60g0EK0BwB+9Zse2hto=
-github.com/senzing/g2-sdk-go-base v0.1.6 h1:T0oNFFBlZtceQ923ylBx7Vpgnb72/cyW+wowWn0zR8M=
-github.com/senzing/g2-sdk-go-base v0.1.6/go.mod h1:eD4We2nbHyl+R4It2WgrlIFIvn0EtqwCZEzyKLQP6go=
+github.com/senzing/g2-sdk-go-base v0.1.7 h1:yvXcO0OvM3W2jzyR0iXjfpQ2WPnQTN1hn0Ko03rF2Gs=
+github.com/senzing/g2-sdk-go-base v0.1.7/go.mod h1:A7n0RsDUklPVQr1f//hH5ElFg8eU8vJyU7V3vj+Lk0A=
 github.com/senzing/g2-sdk-go-grpc v0.2.2 h1:gwfQFBexA8/8i/wRwuO/+7Hdr1/O0FXgq4K2sXx6JII=
 github.com/senzing/g2-sdk-go-grpc v0.2.2/go.mod h1:wSrc6CXDPs0cyZW/QWrZGPz0/S3FGAPw0fn8XEsZDFo=
 github.com/senzing/g2-sdk-proto/go v0.0.0-20230315125947-e4aea8f381eb h1:ig302ScN/Z1u0Qv0ZAYxXrzGaZCpvCdfE/wwZuCIykM=
@@ -25,6 +25,8 @@ github.com/senzing/go-common v0.1.2 h1:d4E4cyKAqBvHvexLvj51WwoU78jTbLlBXmE67o41C
 github.com/senzing/go-common v0.1.2/go.mod h1:rDosNB5AHPIQvtwxvKvWKlF+dkzI+2WjeOfPWE7Bh2I=
 github.com/senzing/go-logging v1.2.1 h1:LAW9DgBr6w/xbtrOH7860RJ7RRLQ7eCtwatbn2DnFSM=
 github.com/senzing/go-logging v1.2.1/go.mod h1:tvI7GUcg9KEMHfMUEZu9abjfNKsptIBxhvVKHs420iI=
+github.com/senzing/go-messaging v0.1.1 h1:0bYgIa4EL+XtmqIxQGl4IeCHlbym8AlSWJvqwZU1s2o=
+github.com/senzing/go-messaging v0.1.1/go.mod h1:KJ5nBtX95kgWGTGCKn558oCmYy9kTf7Ra4+HsFzIYxA=
 github.com/senzing/go-observing v0.2.1 h1:LQsG1WlkULqfraEvfvsGiTY8wnmVYsGrPwm/py5MsiI=
 github.com/senzing/go-observing v0.2.1/go.mod h1:M5zrUXIYC4dL1fevBezB+aXIaU6uut/wynlQ93OcZhg=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
@@ -34,6 +36,8 @@ github.com/stretchr/testify v1.7.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/
 github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO+kdMU+MU=
 github.com/stretchr/testify v1.8.2 h1:+h33VjcLVPDHtOdpUCuF+7gSuG3yGIftsP1YvFihtJ8=
 github.com/stretchr/testify v1.8.2/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
+golang.org/x/exp v0.0.0-20230419192730-864b3d6c5c2c h1:HDdYQYKOkvJT/Plb5HwJJywTVyUnIctjQm6XSnZ/0CY=
+golang.org/x/exp v0.0.0-20230419192730-864b3d6c5c2c/go.mod h1:CxIveKay+FTh1D0yPZemJVgC/95VzuuOLq5Qi4xnoYc=
 golang.org/x/net v0.8.0 h1:Zrh2ngAOFYneWTAIAPethzeaQLuHwhuBkuV6ZiRnUaQ=
 golang.org/x/net v0.8.0/go.mod h1:QVkue5JL9kW//ek3r6jTKnTFis1tRmNAW2P1shuFdJc=
 golang.org/x/sys v0.6.0 h1:MVltZSvRTcU2ljQOhs94SXPftV6DCNnZViHeQps87pQ=
