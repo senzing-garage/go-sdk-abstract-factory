@@ -14,6 +14,8 @@ that constructs G2Config, G2Configmgr, G2Diagnostic, G2Engine, and G2Product Sen
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/senzing/go-sdk-abstract-factory.svg)](https://pkg.go.dev/github.com/senzing/go-sdk-abstract-factory)
 [![Go Report Card](https://goreportcard.com/badge/github.com/senzing/go-sdk-abstract-factory)](https://goreportcard.com/report/github.com/senzing/go-sdk-abstract-factory)
+[![go-test.yaml](https://github.com/Senzing/go-sdk-abstract-factory/actions/workflows/go-test.yaml/badge.svg)](https://github.com/Senzing/go-sdk-abstract-factory/actions/workflows/go-test.yaml)
+[![License](https://img.shields.io/badge/License-Apache2-brightgreen.svg)](https://github.com/Senzing/go-sdk-abstract-factory/blob/main/LICENSE)
 
 ## Overview
 
@@ -37,6 +39,7 @@ Depending upon the parameters passed to the factory, one of the following implem
 
 ## References
 
-- [Development](docs/development.md)
-- [Errors](docs/errors.md)
-- [Examples](docs/examples.md)
+1. [API documentation](https://pkg.go.dev/github.com/senzing/go-sdk-abstract-factory)
+1. [Development](docs/development.md)
+1. [Errors](docs/errors.md)
+1. [Examples](docs/examples.md)
