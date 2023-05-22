@@ -14,8 +14,8 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/rogpeppe/go-internal v1.10.0 h1:TMyTOH3F/DB16zRVcYyreMH6GnZZrwQVAoYjRBZyWFQ=
 github.com/senzing/g2-sdk-go v0.6.3 h1:aW8373Xb5kChHE+0ufB0VW8cqyEho1aCFDptWrIYDag=
 github.com/senzing/g2-sdk-go v0.6.3/go.mod h1:VLmAQ8qHT6FmSmFrI0sLLmIfkeH1oj6YIgxBakZJAaM=
-github.com/senzing/g2-sdk-go-base v0.1.10 h1:0fMw097/wx1SYU6Og5cyj/eQ0yeVzDlFlsBr7OYDN2s=
-github.com/senzing/g2-sdk-go-base v0.1.10/go.mod h1:JtawNytxzniPGY4cj6ASSo2pDal+0CBV3HYSMxOW/Mc=
+github.com/senzing/g2-sdk-go-base v0.1.11 h1:r5RQVmvpFjlNaHZKuJWQ0rWpTF71BanJaYKDqsWsazQ=
+github.com/senzing/g2-sdk-go-base v0.1.11/go.mod h1:NcwdqMjJo+lm+7iV4DSHZehhpQ/+eNfZa8ihh1dfb/E=
 github.com/senzing/g2-sdk-go-grpc v0.2.6 h1:01aukry6MnQ1qrLUgC0dd9uW+1LmWk/OvrCd5thAfu4=
 github.com/senzing/g2-sdk-go-grpc v0.2.6/go.mod h1:ywxvGNz7CcRgRRtI9iLd5Bme8FU9KHoiWNvhDYTlpig=
 github.com/senzing/g2-sdk-proto/go v0.0.0-20230315125947-e4aea8f381eb h1:ig302ScN/Z1u0Qv0ZAYxXrzGaZCpvCdfE/wwZuCIykM=
@@ -30,8 +30,8 @@ github.com/senzing/go-observing v0.2.5 h1:QNcXOWIz4O9u/oEEqUiZ59L+oZPsyOA6kDzQAI
 github.com/senzing/go-observing v0.2.5/go.mod h1:sLweF5OysRAD65NLNm63o1IpOqN6VyXfgRDozc+pQy8=
 github.com/stretchr/testify v1.8.3 h1:RP3t2pwF7cMEbC1dqtB6poj3niw/9gnV4Cjg5oW5gtY=
 github.com/stretchr/testify v1.8.3/go.mod h1:sz/lmYIOXD/1dqDmKjjqLyZ2RngseejIcXlSw2iwfAo=
-golang.org/x/exp v0.0.0-20230510235704-dd950f8aeaea h1:vLCWI/yYrdEHyN2JzIzPO3aaQJHQdp89IZBA/+azVC4=
-golang.org/x/exp v0.0.0-20230510235704-dd950f8aeaea/go.mod h1:V1LtkGg67GoY2N1AnLN78QLrzxkLyJw7RJb1gzOOz9w=
+golang.org/x/exp v0.0.0-20230519143937-03e91628a987 h1:3xJIFvzUFbu4ls0BTBYcgbCGhA63eAOEMxIHugyXJqA=
+golang.org/x/exp v0.0.0-20230519143937-03e91628a987/go.mod h1:V1LtkGg67GoY2N1AnLN78QLrzxkLyJw7RJb1gzOOz9w=
 golang.org/x/net v0.10.0 h1:X2//UzNDwYmtCLn7To6G58Wr6f5ahEAQgKNzv9Y951M=
 golang.org/x/net v0.10.0/go.mod h1:0qNGK6F8kojg2nk9dLZ2mShWaEBan6FAoqfSigmmuDg=
 golang.org/x/sys v0.8.0 h1:EBmGv8NaZBZTWvrbjNoL6HVt+IVy3QDQpJs7VRIw3tU=
