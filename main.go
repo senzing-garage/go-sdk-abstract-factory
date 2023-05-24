@@ -293,7 +293,7 @@ func main() {
 		case 2:
 			logger.Log(2001, "gRPC SDK")
 			senzingFactory = &factory.SdkAbstractFactoryImpl{
-				GrpcAddress: "localhost:8258",
+				GrpcTarget: "localhost:8258",
 			}
 		default:
 			failOnError(5003, fmt.Errorf("unknown testcase number"))

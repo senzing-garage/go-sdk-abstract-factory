@@ -1,0 +1,55 @@
+# Based on
+# - https://github.com/marketplace/actions/setup-go-environment
+
+name: go-test.yaml
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      LD_LIBRARY_PATH: /opt/senzing/g2/lib/
+      SENZING_TOOLS_DATABASE_URL: sqlite3://na:na@/tmp/sqlite/G2C.db
+      SENZING_TOOLS_VERSION: 0.2.6
+    strategy:
+      matrix:
+        go: ["1.20"]
+    name: Go ${{ matrix.go }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go }}
+      - run: pwd
+      - run: wget -qO /tmp/senzingrepo_1.0.1-1_amd64.deb https://senzing-production-apt.s3.amazonaws.com/senzingrepo_1.0.1-1_amd64.deb
+      - run: sudo apt-get -y install /tmp/senzingrepo_1.0.1-1_amd64.deb
+      - run: sudo apt-get update
+      - run: sudo --preserve-env apt-get -y install senzingapi
+      - run: sudo mv /opt/senzing/data/4.0.0/* /opt/senzing/data/
+      - run: sudo mkdir /etc/opt/senzing
+      - run: sudo cp /opt/senzing/g2/resources/templates/cfgVariant.json     /etc/opt/senzing
+      - run: sudo cp /opt/senzing/g2/resources/templates/customGn.txt        /etc/opt/senzing
+      - run: sudo cp /opt/senzing/g2/resources/templates/customOn.txt        /etc/opt/senzing
+      - run: sudo cp /opt/senzing/g2/resources/templates/customSn.txt        /etc/opt/senzing
+      - run: sudo cp /opt/senzing/g2/resources/templates/defaultGNRCP.config /etc/opt/senzing
+      - run: sudo cp /opt/senzing/g2/resources/templates/stb.config          /etc/opt/senzing
+      - run: sudo cp testdata/senzing-license/g2.lic                         /etc/opt/senzing
+      - run: mkdir /tmp/sqlite
+      - run: cp testdata/sqlite/G2C.db /tmp/sqlite/G2C.db
+      - run: wget -q0 /tmp/senzing-tools.deb https://github.com/Senzing/senzing-tools/releases/download/${SENZING_TOOLS_VERSION}/senzing-tools-${SENZING_TOOLS_VERSION}.deb
+      - run: sudo apt-get -y install /tmp/senzing-tools.deb
+      - run: senzing-tools init-database
+      - run: senzing-tools serve-grpc&
+      - run: go test -v -p 1 ./...
+      - run: pwd
+      - run: cp /opt/senzing/g2/sdk/c/*.h ./g2config/
+      - run: cp /opt/senzing/g2/sdk/c/*.h ./g2configmgr/
+      - run: cp /opt/senzing/g2/sdk/c/*.h ./g2diagnostic/
+      - run: cp /opt/senzing/g2/sdk/c/*.h ./g2engine/
+      - run: cp /opt/senzing/g2/sdk/c/*.h ./g2product/
+      - name: Run Gosec Security Scanner
+        uses: securego/gosec@master
+        with:
+          args: -exclude=G103 -verbose text ./...
