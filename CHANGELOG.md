@@ -17,10 +17,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed `GrpcAddress` to `GrpcTarget`
 - Renamed `GrpcOptions` to `GrpcDialOptions`
 
-- Update dependencies
-
-  -
-
 ## [0.2.3] - 2023-05-11
 
 ### Changed in 0.2.3
