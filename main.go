@@ -167,7 +167,7 @@ func destroyObjects(ctx context.Context, g2Config g2api.G2config, g2Configmgr g2
 
 	// Destroy is only needed for "base" implementation.
 
-	if g2Config.GetSdkId(ctx) == "base" {
+	if g2Config.GetSdkId(ctx) == factory.ImplementedByBase {
 		err = g2Config.Destroy(ctx)
 		if err != nil {
 			failOnError(5401, err)
@@ -309,7 +309,7 @@ func main() {
 
 		// Initialize "base" implementations.
 
-		if g2Config.GetSdkId(ctx) == "base" {
+		if g2Config.GetSdkId(ctx) == factory.ImplementedByBase {
 			err = g2Config.Init(ctx, moduleName, iniParams, verboseLogging)
 			if err != nil {
 				failOnError(5009, err)
@@ -358,7 +358,7 @@ func main() {
 
 		// Initialize "base" implementations.
 
-		if g2Diagnostic.GetSdkId(ctx) == "base" {
+		if g2Diagnostic.GetSdkId(ctx) == factory.ImplementedByBase {
 			err = g2Diagnostic.Init(ctx, moduleName, iniParams, verboseLogging)
 			if err != nil {
 				failOnError(5018, err)
