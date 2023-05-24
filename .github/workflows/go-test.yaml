@@ -39,7 +39,7 @@ jobs:
       - run: sudo cp testdata/senzing-license/g2.lic                         /etc/opt/senzing
       - run: mkdir /tmp/sqlite
       - run: cp testdata/sqlite/G2C.db /tmp/sqlite/G2C.db
-      - run: wget -q0 /tmp/senzing-tools.deb https://github.com/Senzing/senzing-tools/releases/download/${SENZING_TOOLS_VERSION}/senzing-tools-${SENZING_TOOLS_VERSION}.deb
+      - run: wget -qO /tmp/senzing-tools.deb https://github.com/Senzing/senzing-tools/releases/download/${SENZING_TOOLS_VERSION}/senzing-tools-${SENZING_TOOLS_VERSION}.deb
       - run: sudo apt-get -y install /tmp/senzing-tools.deb
       - run: senzing-tools init-database
       - run: senzing-tools serve-grpc&
