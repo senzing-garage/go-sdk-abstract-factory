@@ -2,9 +2,10 @@ package main
 
 import (
 	"context"
+	"crypto/rand"
 	"fmt"
 	"log"
-	"math/rand"
+	"math/big"
 	"os"
 	"strconv"
 	"time"
@@ -12,12 +13,8 @@ import (
 	"github.com/senzing/g2-sdk-go/g2api"
 	"github.com/senzing/go-common/g2engineconfigurationjson"
 	"github.com/senzing/go-common/truthset"
-	"github.com/senzing/go-logging/messageformat"
-	"github.com/senzing/go-logging/messageid"
-	"github.com/senzing/go-logging/messagelevel"
-	"github.com/senzing/go-logging/messagelogger"
-	"github.com/senzing/go-logging/messagestatus"
-	"github.com/senzing/go-logging/messagetext"
+	"github.com/senzing/go-logging/logging"
+
 	"github.com/senzing/go-observing/observer"
 	"github.com/senzing/go-sdk-abstract-factory/factory"
 )
@@ -32,7 +29,7 @@ const MessageIdTemplate = "senzing-9999%04d"
 // Variables
 // ----------------------------------------------------------------------------
 
-var Messages = map[int]string{
+var IdMessages = map[int]string{
 	1:    "%s",
 	2:    "WithInfo: %s",
 	2001: "Testing %s.",
@@ -48,27 +45,17 @@ var Messages = map[int]string{
 var programName string = "unknown"
 var buildVersion string = "0.0.0"
 var buildIteration string = "0"
-var logger messagelogger.MessageLoggerInterface = nil
+var logger logging.LoggingInterface = nil
 
 // ----------------------------------------------------------------------------
 // Internal methods
 // ----------------------------------------------------------------------------
 
-func getLogger(ctx context.Context) (messagelogger.MessageLoggerInterface, error) {
-	messageFormat := &messageformat.MessageFormatJson{}
-	messageIdTemplate := &messageid.MessageIdTemplated{
-		MessageIdTemplate: MessageIdTemplate,
+func getLogger(ctx context.Context) (logging.LoggingInterface, error) {
+	loggerOptions := []interface{}{
+		&logging.OptionCallerSkip{Value: 3},
 	}
-	messageLevel := &messagelevel.MessageLevelByIdRange{
-		IdLevelRanges: messagelevel.IdLevelRanges,
-	}
-	messageStatus := &messagestatus.MessageStatusByIdRange{
-		IdStatusRanges: messagestatus.IdLevelRangesAsString,
-	}
-	messageText := &messagetext.MessageTextTemplated{
-		IdMessages: Messages,
-	}
-	return messagelogger.New(messageFormat, messageIdTemplate, messageLevel, messageStatus, messageText, messagelogger.LevelInfo)
+	return logging.NewSenzingToolsLogger(9999, IdMessages, loggerOptions...)
 }
 
 func demonstrateConfigFunctions(ctx context.Context, g2Config g2api.G2config, g2Configmgr g2api.G2configmgr) error {
@@ -83,7 +70,7 @@ func demonstrateConfigFunctions(ctx context.Context, g2Config g2api.G2config, g2
 
 	configHandle, err := g2Config.Create(ctx)
 	if err != nil {
-		return logger.Error(5100, err)
+		return logger.NewError(5100, err)
 	}
 
 	// Using G2Config: Add data source to in-memory configuration.
@@ -91,7 +78,7 @@ func demonstrateConfigFunctions(ctx context.Context, g2Config g2api.G2config, g2
 	for _, testDataSource := range truthset.TruthsetDataSources {
 		_, err := g2Config.AddDataSource(ctx, configHandle, testDataSource.Json)
 		if err != nil {
-			return logger.Error(5101, err)
+			return logger.NewError(5101, err)
 		}
 	}
 
@@ -99,7 +86,7 @@ func demonstrateConfigFunctions(ctx context.Context, g2Config g2api.G2config, g2
 
 	configStr, err := g2Config.Save(ctx, configHandle)
 	if err != nil {
-		return logger.Error(5102, err)
+		return logger.NewError(5102, err)
 	}
 
 	// Using G2Configmgr: Persist configuration string to database.
@@ -107,14 +94,14 @@ func demonstrateConfigFunctions(ctx context.Context, g2Config g2api.G2config, g2
 	configComments := fmt.Sprintf("Created by g2diagnostic_test at %s", now.UTC())
 	configID, err := g2Configmgr.AddConfig(ctx, configStr, configComments)
 	if err != nil {
-		return logger.Error(5103, err)
+		return logger.NewError(5103, err)
 	}
 
 	// Using G2Configmgr: Set new configuration as the default.
 
 	err = g2Configmgr.SetDefaultConfigID(ctx, configID)
 	if err != nil {
-		return logger.Error(5104, err)
+		return logger.NewError(5104, err)
 	}
 
 	return err
@@ -122,7 +109,11 @@ func demonstrateConfigFunctions(ctx context.Context, g2Config g2api.G2config, g2
 
 func demonstrateAddRecord(ctx context.Context, g2Engine g2api.G2engine) (string, error) {
 	dataSourceCode := "TEST"
-	recordID := strconv.Itoa(rand.Intn(1000000000))
+	randomNumber, err := rand.Int(rand.Reader, big.NewInt(1000000000))
+	if err != nil {
+		panic(err)
+	}
+	recordID := randomNumber.String()
 	jsonData := fmt.Sprintf(
 		"%s%s%s",
 		`{"SOCIAL_HANDLE": "flavorh", "DATE_OF_BIRTH": "4/8/1983", "ADDR_STATE": "LA", "ADDR_POSTAL_CODE": "71232", "SSN_NUMBER": "053-39-3251", "ENTITY_TYPE": "TEST", "GENDER": "F", "srccode": "MDMPER", "CC_ACCOUNT_NUMBER": "5534202208773608", "RECORD_ID": "`,
@@ -305,25 +296,34 @@ func main() {
 		if err != nil {
 			failOnError(5004, err)
 		}
-		g2Config.RegisterObserver(ctx, observer1)
-		g2Config.RegisterObserver(ctx, observer2)
-
-		g2Configmgr, err := senzingFactory.GetG2configmgr(ctx)
+		err = g2Config.RegisterObserver(ctx, observer1)
 		if err != nil {
 			failOnError(5005, err)
 		}
-		g2Configmgr.RegisterObserver(ctx, observer1)
+		err = g2Config.RegisterObserver(ctx, observer2)
+		if err != nil {
+			failOnError(5006, err)
+		}
+
+		g2Configmgr, err := senzingFactory.GetG2configmgr(ctx)
+		if err != nil {
+			failOnError(5007, err)
+		}
+		err = g2Configmgr.RegisterObserver(ctx, observer1)
+		if err != nil {
+			failOnError(5008, err)
+		}
 
 		// Initialize "base" implementations.
 
 		if g2Config.GetSdkId(ctx) == "base" {
 			err = g2Config.Init(ctx, moduleName, iniParams, verboseLogging)
 			if err != nil {
-				failOnError(5006, err)
+				failOnError(5009, err)
 			}
 			err = g2Configmgr.Init(ctx, moduleName, iniParams, verboseLogging)
 			if err != nil {
-				failOnError(5007, err)
+				failOnError(5010, err)
 			}
 		}
 
@@ -331,43 +331,52 @@ func main() {
 
 		err = demonstrateConfigFunctions(ctx, g2Config, g2Configmgr)
 		if err != nil {
-			failOnError(5008, err)
+			failOnError(5011, err)
 		}
 
 		// Now that a Senzing configuration is installed, get the remainder of the Senzing objects.
 
 		g2Diagnostic, err := senzingFactory.GetG2diagnostic(ctx)
 		if err != nil {
-			failOnError(5009, err)
+			failOnError(5012, err)
 		}
-		g2Diagnostic.RegisterObserver(ctx, observer1)
+		err = g2Diagnostic.RegisterObserver(ctx, observer1)
+		if err != nil {
+			failOnError(5013, err)
+		}
 
 		g2Engine, err := senzingFactory.GetG2engine(ctx)
 		if err != nil {
-			failOnError(5010, err)
+			failOnError(5014, err)
 		}
-		g2Engine.RegisterObserver(ctx, observer1)
+		err = g2Engine.RegisterObserver(ctx, observer1)
+		if err != nil {
+			failOnError(5015, err)
+		}
 
 		g2Product, err := senzingFactory.GetG2product(ctx)
 		if err != nil {
-			failOnError(5011, err)
+			failOnError(5016, err)
 		}
-		g2Product.RegisterObserver(ctx, observer1)
+		err = g2Product.RegisterObserver(ctx, observer1)
+		if err != nil {
+			failOnError(5017, err)
+		}
 
 		// Initialize "base" implementations.
 
 		if g2Diagnostic.GetSdkId(ctx) == "base" {
 			err = g2Diagnostic.Init(ctx, moduleName, iniParams, verboseLogging)
 			if err != nil {
-				failOnError(5012, err)
+				failOnError(5018, err)
 			}
 			err = g2Engine.Init(ctx, moduleName, iniParams, verboseLogging)
 			if err != nil {
-				failOnError(5013, err)
+				failOnError(5019, err)
 			}
 			err = g2Product.Init(ctx, moduleName, iniParams, verboseLogging)
 			if err != nil {
-				failOnError(5014, err)
+				failOnError(5020, err)
 			}
 		}
 
@@ -375,14 +384,14 @@ func main() {
 
 		err = demonstrateAdditionalFunctions(ctx, g2Diagnostic, g2Engine, g2Product)
 		if err != nil {
-			failOnError(5015, err)
+			failOnError(5021, err)
 		}
 
 		// Destroy Senzing objects.
 
 		err = destroyObjects(ctx, g2Config, g2Configmgr, g2Diagnostic, g2Engine, g2Product)
 		if err != nil {
-			failOnError(5016, err)
+			failOnError(5022, err)
 		}
 	}
 	fmt.Printf("\n-------------------------------------------------------------------------------\n\n")

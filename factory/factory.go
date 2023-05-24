@@ -20,7 +20,7 @@ import (
 	g2diagnosticpb "github.com/senzing/g2-sdk-proto/go/g2diagnostic"
 	g2enginepb "github.com/senzing/g2-sdk-proto/go/g2engine"
 	g2productpb "github.com/senzing/g2-sdk-proto/go/g2product"
-	"github.com/senzing/go-logging/messagelogger"
+	"github.com/senzing/go-logging/logging"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -43,7 +43,7 @@ type SdkAbstractFactoryImpl struct {
 	g2productSyncOnce     sync.Once
 	GrpcDialOptions       []grpc.DialOption
 	GrpcTarget            string
-	logger                messagelogger.MessageLoggerInterface
+	logger                logging.LoggingInterface
 }
 
 // ----------------------------------------------------------------------------
@@ -63,9 +63,16 @@ func (factory *SdkAbstractFactoryImpl) getGrpcConnection(ctx context.Context) *g
 }
 
 // Get the Logger singleton.
-func (factory *SdkAbstractFactoryImpl) getLogger() messagelogger.MessageLoggerInterface {
+func (factory *SdkAbstractFactoryImpl) getLogger() logging.LoggingInterface {
+	var err error = nil
 	if factory.logger == nil {
-		factory.logger, _ = messagelogger.NewSenzingApiLogger(ProductId, IdMessages, IdStatuses, messagelogger.LevelInfo)
+		loggerOptions := []interface{}{
+			&logging.OptionCallerSkip{Value: 3},
+		}
+		factory.logger, err = logging.NewSenzingToolsLogger(ComponentId, IdMessages, loggerOptions...)
+		if err != nil {
+			panic(err)
+		}
 	}
 	return factory.logger
 }
