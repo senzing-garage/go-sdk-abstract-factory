@@ -20,7 +20,7 @@ import (
 	g2diagnosticpb "github.com/senzing/g2-sdk-proto/go/g2diagnostic"
 	g2enginepb "github.com/senzing/g2-sdk-proto/go/g2engine"
 	g2productpb "github.com/senzing/g2-sdk-proto/go/g2product"
-	"github.com/senzing/go-logging/messagelogger"
+	"github.com/senzing/go-logging/logging"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -41,9 +41,9 @@ type SdkAbstractFactoryImpl struct {
 	g2engineSyncOnce      sync.Once
 	g2productSingleton    g2api.G2product
 	g2productSyncOnce     sync.Once
-	GrpcAddress           string
-	GrpcOptions           []grpc.DialOption
-	logger                messagelogger.MessageLoggerInterface
+	GrpcDialOptions       []grpc.DialOption
+	GrpcTarget            string
+	logger                logging.LoggingInterface
 }
 
 // ----------------------------------------------------------------------------
@@ -52,10 +52,10 @@ type SdkAbstractFactoryImpl struct {
 
 // Get the gRPC connection.
 func (factory *SdkAbstractFactoryImpl) getGrpcConnection(ctx context.Context) *grpc.ClientConn {
-	if factory.GrpcOptions == nil {
-		factory.GrpcOptions = []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
+	if factory.GrpcDialOptions == nil {
+		factory.GrpcDialOptions = []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 	}
-	result, err := grpc.DialContext(ctx, factory.GrpcAddress, factory.GrpcOptions...)
+	result, err := grpc.DialContext(ctx, factory.GrpcTarget, factory.GrpcDialOptions...)
 	if err != nil {
 		factory.getLogger().Log(4010, err)
 	}
@@ -63,9 +63,16 @@ func (factory *SdkAbstractFactoryImpl) getGrpcConnection(ctx context.Context) *g
 }
 
 // Get the Logger singleton.
-func (factory *SdkAbstractFactoryImpl) getLogger() messagelogger.MessageLoggerInterface {
+func (factory *SdkAbstractFactoryImpl) getLogger() logging.LoggingInterface {
+	var err error = nil
 	if factory.logger == nil {
-		factory.logger, _ = messagelogger.NewSenzingApiLogger(ProductId, IdMessages, IdStatuses, messagelogger.LevelInfo)
+		loggerOptions := []interface{}{
+			&logging.OptionCallerSkip{Value: 3},
+		}
+		factory.logger, err = logging.NewSenzingToolsLogger(ComponentId, IdMessages, loggerOptions...)
+		if err != nil {
+			panic(err)
+		}
 	}
 	return factory.logger
 }
@@ -77,8 +84,8 @@ func (factory *SdkAbstractFactoryImpl) getLogger() messagelogger.MessageLoggerIn
 /*
 The GetG2config method returns a G2config object based on the
 information passed in the SdkAbstractFactoryImpl structure.
-If GrpcAddress is spectified, an implementation that communicates over gRPC will be returned.
-If GrpcAddress is empty, an implementation that uses a local Senzing Go SDK will be returned.
+If GrpcTarget is spectified, an implementation that communicates over gRPC will be returned.
+If GrpcTarget is empty, an implementation that uses a local Senzing Go SDK will be returned.
 
 Input
   - ctx: A context to control lifecycle.
@@ -90,7 +97,7 @@ Output
 func (factory *SdkAbstractFactoryImpl) GetG2config(ctx context.Context) (g2api.G2config, error) {
 	var err error = nil
 	factory.g2configSyncOnce.Do(func() {
-		if len(factory.GrpcAddress) > 0 {
+		if len(factory.GrpcTarget) > 0 {
 			grpcConnection := factory.getGrpcConnection(ctx)
 			factory.g2configSingleton = &g2configgrpc.G2config{
 				GrpcClient: g2configpb.NewG2ConfigClient(grpcConnection),
@@ -105,8 +112,8 @@ func (factory *SdkAbstractFactoryImpl) GetG2config(ctx context.Context) (g2api.G
 /*
 The GetG2configmgr method returns a G2configmgr object based on the
 information passed in the SdkAbstractFactoryImpl structure.
-If GrpcAddress is spectified, an implementation that communicates over gRPC will be returned.
-If GrpcAddress is empty, an implementation that uses a local Senzing Go SDK will be returned.
+If GrpcTarget is spectified, an implementation that communicates over gRPC will be returned.
+If GrpcTarget is empty, an implementation that uses a local Senzing Go SDK will be returned.
 
 Input
   - ctx: A context to control lifecycle.
@@ -118,7 +125,7 @@ Output
 func (factory *SdkAbstractFactoryImpl) GetG2configmgr(ctx context.Context) (g2api.G2configmgr, error) {
 	var err error = nil
 	factory.g2configmgrSyncOnce.Do(func() {
-		if len(factory.GrpcAddress) > 0 {
+		if len(factory.GrpcTarget) > 0 {
 			grpcConnection := factory.getGrpcConnection(ctx)
 			factory.g2configmgrSingleton = &g2configmgrgrpc.G2configmgr{
 				GrpcClient: g2configmgrpb.NewG2ConfigMgrClient(grpcConnection),
@@ -133,8 +140,8 @@ func (factory *SdkAbstractFactoryImpl) GetG2configmgr(ctx context.Context) (g2ap
 /*
 The GetG2diagnostic method returns a G2diagnostic object based on the
 information passed in the SdkAbstractFactoryImpl structure.
-If GrpcAddress is spectified, an implementation that communicates over gRPC will be returned.
-If GrpcAddress is empty, an implementation that uses a local Senzing Go SDK will be returned.
+If GrpcTarget is spectified, an implementation that communicates over gRPC will be returned.
+If GrpcTarget is empty, an implementation that uses a local Senzing Go SDK will be returned.
 
 Input
   - ctx: A context to control lifecycle.
@@ -146,7 +153,7 @@ Output
 func (factory *SdkAbstractFactoryImpl) GetG2diagnostic(ctx context.Context) (g2api.G2diagnostic, error) {
 	var err error = nil
 	factory.g2diagnosticSyncOnce.Do(func() {
-		if len(factory.GrpcAddress) > 0 {
+		if len(factory.GrpcTarget) > 0 {
 			grpcConnection := factory.getGrpcConnection(ctx)
 			factory.g2diagnosticSingleton = &g2diagnosticgrpc.G2diagnostic{
 				GrpcClient: g2diagnosticpb.NewG2DiagnosticClient(grpcConnection),
@@ -161,8 +168,8 @@ func (factory *SdkAbstractFactoryImpl) GetG2diagnostic(ctx context.Context) (g2a
 /*
 The GetG2engine method returns a G2engine object based on the
 information passed in the SdkAbstractFactoryImpl structure.
-If GrpcAddress is spectified, an implementation that communicates over gRPC will be returned.
-If GrpcAddress is empty, an implementation that uses a local Senzing Go SDK will be returned.
+If GrpcTarget is spectified, an implementation that communicates over gRPC will be returned.
+If GrpcTarget is empty, an implementation that uses a local Senzing Go SDK will be returned.
 
 Input
   - ctx: A context to control lifecycle.
@@ -174,7 +181,7 @@ Output
 func (factory *SdkAbstractFactoryImpl) GetG2engine(ctx context.Context) (g2api.G2engine, error) {
 	var err error = nil
 	factory.g2engineSyncOnce.Do(func() {
-		if len(factory.GrpcAddress) > 0 {
+		if len(factory.GrpcTarget) > 0 {
 			grpcConnection := factory.getGrpcConnection(ctx)
 			factory.g2engineSingleton = &g2enginegrpc.G2engine{
 				GrpcClient: g2enginepb.NewG2EngineClient(grpcConnection),
@@ -189,8 +196,8 @@ func (factory *SdkAbstractFactoryImpl) GetG2engine(ctx context.Context) (g2api.G
 /*
 The GetG2product method returns a G2product object based on the
 information passed in the SdkAbstractFactoryImpl structure.
-If GrpcAddress is spectified, an implementation that communicates over gRPC will be returned.
-If GrpcAddress is empty, an implementation that uses a local Senzing Go SDK will be returned.
+If GrpcTarget is spectified, an implementation that communicates over gRPC will be returned.
+If GrpcTarget is empty, an implementation that uses a local Senzing Go SDK will be returned.
 
 Input
   - ctx: A context to control lifecycle.
@@ -202,7 +209,7 @@ Output
 func (factory *SdkAbstractFactoryImpl) GetG2product(ctx context.Context) (g2api.G2product, error) {
 	var err error = nil
 	factory.g2productSyncOnce.Do(func() {
-		if len(factory.GrpcAddress) > 0 {
+		if len(factory.GrpcTarget) > 0 {
 			grpcConnection := factory.getGrpcConnection(ctx)
 			factory.g2productSingleton = &g2productgrpc.G2product{
 				GrpcClient: g2productpb.NewG2ProductClient(grpcConnection),

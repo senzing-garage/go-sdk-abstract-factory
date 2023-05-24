@@ -24,7 +24,12 @@ type SdkAbstractFactory interface {
 // ----------------------------------------------------------------------------
 
 // Identfier of the factory package found messages having the format "senzing-6041xxxx".
-const ProductId = 6041
+const (
+	ComponentId       = 6041
+	ImplementedByBase = "base"
+	ImplementedByGrpc = "grpc"
+	ImplementedByMock = "mock"
+)
 
 // ----------------------------------------------------------------------------
 // Variables
