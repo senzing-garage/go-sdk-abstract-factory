@@ -21,6 +21,7 @@ import (
 	g2enginepb "github.com/senzing/g2-sdk-proto/go/g2engine"
 	g2productpb "github.com/senzing/g2-sdk-proto/go/g2product"
 	"github.com/senzing/go-logging/logging"
+	"github.com/senzing/go-observing/observer"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -44,6 +45,8 @@ type SdkAbstractFactoryImpl struct {
 	GrpcDialOptions       []grpc.DialOption
 	GrpcTarget            string
 	logger                logging.LoggingInterface
+	ObserverOrigin        string
+	Observers             []observer.Observer
 }
 
 // ----------------------------------------------------------------------------
@@ -105,6 +108,13 @@ func (factory *SdkAbstractFactoryImpl) GetG2config(ctx context.Context) (g2api.G
 		} else {
 			factory.g2configSingleton = &g2configbase.G2config{}
 		}
+		factory.g2configSingleton.SetObserverOrigin(ctx, factory.ObserverOrigin)
+		for _, observer := range factory.Observers {
+			err2 := factory.g2configSingleton.RegisterObserver(ctx, observer)
+			if err2 != nil {
+				err = err2
+			}
+		}
 	})
 	return factory.g2configSingleton, err
 }
@@ -132,6 +142,13 @@ func (factory *SdkAbstractFactoryImpl) GetG2configmgr(ctx context.Context) (g2ap
 			}
 		} else {
 			factory.g2configmgrSingleton = &g2configmgrbase.G2configmgr{}
+		}
+		factory.g2configmgrSingleton.SetObserverOrigin(ctx, factory.ObserverOrigin)
+		for _, observer := range factory.Observers {
+			err2 := factory.g2configmgrSingleton.RegisterObserver(ctx, observer)
+			if err2 != nil {
+				err = err2
+			}
 		}
 	})
 	return factory.g2configmgrSingleton, err
@@ -161,6 +178,13 @@ func (factory *SdkAbstractFactoryImpl) GetG2diagnostic(ctx context.Context) (g2a
 		} else {
 			factory.g2diagnosticSingleton = &g2diagnosticbase.G2diagnostic{}
 		}
+		factory.g2diagnosticSingleton.SetObserverOrigin(ctx, factory.ObserverOrigin)
+		for _, observer := range factory.Observers {
+			err2 := factory.g2diagnosticSingleton.RegisterObserver(ctx, observer)
+			if err2 != nil {
+				err = err2
+			}
+		}
 	})
 	return factory.g2diagnosticSingleton, err
 }
@@ -189,6 +213,13 @@ func (factory *SdkAbstractFactoryImpl) GetG2engine(ctx context.Context) (g2api.G
 		} else {
 			factory.g2engineSingleton = &g2enginebase.G2engine{}
 		}
+		factory.g2engineSingleton.SetObserverOrigin(ctx, factory.ObserverOrigin)
+		for _, observer := range factory.Observers {
+			err2 := factory.g2engineSingleton.RegisterObserver(ctx, observer)
+			if err2 != nil {
+				err = err2
+			}
+		}
 	})
 	return factory.g2engineSingleton, err
 }
@@ -216,6 +247,13 @@ func (factory *SdkAbstractFactoryImpl) GetG2product(ctx context.Context) (g2api.
 			}
 		} else {
 			factory.g2productSingleton = &g2productbase.G2product{}
+		}
+		factory.g2productSingleton.SetObserverOrigin(ctx, factory.ObserverOrigin)
+		for _, observer := range factory.Observers {
+			err2 := factory.g2productSingleton.RegisterObserver(ctx, observer)
+			if err2 != nil {
+				err = err2
+			}
 		}
 	})
 	return factory.g2productSingleton, err
