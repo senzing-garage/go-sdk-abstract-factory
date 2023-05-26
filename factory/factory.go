@@ -110,7 +110,10 @@ func (factory *SdkAbstractFactoryImpl) GetG2config(ctx context.Context) (g2api.G
 		}
 		factory.g2configSingleton.SetObserverOrigin(ctx, factory.ObserverOrigin)
 		for _, observer := range factory.Observers {
-			factory.g2configSingleton.RegisterObserver(ctx, observer)
+			err2 := factory.g2configSingleton.RegisterObserver(ctx, observer)
+			if err2 != nil {
+				err = err2
+			}
 		}
 	})
 	return factory.g2configSingleton, err
@@ -142,7 +145,10 @@ func (factory *SdkAbstractFactoryImpl) GetG2configmgr(ctx context.Context) (g2ap
 		}
 		factory.g2configmgrSingleton.SetObserverOrigin(ctx, factory.ObserverOrigin)
 		for _, observer := range factory.Observers {
-			factory.g2configmgrSingleton.RegisterObserver(ctx, observer)
+			err2 := factory.g2configmgrSingleton.RegisterObserver(ctx, observer)
+			if err2 != nil {
+				err = err2
+			}
 		}
 	})
 	return factory.g2configmgrSingleton, err
@@ -174,7 +180,10 @@ func (factory *SdkAbstractFactoryImpl) GetG2diagnostic(ctx context.Context) (g2a
 		}
 		factory.g2diagnosticSingleton.SetObserverOrigin(ctx, factory.ObserverOrigin)
 		for _, observer := range factory.Observers {
-			factory.g2diagnosticSingleton.RegisterObserver(ctx, observer)
+			err2 := factory.g2diagnosticSingleton.RegisterObserver(ctx, observer)
+			if err2 != nil {
+				err = err2
+			}
 		}
 	})
 	return factory.g2diagnosticSingleton, err
@@ -206,7 +215,10 @@ func (factory *SdkAbstractFactoryImpl) GetG2engine(ctx context.Context) (g2api.G
 		}
 		factory.g2engineSingleton.SetObserverOrigin(ctx, factory.ObserverOrigin)
 		for _, observer := range factory.Observers {
-			factory.g2engineSingleton.RegisterObserver(ctx, observer)
+			err2 := factory.g2engineSingleton.RegisterObserver(ctx, observer)
+			if err2 != nil {
+				err = err2
+			}
 		}
 	})
 	return factory.g2engineSingleton, err
@@ -238,7 +250,10 @@ func (factory *SdkAbstractFactoryImpl) GetG2product(ctx context.Context) (g2api.
 		}
 		factory.g2productSingleton.SetObserverOrigin(ctx, factory.ObserverOrigin)
 		for _, observer := range factory.Observers {
-			factory.g2productSingleton.RegisterObserver(ctx, observer)
+			err2 := factory.g2productSingleton.RegisterObserver(ctx, observer)
+			if err2 != nil {
+				err = err2
+			}
 		}
 	})
 	return factory.g2productSingleton, err
