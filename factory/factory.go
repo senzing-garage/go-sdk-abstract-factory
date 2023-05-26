@@ -21,6 +21,7 @@ import (
 	g2enginepb "github.com/senzing/g2-sdk-proto/go/g2engine"
 	g2productpb "github.com/senzing/g2-sdk-proto/go/g2product"
 	"github.com/senzing/go-logging/logging"
+	"github.com/senzing/go-observing/observer"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -44,6 +45,8 @@ type SdkAbstractFactoryImpl struct {
 	GrpcDialOptions       []grpc.DialOption
 	GrpcTarget            string
 	logger                logging.LoggingInterface
+	ObserverOrigin        string
+	Observers             []observer.Observer
 }
 
 // ----------------------------------------------------------------------------
@@ -51,7 +54,7 @@ type SdkAbstractFactoryImpl struct {
 // ----------------------------------------------------------------------------
 
 // Get the gRPC connection.
-func (factory *SdkAbstractFactoryImpl) getGrpcConnection(ctx context.Context) *grpc.ClientConn {
+func (factory *SdkAbstractFactoryImpl) getSdkGrpcConnection(ctx context.Context) *grpc.ClientConn {
 	if factory.GrpcDialOptions == nil {
 		factory.GrpcDialOptions = []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 	}
@@ -98,12 +101,16 @@ func (factory *SdkAbstractFactoryImpl) GetG2config(ctx context.Context) (g2api.G
 	var err error = nil
 	factory.g2configSyncOnce.Do(func() {
 		if len(factory.GrpcTarget) > 0 {
-			grpcConnection := factory.getGrpcConnection(ctx)
+			grpcConnection := factory.getSdkGrpcConnection(ctx)
 			factory.g2configSingleton = &g2configgrpc.G2config{
 				GrpcClient: g2configpb.NewG2ConfigClient(grpcConnection),
 			}
 		} else {
 			factory.g2configSingleton = &g2configbase.G2config{}
+		}
+		factory.g2configSingleton.SetObserverOrigin(ctx, factory.ObserverOrigin)
+		for _, observer := range factory.Observers {
+			factory.g2configSingleton.RegisterObserver(ctx, observer)
 		}
 	})
 	return factory.g2configSingleton, err
@@ -126,12 +133,16 @@ func (factory *SdkAbstractFactoryImpl) GetG2configmgr(ctx context.Context) (g2ap
 	var err error = nil
 	factory.g2configmgrSyncOnce.Do(func() {
 		if len(factory.GrpcTarget) > 0 {
-			grpcConnection := factory.getGrpcConnection(ctx)
+			grpcConnection := factory.getSdkGrpcConnection(ctx)
 			factory.g2configmgrSingleton = &g2configmgrgrpc.G2configmgr{
 				GrpcClient: g2configmgrpb.NewG2ConfigMgrClient(grpcConnection),
 			}
 		} else {
 			factory.g2configmgrSingleton = &g2configmgrbase.G2configmgr{}
+		}
+		factory.g2configmgrSingleton.SetObserverOrigin(ctx, factory.ObserverOrigin)
+		for _, observer := range factory.Observers {
+			factory.g2configmgrSingleton.RegisterObserver(ctx, observer)
 		}
 	})
 	return factory.g2configmgrSingleton, err
@@ -154,12 +165,16 @@ func (factory *SdkAbstractFactoryImpl) GetG2diagnostic(ctx context.Context) (g2a
 	var err error = nil
 	factory.g2diagnosticSyncOnce.Do(func() {
 		if len(factory.GrpcTarget) > 0 {
-			grpcConnection := factory.getGrpcConnection(ctx)
+			grpcConnection := factory.getSdkGrpcConnection(ctx)
 			factory.g2diagnosticSingleton = &g2diagnosticgrpc.G2diagnostic{
 				GrpcClient: g2diagnosticpb.NewG2DiagnosticClient(grpcConnection),
 			}
 		} else {
 			factory.g2diagnosticSingleton = &g2diagnosticbase.G2diagnostic{}
+		}
+		factory.g2diagnosticSingleton.SetObserverOrigin(ctx, factory.ObserverOrigin)
+		for _, observer := range factory.Observers {
+			factory.g2diagnosticSingleton.RegisterObserver(ctx, observer)
 		}
 	})
 	return factory.g2diagnosticSingleton, err
@@ -182,12 +197,16 @@ func (factory *SdkAbstractFactoryImpl) GetG2engine(ctx context.Context) (g2api.G
 	var err error = nil
 	factory.g2engineSyncOnce.Do(func() {
 		if len(factory.GrpcTarget) > 0 {
-			grpcConnection := factory.getGrpcConnection(ctx)
+			grpcConnection := factory.getSdkGrpcConnection(ctx)
 			factory.g2engineSingleton = &g2enginegrpc.G2engine{
 				GrpcClient: g2enginepb.NewG2EngineClient(grpcConnection),
 			}
 		} else {
 			factory.g2engineSingleton = &g2enginebase.G2engine{}
+		}
+		factory.g2engineSingleton.SetObserverOrigin(ctx, factory.ObserverOrigin)
+		for _, observer := range factory.Observers {
+			factory.g2engineSingleton.RegisterObserver(ctx, observer)
 		}
 	})
 	return factory.g2engineSingleton, err
@@ -210,12 +229,16 @@ func (factory *SdkAbstractFactoryImpl) GetG2product(ctx context.Context) (g2api.
 	var err error = nil
 	factory.g2productSyncOnce.Do(func() {
 		if len(factory.GrpcTarget) > 0 {
-			grpcConnection := factory.getGrpcConnection(ctx)
+			grpcConnection := factory.getSdkGrpcConnection(ctx)
 			factory.g2productSingleton = &g2productgrpc.G2product{
 				GrpcClient: g2productpb.NewG2ProductClient(grpcConnection),
 			}
 		} else {
 			factory.g2productSingleton = &g2productbase.G2product{}
+		}
+		factory.g2productSingleton.SetObserverOrigin(ctx, factory.ObserverOrigin)
+		for _, observer := range factory.Observers {
+			factory.g2productSingleton.RegisterObserver(ctx, observer)
 		}
 	})
 	return factory.g2productSingleton, err
