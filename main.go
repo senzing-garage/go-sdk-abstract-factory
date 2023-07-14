@@ -243,7 +243,7 @@ func main() {
 	// Create Senzing's Engine Configuration JSON.
 
 	moduleName := "Test module name"
-	iniParams, err := g2engineconfigurationjson.BuildSimpleSystemConfigurationJson("")
+	iniParams, err := g2engineconfigurationjson.BuildSimpleSystemConfigurationJsonUsingEnvVars()
 	if err != nil {
 		failOnError(5001, err)
 	}

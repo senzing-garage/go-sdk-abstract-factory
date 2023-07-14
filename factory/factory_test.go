@@ -107,7 +107,7 @@ func TestMain(m *testing.M) {
 
 func setup() error {
 	var err error = nil
-	iniParams, err = g2engineconfigurationjson.BuildSimpleSystemConfigurationJson("")
+	iniParams, err = g2engineconfigurationjson.BuildSimpleSystemConfigurationJsonUsingEnvVars()
 	return err
 }
 
@@ -116,8 +116,8 @@ func teardown() error {
 	return err
 }
 
-func TestBuildSimpleSystemConfigurationJson(test *testing.T) {
-	actual, err := g2engineconfigurationjson.BuildSimpleSystemConfigurationJson("")
+func TestBuildSimpleSystemConfigurationJsonUsingEnvVars(test *testing.T) {
+	actual, err := g2engineconfigurationjson.BuildSimpleSystemConfigurationJsonUsingEnvVars()
 	if err != nil {
 		test.Log("Error:", err.Error())
 		assert.FailNow(test, actual)
