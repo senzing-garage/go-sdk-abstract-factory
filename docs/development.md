@@ -63,6 +63,23 @@ Since the Senzing library is a prerequisite, it must be installed first.
 1. Run a Senzing gRPC server, visit
    [Senzing/servegrpc](https://github.com/Senzing/servegrpc).
 
+    1. Optionally, initialize a SqlLite database.
+       Example:
+
+        ```console
+        export SENZING_TOOLS_DATABASE_URL=sqlite3://na:na@/tmp/sqlite/G2C.db
+        senzing-tools init-database
+
+        ```
+
+    1. Start Senzing gRPC server.
+       Example:
+
+        ```console
+        senzing-tools serve-grpc --enable-all
+
+        ```
+
 1. Run tests.
 
     ```console
@@ -77,6 +94,23 @@ These instructions run testcases for both local and gRPC implementations of the 
 
 1. Run a Senzing gRPC server, visit
    [Senzing/servegrpc](https://github.com/Senzing/servegrpc).
+
+    1. Optionally, initialize a SqlLite database.
+       Example:
+
+        ```console
+        export SENZING_TOOLS_DATABASE_URL=sqlite3://na:na@/tmp/sqlite/G2C.db
+        senzing-tools init-database
+
+        ```
+
+    1. Start Senzing gRPC server.
+       Example:
+
+        ```console
+        senzing-tools serve-grpc --enable-all
+
+        ```
 
 1. Run tests.
 
