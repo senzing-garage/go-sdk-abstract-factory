@@ -2,7 +2,13 @@
 # - https://github.com/securego/gosec
 
 name: go-security.yaml
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 jobs:
   tests:
     runs-on: ubuntu-latest
