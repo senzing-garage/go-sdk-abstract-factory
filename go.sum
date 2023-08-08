@@ -14,8 +14,8 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/rogpeppe/go-internal v1.10.0 h1:TMyTOH3F/DB16zRVcYyreMH6GnZZrwQVAoYjRBZyWFQ=
 github.com/senzing/g2-sdk-go v0.6.8 h1:wUus50kwp1jTon8D5WyfOPci0zl+CJ9AtZKBViEVaaY=
 github.com/senzing/g2-sdk-go v0.6.8/go.mod h1:jXg6BfhcDqqtG0zTAk/KmH5mBQefAqd/ZV1/3NYFeAs=
-github.com/senzing/g2-sdk-go-base v0.2.3 h1:26d7vRLI4g/KWiAEtbVAt1bvmBgc5gQ6xVxFiXLcNB0=
-github.com/senzing/g2-sdk-go-base v0.2.3/go.mod h1:JPFyWtQywu/C8lCq0CaPGgt2ZV5pjOcMENXKK5cHoL0=
+github.com/senzing/g2-sdk-go-base v0.2.4 h1:iAEtm28+KTMuf/0Axhef/vXoDQ3O1GiKqOP+uCb26uQ=
+github.com/senzing/g2-sdk-go-base v0.2.4/go.mod h1:JPFyWtQywu/C8lCq0CaPGgt2ZV5pjOcMENXKK5cHoL0=
 github.com/senzing/g2-sdk-go-grpc v0.3.2 h1:keeVwN9zo3G2JJHXej84TYd7LNm76Av1mgqYahKAUGI=
 github.com/senzing/g2-sdk-go-grpc v0.3.2/go.mod h1:I+49teQ8ndxAX7QjqIo4MDsISRDji0xoVda47Rh2V0w=
 github.com/senzing/g2-sdk-proto/go v0.0.0-20230608182106-25c8cdc02e3c h1:jNOwfVczSPsD42TLj/+/Tn5CxzsPfoSpRYm+XB2iKH0=
@@ -30,8 +30,8 @@ github.com/senzing/go-observing v0.2.7 h1:0HuGGUNWfAKm+a+WoBPHHfz+dcL8SzLqMjWd+U
 github.com/senzing/go-observing v0.2.7/go.mod h1:EPBjqFdyXUjTPoC9C6WQBjUj1sFTp261pL3wlN80jD4=
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=
 github.com/stretchr/testify v1.8.4/go.mod h1:sz/lmYIOXD/1dqDmKjjqLyZ2RngseejIcXlSw2iwfAo=
-golang.org/x/exp v0.0.0-20230801115018-d63ba01acd4b h1:r+vk0EmXNmekl0S0BascoeeoHk/L7wmaW2QF90K+kYI=
-golang.org/x/exp v0.0.0-20230801115018-d63ba01acd4b/go.mod h1:FXUEEKJgO7OQYeo8N01OfiKP8RXMtf6e8aTskBGqWdc=
+golang.org/x/exp v0.0.0-20230807204917-050eac23e9de h1:l5Za6utMv/HsBWWqzt4S8X17j+kt1uVETUX5UFhn2rE=
+golang.org/x/exp v0.0.0-20230807204917-050eac23e9de/go.mod h1:FXUEEKJgO7OQYeo8N01OfiKP8RXMtf6e8aTskBGqWdc=
 golang.org/x/net v0.14.0 h1:BONx9s002vGdD9umnlX1Po8vOZmrgH34qlHcD1MfK14=
 golang.org/x/net v0.14.0/go.mod h1:PpSgVXXLK0OxS0F31C1/tv6XNguvCrnXIDrFMspZIUI=
 golang.org/x/sys v0.11.0 h1:eG7RXZHdqOJ1i+0lgLgCpSXAp6M3LYlAo6osgSi0xOM=
