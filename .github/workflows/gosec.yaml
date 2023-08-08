@@ -12,6 +12,12 @@ on:
 jobs:
   gosec:
     runs-on: ubuntu-latest
+    env:
+      GO111MODULE: on
     steps:
-      - name: Reminder - gosec done in go-test-linux.yaml
-        run: echo "Reminder - gosec done in go-test-linux.yaml"
+      - name: Checkout Source
+        uses: actions/checkout@v3
+      - name: Run Gosec Security Scanner
+        uses: securego/gosec@master
+        with:
+          args: ./...
