@@ -1,31 +1,38 @@
 # Based on
 # - https://github.com/marketplace/actions/setup-go-environment
 
-name: go-test.yaml
+name: go-test-linux.yaml
 
 on: [push]
+
+env:
+  LD_LIBRARY_PATH: /opt/senzing/g2/lib
+  SENZING_ACCEPT_EULA: I_ACCEPT_THE_SENZING_EULA
+  SENZING_TOOLS_DATABASE_URL: "sqlite3://na:na@/tmp/sqlite/G2C.db"
+  SENZING_TOOLS_VERSION: 0.4.0
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
+      GO111MODULE: on
       LD_LIBRARY_PATH: /opt/senzing/g2/lib/
-      SENZING_ACCEPT_EULA: I_ACCEPT_THE_SENZING_EULA
-      SENZING_TOOLS_DATABASE_URL: sqlite3://na:na@/tmp/sqlite/G2C.db
-      SENZING_TOOLS_VERSION: 0.2.6
+      CGO_ENABLED: 1
     strategy:
       matrix:
         go: ["1.20"]
-    name: Go ${{ matrix.go }}
+    name: Go ${{ matrix.go }} - linux
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Setup go
         uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.go }}
-      - run: pwd
-      - run: wget -qO /tmp/senzingrepo_1.0.1-1_amd64.deb https://senzing-production-apt.s3.amazonaws.com/senzingrepo_1.0.1-1_amd64.deb
-      - run: sudo apt-get -y install /tmp/senzingrepo_1.0.1-1_amd64.deb
+      - run: wget -qO /tmp/senzingstagingrepo_1.0.1-1_amd64.deb https://senzing-staging-apt.s3.amazonaws.com/senzingstagingrepo_1.0.1-1_amd64.deb
+      - run: sudo apt-get -y install /tmp/senzingstagingrepo_1.0.1-1_amd64.deb
       - run: sudo apt-get update
       - run: sudo --preserve-env apt-get -y install senzingapi
       - run: sudo mv /opt/senzing/data/4.0.0/* /opt/senzing/data/
@@ -42,5 +49,5 @@ jobs:
       - run: wget -qO /tmp/senzing-tools.deb https://github.com/Senzing/senzing-tools/releases/download/${SENZING_TOOLS_VERSION}/senzing-tools-${SENZING_TOOLS_VERSION}.deb
       - run: sudo apt-get -y install /tmp/senzing-tools.deb
       - run: senzing-tools init-database
-      - run: senzing-tools serve-grpc&
+      - run: senzing-tools serve-grpc --enable-all &
       - run: go test -v -p 1 ./...
