@@ -40,7 +40,7 @@ func getTestObjectLocal(ctx context.Context, test *testing.T) SdkAbstractFactory
 func getTestObjectGrpc(ctx context.Context, test *testing.T) SdkAbstractFactory {
 	if sdkAbstractFactoryGrpcSingleton == nil {
 		sdkAbstractFactoryGrpcSingleton = &SdkAbstractFactoryImpl{
-			GrpcTarget: "localhost:8258",
+			GrpcTarget: "localhost:8261",
 		}
 	}
 	return sdkAbstractFactoryGrpcSingleton
