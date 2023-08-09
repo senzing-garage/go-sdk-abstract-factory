@@ -40,5 +40,10 @@ jobs:
         run: sudo mkdir -p /etc/opt/senzing && sudo cp testdata/senzing-license/g2.lic /etc/opt/senzing
       - name: Copy test database fies
         run: mkdir /tmp/sqlite && cp testdata/sqlite/G2C.db /tmp/sqlite/G2C.db
+      - name: Install Docker
+        uses: docker-practice/actions-setup-docker@master
+        timeout-minutes: 12
+      - name: gRPC service
+        run: docker run --detach --env SENZING_TOOLS_ENABLE_ALL --publish 8261:8261 senzing/serve-grpc:latest
       - name: Run go test
         run: go test -exec /Users/runner/work/go-sdk-abstract-factory/go-sdk-abstract-factory/bin/macos_exec_dyld.sh -v -p 1 ./...
