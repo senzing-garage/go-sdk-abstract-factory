@@ -49,5 +49,5 @@ jobs:
       - run: wget -qO /tmp/senzing-tools.deb https://github.com/Senzing/senzing-tools/releases/download/${SENZING_TOOLS_VERSION}/senzing-tools-${SENZING_TOOLS_VERSION}.deb
       - run: sudo apt-get -y install /tmp/senzing-tools.deb
       - run: senzing-tools init-database
-      - run: senzing-tools serve-grpc&
+      - run: senzing-tools serve-grpc --enable-all &
       - run: go test -v -p 1 ./...
