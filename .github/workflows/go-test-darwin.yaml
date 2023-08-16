@@ -6,18 +6,14 @@ name: go-test-darwin.yaml
 on: [push]
 
 env:
-  DYLD_LIBRARY_PATH: /opt/senzing/g2/lib:/opt/senzing/g2/lib/macos
   LD_LIBRARY_PATH: /opt/senzing/g2/lib:/opt/senzing/g2/lib/macos
+  DYLD_LIBRARY_PATH: /opt/senzing/g2/lib:/opt/senzing/g2/lib/macos
   SENZING_TOOLS_DATABASE_URL: "sqlite3://na:na@/tmp/sqlite/G2C.db"
   SENZING_TOOLS_ENABLE_ALL: true
 
 jobs:
   build:
     runs-on: macos-latest
-    env:
-      GO111MODULE: on
-      CGO_ENABLED: 1
-      # PATH: $PATH:/Users/runner/work/go-sdk-abstract-factory/go-sdk-abstract-factory/bin
     strategy:
       matrix:
         go: ["1.20"]
