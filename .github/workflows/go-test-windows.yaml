@@ -32,5 +32,7 @@ jobs:
         run: copy testdata/senzing-license/g2.lic "C:\Program Files\Senzing\g2\etc\g2.lic"
       - name: Copy test database files
         run: mkdir "C:\Temp\sqlite" && copy testdata/sqlite/G2C.db "C:\Temp\sqlite\G2C.db"
-      - name: Run go test
-        run: go test -v -p 1 ./...
+      - name: TODO - install senzing-tools
+        run: echo "TODO - Run senzing-tools serve-grpc"
+      # - name: Run go test
+      #   run: go test -v -p 1 ./...
