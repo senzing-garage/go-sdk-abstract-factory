@@ -18,7 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deprecated functions have been removed
 - Update dependencies
   - github.com/senzing/g2-sdk-go v0.7.0
-  - github.com/senzing/g2-sdk-go-grpc v0.4.0
+  - github.com/senzing/g2-sdk-go-base v0.3.0
+  - github.com/senzing/g2-sdk-go-grpc v0.4.1
   - github.com/senzing/g2-sdk-proto/go v0.0.0-20230925212041-8259762ae97e
   - google.golang.org/grpc v1.58.2
 
