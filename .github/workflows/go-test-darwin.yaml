@@ -12,12 +12,13 @@ env:
   SENZING_TOOLS_ENABLE_ALL: true
 
 jobs:
-  build:
+  go-test-darwin:
     runs-on: macos-latest
     strategy:
       matrix:
         go: ["1.21"]
-    name: Go ${{ matrix.go }} - darwin
+        senzingapi-version: ["staging"]
+    name: Go ${{ matrix.go }} using Senzing API ${{ matrix.senzingapi-version }} on darwin
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -32,6 +33,8 @@ jobs:
         timeout-minutes: 12
       - name: Install Senzing API
         uses: Senzing/github-action-install-senzing-api@latest
+        with:
+          senzingapi-version: ${{ matrix.senzingapi-version }}
       - name: Copy /etc files
         run: sudo cp testdata/senzing-license/g2.lic /opt/senzing/g2/etc/g2.lic
       - name: Copy test database files
