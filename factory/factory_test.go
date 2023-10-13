@@ -23,7 +23,7 @@ var (
 	moduleName                       string = "Test module name"
 	sdkAbstractFactoryGrpcSingleton  SdkAbstractFactory
 	sdkAbstractFactoryLocalSingleton SdkAbstractFactory
-	verboseLogging                   int = 0
+	verboseLogging                   int64 = 0
 )
 
 // ----------------------------------------------------------------------------
