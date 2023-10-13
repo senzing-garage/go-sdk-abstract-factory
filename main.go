@@ -247,7 +247,7 @@ func main() {
 	if err != nil {
 		failOnError(5001, err)
 	}
-	verboseLogging := 0
+	verboseLogging := int64(0)
 
 	// Determine if specific testcase is requested.
 

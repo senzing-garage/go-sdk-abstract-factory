@@ -12,7 +12,7 @@ env:
 
 jobs:
   go-test-linux:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     env:
       GO111MODULE: on
       LD_LIBRARY_PATH: /opt/senzing/g2/lib/
@@ -20,8 +20,9 @@ jobs:
     strategy:
       matrix:
         go: ["1.21"]
-        senzingapi-version: ["staging"]
-    name: Go ${{ matrix.go }} using Senzing API ${{ matrix.senzingapi-version }} on linux
+        os: [ubuntu-latest]
+        senzingapi-version: [staging]
+    name: "go test with Senzing: ${{ matrix.senzingapi-version }}; OS: ${{ matrix.os }}; Go: ${{ matrix.go }}"
     services:
       servegrpc:
         env:
@@ -43,7 +44,7 @@ jobs:
         with:
           senzingapi-version: ${{ matrix.senzingapi-version }}
       - name: Copy /etc files
-        run: sudo cp testdata/senzing-license/g2.lic /etc/opt/senzing
+        run: sudo cp testdata/senzing-license/g2.lic /etc/opt/senzing/g2.lic
       - name: Copy test database files
         run: mkdir /tmp/sqlite && cp testdata/sqlite/G2C.db /tmp/sqlite/G2C.db
       - name: Run go test
