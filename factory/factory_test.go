@@ -10,7 +10,7 @@ import (
 	"time"
 
 	truncator "github.com/aquilax/truncate"
-	"github.com/senzing/go-common/g2engineconfigurationjson"
+	"github.com/senzing-garage/go-common/g2engineconfigurationjson"
 	"github.com/stretchr/testify/assert"
 )
 

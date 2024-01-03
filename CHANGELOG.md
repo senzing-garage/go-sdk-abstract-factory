@@ -10,13 +10,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [0.5.0] - 2024-01-03
+
+### Changed in 0.5.0
+
+- Refactor to [template-go](https://github.com/senzing-garage/template-go)
+- Update dependencies
+  - github.com/senzing-garage/go-common v0.4.0
+  - github.com/senzing-garage/go-logging v1.4.0
+  - github.com/senzing-garage/go-observing v0.3.0
+  - github.com/senzing/g2-sdk-go v0.8.0
+  - github.com/senzing/g2-sdk-go-base v0.4.0
+  - github.com/senzing/g2-sdk-go-grpc v0.5.0
+  - google.golang.org/grpc v1.60.1
+
 ## [0.4.3] - 2023-11-01
 
 ### Changed in 0.4.3
 
 - Update dependencies
   - github.com/senzing/g2-sdk-go-base v0.3.3
-  - github.com/senzing/go-common v0.3.2-0.20231018174900-c1895fb44c30
+  - github.com/senzing-garage/go-common v0.3.2-0.20231018174900-c1895fb44c30
 
 ## [0.4.2] - 2023-10-23
 
@@ -28,9 +42,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - github.com/senzing/g2-sdk-go-base v0.3.2
   - github.com/senzing/g2-sdk-go-grpc v0.4.3
   - github.com/senzing/g2-sdk-proto/go v0.0.0-20231016131354-0d0fba649357
-  - github.com/senzing/go-common v0.3.1
-  - github.com/senzing/go-logging v1.3.3
-  - github.com/senzing/go-observing v0.2.8
+  - github.com/senzing-garage/go-common v0.3.1
+  - github.com/senzing-garage/go-logging v1.3.3
+  - github.com/senzing-garage/go-observing v0.2.8
   - google.golang.org/grpc v1.59.0
 
 ## [0.4.1] - 2023-10-13
@@ -70,9 +84,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - github.com/senzing/g2-sdk-go v0.6.8
   - github.com/senzing/g2-sdk-go-base v0.2.4
   - github.com/senzing/g2-sdk-go-grpc v0.3.2
-  - github.com/senzing/go-common v0.2.11
-  - github.com/senzing/go-logging v1.3.2
-  - github.com/senzing/go-observing v0.2.7
+  - github.com/senzing-garage/go-common v0.2.11
+  - github.com/senzing-garage/go-logging v1.3.2
+  - github.com/senzing-garage/go-observing v0.2.7
   - google.golang.org/grpc v1.57.0
 
 ## [0.3.1] - 2023-06-16
@@ -88,9 +102,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - github.com/senzing/g2-sdk-go-base v0.2.1
   - github.com/senzing/g2-sdk-go-grpc v0.3.1
   - github.com/senzing/g2-sdk-proto/go v0.0.0-20230608182106-25c8cdc02e3c
-  - github.com/senzing/go-common v0.1.4
-  - github.com/senzing/go-logging v1.2.6
-  - github.com/senzing/go-observing v0.2.6
+  - github.com/senzing-garage/go-common v0.1.4
+  - github.com/senzing-garage/go-logging v1.2.6
+  - github.com/senzing-garage/go-observing v0.2.6
   - github.com/stretchr/testify v1.8.4
   - google.golang.org/grpc v1.56.0
 
@@ -119,9 +133,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - github.com/senzing/g2-sdk-go v0.6.2
   - github.com/senzing/g2-sdk-go-base v0.1.10
   - github.com/senzing/g2-sdk-go-grpc v0.2.6
-  - github.com/senzing/go-common v0.1.3
-  - github.com/senzing/go-logging v1.2.3
-  - github.com/senzing/go-observing v0.2.2
+  - github.com/senzing-garage/go-common v0.1.3
+  - github.com/senzing-garage/go-logging v1.2.3
+  - github.com/senzing-garage/go-observing v0.2.2
   - google.golang.org/grpc v1.55.0
 
 ## [0.2.2] - 2023-04-21

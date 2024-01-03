@@ -4,6 +4,8 @@ import (
 	"context"
 	"sync"
 
+	"github.com/senzing-garage/go-logging/logging"
+	"github.com/senzing-garage/go-observing/observer"
 	g2configbase "github.com/senzing/g2-sdk-go-base/g2config"
 	g2configmgrbase "github.com/senzing/g2-sdk-go-base/g2configmgr"
 	g2diagnosticbase "github.com/senzing/g2-sdk-go-base/g2diagnostic"
@@ -20,8 +22,6 @@ import (
 	g2diagnosticpb "github.com/senzing/g2-sdk-proto/go/g2diagnostic"
 	g2enginepb "github.com/senzing/g2-sdk-proto/go/g2engine"
 	g2productpb "github.com/senzing/g2-sdk-proto/go/g2product"
-	"github.com/senzing/go-logging/logging"
-	"github.com/senzing/go-observing/observer"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

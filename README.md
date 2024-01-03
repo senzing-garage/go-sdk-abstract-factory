@@ -14,8 +14,12 @@ that constructs G2Config, G2Configmgr, G2Diagnostic, G2Engine, and G2Product Sen
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/senzing/go-sdk-abstract-factory.svg)](https://pkg.go.dev/github.com/senzing/go-sdk-abstract-factory)
 [![Go Report Card](https://goreportcard.com/badge/github.com/senzing/go-sdk-abstract-factory)](https://goreportcard.com/report/github.com/senzing/go-sdk-abstract-factory)
-[![go-test.yaml](https://github.com/Senzing/go-sdk-abstract-factory/actions/workflows/go-test.yaml/badge.svg)](https://github.com/Senzing/go-sdk-abstract-factory/actions/workflows/go-test.yaml)
-[![License](https://img.shields.io/badge/License-Apache2-brightgreen.svg)](https://github.com/Senzing/go-sdk-abstract-factory/blob/main/LICENSE)
+[![License](https://img.shields.io/badge/License-Apache2-brightgreen.svg)](https://github.com/senzing/go-sdk-abstract-factory/blob/main/LICENSE)
+
+[![gosec.yaml](https://github.com/senzing/go-sdk-abstract-factory/actions/workflows/gosec.yaml/badge.svg)](https://github.com/senzing/go-sdk-abstract-factory/actions/workflows/gosec.yaml)
+[![go-test-linux.yaml](https://github.com/senzing/go-sdk-abstract-factory/actions/workflows/go-test-linux.yaml/badge.svg)](https://github.com/senzing/go-sdk-abstract-factory/actions/workflows/go-test-linux.yaml)
+[![go-test-darwin.yaml](https://github.com/senzing/go-sdk-abstract-factory/actions/workflows/go-test-darwin.yaml/badge.svg)](https://github.com/senzing/go-sdk-abstract-factory/actions/workflows/go-test-darwin.yaml)
+[![go-test-windows.yaml](https://github.com/senzing/go-sdk-abstract-factory/actions/workflows/go-test-windows.yaml/badge.svg)](https://github.com/senzing/go-sdk-abstract-factory/actions/workflows/go-test-windows.yaml)
 
 ## Overview
 
