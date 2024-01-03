@@ -11,10 +11,10 @@ import (
 	"time"
 
 	"github.com/senzing/g2-sdk-go/g2api"
-	"github.com/senzing/go-common/g2engineconfigurationjson"
-	"github.com/senzing/go-common/truthset"
-	"github.com/senzing/go-logging/logging"
-	"github.com/senzing/go-observing/observer"
+	"github.com/senzing-garage/go-common/g2engineconfigurationjson"
+	"github.com/senzing-garage/go-common/truthset"
+	"github.com/senzing-garage/go-logging/logging"
+	"github.com/senzing-garage/go-observing/observer"
 	"github.com/senzing/go-sdk-abstract-factory/factory"
 )
 
