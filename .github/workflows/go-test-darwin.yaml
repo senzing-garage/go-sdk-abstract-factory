@@ -30,7 +30,7 @@ jobs:
         uses: docker-practice/actions-setup-docker@master
         timeout-minutes: 12
       - name: Install Senzing API
-        uses: Senzing/github-action-install-senzing-api@latest
+        uses: senzing-factory/github-action-install-senzing-api@latest
         with:
           senzingapi-version: ${{ matrix.senzingapi-version }}
       - name: Copy /etc files
