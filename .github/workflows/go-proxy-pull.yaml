@@ -1,4 +1,4 @@
-name: 'go proxy pull'
+name: "go proxy pull"
 
 on:
   push:

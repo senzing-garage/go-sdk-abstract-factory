@@ -1,4 +1,4 @@
-name: 'go test linux'
+name: "go test linux"
 
 on: [push]
 

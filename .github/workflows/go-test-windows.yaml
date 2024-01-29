@@ -1,4 +1,4 @@
-name: 'go test windows'
+name: "go test windows"
 
 on: [push]
 

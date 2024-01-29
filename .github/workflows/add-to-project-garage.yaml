@@ -1,4 +1,4 @@
-name: 'add to project garage'
+name: "add to project garage"
 
 on:
   issues:
