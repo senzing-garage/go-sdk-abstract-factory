@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed in 0.5.0
 
-- Refactor to [template-go](https://github.com/senzing-garage/template-go)
+- Refactor to [template-go](https://github.com/senzing-garage-garage/template-go)
 - Update dependencies
   - github.com/senzing-garage/go-common v0.4.0
   - github.com/senzing-garage/go-logging v1.4.0
@@ -36,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed in 0.4.2
 
-- Update to [template-go](https://github.com/Senzing/template-go)
+- Update to [template-go](https://github.com/senzing-garage/template-go)
 - Update dependencies
   - github.com/senzing/g2-sdk-go v0.7.4
   - github.com/senzing/g2-sdk-go-base v0.3.2

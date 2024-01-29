@@ -14,7 +14,7 @@ Since the Senzing library is a prerequisite, it must be installed first.
     1. `/etc/opt/senzing`
 
 1. If not installed, see
-   [How to Install Senzing for Go Development](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/install-senzing-for-go-development.md).
+   [How to Install Senzing for Go Development](https://github.com/senzing-garage/knowledge-base/blob/main/HOWTO/install-senzing-for-go-development.md).
 
 ## Install Git repository
 
@@ -29,7 +29,7 @@ Since the Senzing library is a prerequisite, it must be installed first.
     ```
 
 1. Using the environment variables values just set, follow steps in
-   [clone-repository](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/clone-repository.md) to install the Git repository.
+   [clone-repository](https://github.com/senzing-garage/knowledge-base/blob/main/HOWTO/clone-repository.md) to install the Git repository.
 
 ## Test using SQLite database
 
@@ -61,7 +61,7 @@ Since the Senzing library is a prerequisite, it must be installed first.
 ### Test using gRPC server
 
 1. Run a Senzing gRPC server, visit
-   [Senzing/servegrpc](https://github.com/Senzing/servegrpc).
+   [Senzing/servegrpc](https://github.com/senzing-garage/servegrpc).
 
     1. Optionally, initialize a SqlLite database.
        Example:
@@ -93,7 +93,7 @@ Since the Senzing library is a prerequisite, it must be installed first.
 These instructions run testcases for both local and gRPC implementations of the Senzing Go SDK.
 
 1. Run a Senzing gRPC server, visit
-   [Senzing/servegrpc](https://github.com/Senzing/servegrpc).
+   [Senzing/servegrpc](https://github.com/senzing-garage/servegrpc).
 
     1. Optionally, initialize a SqlLite database.
        Example:

@@ -5,10 +5,15 @@
 # - https://futurestud.io/tutorials/github-actions-run-a-workflow-when-creating-a-tag
 
 name: go-proxy-pull.yaml
+
 on:
   push:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
+
+permissions:
+  contents: write
+
 jobs:
   go-proxy-pull:
     runs-on: ubuntu-latest
@@ -16,4 +21,4 @@ jobs:
       - name: Pull new module version
         uses: andrewslotin/go-proxy-pull-action@v1.1.0
         with:
-          import_path: github.com/senzing/go-sdk-abstract-factory
+          import_path: github.com/senzing-garage/go-sdk-abstract-factory
