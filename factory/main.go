@@ -3,7 +3,7 @@ package factory
 import (
 	"context"
 
-	"github.com/senzing/g2-sdk-go/g2api"
+	"github.com/senzing-garage/g2-sdk-go/g2api"
 )
 
 // ----------------------------------------------------------------------------
