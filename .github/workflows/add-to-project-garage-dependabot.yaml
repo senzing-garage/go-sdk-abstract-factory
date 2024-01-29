@@ -1,12 +1,11 @@
-name: 'add to project garage dependabot'
+name: "add to project garage dependabot"
 
 on:
   pull_request:
     branches: [main]
 
 jobs:
-
-  add-issue-labels:
+  add-to-project-dependabot:
     secrets:
       SENZING_GITHUB_PROJECT_RW_TOKEN: ${{ secrets.SENZING_GITHUB_PROJECT_RW_TOKEN }}
     uses: senzing-factory/build-resources/.github/workflows/add-to-project-dependabot.yaml@main

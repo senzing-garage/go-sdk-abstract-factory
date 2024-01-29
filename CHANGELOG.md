@@ -10,6 +10,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [0.6.0] - 2024-01-29
+
+### Changed in 0.6.0
+
+- Renamed module to `github.com/senzing-garage/go-sdk-abstract-factory`
+- Refactor to [template-go](https://github.com/senzing-garage-garage/template-go)
+- Update dependencies
+  - google.golang.org/grpc v1.61.0
+  - github.com/senzing-garage/g2-sdk-go v0.9.0
+  - github.com/senzing-garage/g2-sdk-go-base v0.5.0
+  - github.com/senzing-garage/g2-sdk-go-grpc v0.6.0
+  - github.com/senzing-garage/g2-sdk-proto/go v0.0.0-20240126210601-d02d3beb81d4
+
 ## [0.5.0] - 2024-01-03
 
 ### Changed in 0.5.0
@@ -88,10 +101,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - github.com/senzing-garage/go-logging v1.3.2
   - github.com/senzing-garage/go-observing v0.2.7
   - google.golang.org/grpc v1.57.0
-
-## [0.3.1] - 2023-06-16
-
-### Changed in 0.3.1
 
 ## [0.3.1] - 2023-06-16
 
