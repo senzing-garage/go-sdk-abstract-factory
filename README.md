@@ -24,8 +24,8 @@ The Senzing `go-sdk-abstract-factory` provides an
 [abstract factory](https://en.wikipedia.org/wiki/Abstract_factory_pattern)
 that constructs G2Config, G2Configmgr, G2Diagnostic, G2Engine, and G2Product Senzing objects.
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/senzing/go-sdk-abstract-factory.svg)](https://pkg.go.dev/github.com/senzing/go-sdk-abstract-factory)
-[![Go Report Card](https://goreportcard.com/badge/github.com/senzing/go-sdk-abstract-factory)](https://goreportcard.com/report/github.com/senzing/go-sdk-abstract-factory)
+[![Go Reference](https://pkg.go.dev/badge/github.com/senzing-garage/go-sdk-abstract-factory.svg)](https://pkg.go.dev/github.com/senzing-garage/go-sdk-abstract-factory)
+[![Go Report Card](https://goreportcard.com/badge/github.com/senzing-garage/go-sdk-abstract-factory)](https://goreportcard.com/report/github.com/senzing-garage/go-sdk-abstract-factory)
 [![License](https://img.shields.io/badge/License-Apache2-brightgreen.svg)](https://github.com/senzing-garage/go-sdk-abstract-factory/blob/main/LICENSE)
 
 [![gosec.yaml](https://github.com/senzing-garage/go-sdk-abstract-factory/actions/workflows/gosec.yaml/badge.svg)](https://github.com/senzing-garage/go-sdk-abstract-factory/actions/workflows/gosec.yaml)
@@ -37,11 +37,11 @@ that constructs G2Config, G2Configmgr, G2Diagnostic, G2Engine, and G2Product Sen
 
 The Senzing `go-sdk-abstract-factory` package creates Senzing objects that each adhere to their respective interfaces:
 
-1. [G2config](https://pkg.go.dev/github.com/senzing/g2-sdk-go/g2api#G2config)
-1. [G2configmgr](https://pkg.go.dev/github.com/senzing/g2-sdk-go/g2api#G2configmgr)
-1. [G2diagnostic](https://pkg.go.dev/github.com/senzing/g2-sdk-go/g2api#G2diagnostic)
-1. [G2engine](https://pkg.go.dev/github.com/senzing/g2-sdk-go/g2api#G2engine)
-1. [G2product](https://pkg.go.dev/github.com/senzing/g2-sdk-go/g2api#G2product)
+1. [G2config](https://pkg.go.dev/github.com/senzing-garage/g2-sdk-go/g2api#G2config)
+1. [G2configmgr](https://pkg.go.dev/github.com/senzing-garage/g2-sdk-go/g2api#G2configmgr)
+1. [G2diagnostic](https://pkg.go.dev/github.com/senzing-garage/g2-sdk-go/g2api#G2diagnostic)
+1. [G2engine](https://pkg.go.dev/github.com/senzing-garage/g2-sdk-go/g2api#G2engine)
+1. [G2product](https://pkg.go.dev/github.com/senzing-garage/g2-sdk-go/g2api#G2product)
 
 Depending upon the parameters passed to the factory, one of the following implementations will be returned:
 
@@ -55,7 +55,7 @@ Depending upon the parameters passed to the factory, one of the following implem
 
 ## References
 
-1. [API documentation](https://pkg.go.dev/github.com/senzing/go-sdk-abstract-factory)
+1. [API documentation](https://pkg.go.dev/github.com/senzing-garage/go-sdk-abstract-factory)
 1. [Development](docs/development.md)
 1. [Errors](docs/errors.md)
 1. [Examples](docs/examples.md)

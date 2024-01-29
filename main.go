@@ -10,12 +10,12 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/senzing-garage/g2-sdk-go/g2api"
 	"github.com/senzing-garage/go-common/g2engineconfigurationjson"
 	"github.com/senzing-garage/go-common/truthset"
 	"github.com/senzing-garage/go-logging/logging"
 	"github.com/senzing-garage/go-observing/observer"
-	"github.com/senzing/g2-sdk-go/g2api"
-	"github.com/senzing/go-sdk-abstract-factory/factory"
+	"github.com/senzing-garage/go-sdk-abstract-factory/factory"
 )
 
 // ----------------------------------------------------------------------------
