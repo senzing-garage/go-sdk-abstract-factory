@@ -7,7 +7,7 @@ require (
 	github.com/senzing-garage/g2-sdk-go v0.10.0
 	github.com/senzing-garage/g2-sdk-go-base v0.6.0
 	github.com/senzing-garage/g2-sdk-go-grpc v0.6.0
-	github.com/senzing-garage/g2-sdk-proto/go v0.0.0-20240126210601-d02d3beb81d4
+	github.com/senzing-garage/g2-sdk-proto/go v0.0.0-20240227134235-ec7c59942cb9
 	github.com/senzing-garage/go-common v0.4.0
 	github.com/senzing-garage/go-logging v1.4.0
 	github.com/senzing-garage/go-observing v0.3.0
@@ -24,7 +24,7 @@ require (
 	golang.org/x/net v0.21.0 // indirect
 	golang.org/x/sys v0.17.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240221002015-b0ce06bbee7c // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240227224415-6ceb2ff114de // indirect
 	google.golang.org/protobuf v1.32.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
