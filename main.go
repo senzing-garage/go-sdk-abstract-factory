@@ -45,6 +45,7 @@ var logger logging.LoggingInterface = nil
 // ----------------------------------------------------------------------------
 
 func getLogger(ctx context.Context) (logging.LoggingInterface, error) {
+	_ = ctx
 	loggerOptions := []interface{}{
 		&logging.OptionCallerSkip{Value: 3},
 	}
@@ -121,17 +122,10 @@ func demonstrateAddRecord(ctx context.Context, g2Engine g2api.G2engine) (string,
 }
 
 func demonstrateAdditionalFunctions(ctx context.Context, g2Diagnostic g2api.G2diagnostic, g2Engine g2api.G2engine, g2Product g2api.G2product) error {
-	// Using G2Diagnostic: Check physical cores.
-
-	actual, err := g2Diagnostic.GetPhysicalCores(ctx)
-	if err != nil {
-		failOnError(5300, err)
-	}
-	logger.Log(2002, actual)
 
 	// Using G2Engine: Purge repository.
 
-	err = g2Engine.PurgeRepository(ctx)
+	err := g2Diagnostic.PurgeRepository(ctx)
 	if err != nil {
 		failOnError(5301, err)
 	}
@@ -154,7 +148,7 @@ func demonstrateAdditionalFunctions(ctx context.Context, g2Diagnostic g2api.G2di
 
 	// Using G2Engine: Purge repository again.
 
-	err = g2Engine.PurgeRepository(ctx)
+	err = g2Diagnostic.PurgeRepository(ctx)
 	if err != nil {
 		failOnError(5304, err)
 	}
