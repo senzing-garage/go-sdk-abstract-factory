@@ -31,6 +31,8 @@ var (
 // ----------------------------------------------------------------------------
 
 func getTestObjectLocal(ctx context.Context, test *testing.T) SdkAbstractFactory {
+	_ = ctx
+	_ = test
 	if sdkAbstractFactoryLocalSingleton == nil {
 		sdkAbstractFactoryLocalSingleton = &SdkAbstractFactoryImpl{}
 	}
@@ -38,6 +40,8 @@ func getTestObjectLocal(ctx context.Context, test *testing.T) SdkAbstractFactory
 }
 
 func getTestObjectGrpc(ctx context.Context, test *testing.T) SdkAbstractFactory {
+	_ = ctx
+	_ = test
 	if sdkAbstractFactoryGrpcSingleton == nil {
 		sdkAbstractFactoryGrpcSingleton = &SdkAbstractFactoryImpl{
 			GrpcTarget: "localhost:8261",
@@ -61,15 +65,10 @@ func printActual(test *testing.T, actual interface{}) {
 }
 
 func testError(test *testing.T, ctx context.Context, err error) {
+	_ = ctx
 	if err != nil {
 		test.Log("Error:", err.Error())
 		assert.FailNow(test, err.Error())
-	}
-}
-
-func testErrorNoFail(test *testing.T, ctx context.Context, err error) {
-	if err != nil {
-		test.Log("Error:", err.Error())
 	}
 }
 
@@ -178,7 +177,7 @@ func helperSdkAbstractFactoryImpl_GetG2diagnostic(test *testing.T, ctx context.C
 	if errorId(err) != "senzing-60134002" {
 		testError(test, ctx, err)
 	}
-	actual, err := g2diagnostic.GetTotalSystemMemory(ctx)
+	actual, err := g2diagnostic.CheckDBPerf(ctx, 1)
 	testError(test, ctx, err)
 	printActual(test, actual)
 }
