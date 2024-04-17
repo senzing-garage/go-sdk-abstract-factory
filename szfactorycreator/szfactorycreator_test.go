@@ -33,7 +33,7 @@ func TestSzfactorycreator_CreateCoreAbstractFactory(test *testing.T) {
 	configId := sz.SZ_INITIALIZE_WITH_DEFAULT_CONFIGURATION
 	szAbstractFactory, err := CreateCoreAbstractFactory(instanceName, settings, verboseLogging, configId)
 	testError(test, err)
-	szEngine, err := szAbstractFactory.CreateEngine(ctx)
+	szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
 	testError(test, err)
 	defer szEngine.Destroy(ctx)
 }

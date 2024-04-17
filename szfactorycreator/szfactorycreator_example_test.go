@@ -26,7 +26,7 @@ func ExampleCreateCoreAbstractFactory() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	szEngine, err := szAbstractFactory.CreateEngine(ctx)
+	szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
 	if err != nil {
 		fmt.Println(err)
 	}
