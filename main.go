@@ -213,13 +213,13 @@ func main() {
 
 		// Get Senzing objects for installing a Senzing Engine configuration.
 
-		szConfig, err := szAbstractFactory.CreateConfig(ctx)
+		szConfig, err := szAbstractFactory.CreateSzConfig(ctx)
 		if err != nil {
 			failOnError(5004, err)
 		}
 		defer szConfig.Destroy(ctx)
 
-		szConfigManager, err := szAbstractFactory.CreateConfigManager(ctx)
+		szConfigManager, err := szAbstractFactory.CreateSzConfigManager(ctx)
 		if err != nil {
 			failOnError(5007, err)
 		}
@@ -234,19 +234,19 @@ func main() {
 
 		// Now that a Senzing configuration is installed, get the remainder of the Senzing objects.
 
-		szDiagnostic, err := szAbstractFactory.CreateDiagnostic(ctx)
+		szDiagnostic, err := szAbstractFactory.CreateSzDiagnostic(ctx)
 		if err != nil {
 			failOnError(5012, err)
 		}
 		defer szDiagnostic.Destroy(ctx)
 
-		szEngine, err := szAbstractFactory.CreateEngine(ctx)
+		szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
 		if err != nil {
 			failOnError(5014, err)
 		}
 		defer szEngine.Destroy(ctx)
 
-		szProduct, err := szAbstractFactory.CreateProduct(ctx)
+		szProduct, err := szAbstractFactory.CreateSzProduct(ctx)
 		if err != nil {
 			failOnError(5016, err)
 		}
