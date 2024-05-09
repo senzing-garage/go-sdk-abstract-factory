@@ -10,12 +10,11 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/senzing-garage/g2-sdk-go/g2api"
-	"github.com/senzing-garage/go-common/g2engineconfigurationjson"
-	"github.com/senzing-garage/go-common/truthset"
+	"github.com/senzing-garage/go-helpers/engineconfigurationjson"
+	"github.com/senzing-garage/go-helpers/truthset"
 	"github.com/senzing-garage/go-logging/logging"
-	"github.com/senzing-garage/go-observing/observer"
-	"github.com/senzing-garage/go-sdk-abstract-factory/factory"
+	"github.com/senzing-garage/go-sdk-abstract-factory/szfactorycreator"
+	"github.com/senzing-garage/sz-sdk-go/sz"
 )
 
 // ----------------------------------------------------------------------------
@@ -33,11 +32,6 @@ var IdMessages = map[int]string{
 	2999: "Cannot retrieve last error message.",
 }
 
-// Values updated via "go install -ldflags" parameters.
-
-var programName string = "unknown"
-var buildVersion string = "0.0.0"
-var buildIteration string = "0"
 var logger logging.LoggingInterface = nil
 
 // ----------------------------------------------------------------------------
@@ -52,48 +46,43 @@ func getLogger(ctx context.Context) (logging.LoggingInterface, error) {
 	return logging.NewSenzingToolsLogger(9999, IdMessages, loggerOptions...)
 }
 
-func demonstrateConfigFunctions(ctx context.Context, g2Config g2api.G2config, g2Configmgr g2api.G2configmgr) error {
+func demonstrateConfigFunctions(ctx context.Context, szConfig sz.SzConfig, szConfigmgr sz.SzConfigManager) error {
 	now := time.Now()
 
-	// Print the SDK implementation.
+	// Using SzConfig: Create a default configuration in memory.
 
-	sdkId := g2Config.GetSdkId(ctx)
-	logger.Log(2005, sdkId)
-
-	// Using G2Config: Create a default configuration in memory.
-
-	configHandle, err := g2Config.Create(ctx)
+	configHandle, err := szConfig.CreateConfig(ctx)
 	if err != nil {
 		return logger.NewError(5100, err)
 	}
 
-	// Using G2Config: Add data source to in-memory configuration.
+	// Using SzConfig: Add data source to in-memory configuration.
 
-	for _, testDataSource := range truthset.TruthsetDataSources {
-		_, err := g2Config.AddDataSource(ctx, configHandle, testDataSource.Json)
+	for dataSourceCode := range truthset.TruthsetDataSources {
+		_, err := szConfig.AddDataSource(ctx, configHandle, dataSourceCode)
 		if err != nil {
 			return logger.NewError(5101, err)
 		}
 	}
 
-	// Using G2Config: Persist configuration to a string.
+	// Using SzConfig: Persist configuration to a string.
 
-	configStr, err := g2Config.Save(ctx, configHandle)
+	configStr, err := szConfig.ExportConfig(ctx, configHandle)
 	if err != nil {
 		return logger.NewError(5102, err)
 	}
 
-	// Using G2Configmgr: Persist configuration string to database.
+	// Using SzConfigmgr: Persist configuration string to database.
 
-	configComments := fmt.Sprintf("Created by g2diagnostic_test at %s", now.UTC())
-	configID, err := g2Configmgr.AddConfig(ctx, configStr, configComments)
+	configComments := fmt.Sprintf("Created by go-sdk-abstract_factory_test at %s", now.UTC())
+	configID, err := szConfigmgr.AddConfig(ctx, configStr, configComments)
 	if err != nil {
 		return logger.NewError(5103, err)
 	}
 
-	// Using G2Configmgr: Set new configuration as the default.
+	// Using SzConfigmgr: Set new configuration as the default.
 
-	err = g2Configmgr.SetDefaultConfigID(ctx, configID)
+	err = szConfigmgr.SetDefaultConfigId(ctx, configID)
 	if err != nil {
 		return logger.NewError(5104, err)
 	}
@@ -101,91 +90,55 @@ func demonstrateConfigFunctions(ctx context.Context, g2Config g2api.G2config, g2
 	return err
 }
 
-func demonstrateAddRecord(ctx context.Context, g2Engine g2api.G2engine) (string, error) {
+func demonstrateAddRecord(ctx context.Context, szEngine sz.SzEngine) (string, error) {
 	dataSourceCode := "TEST"
 	randomNumber, err := rand.Int(rand.Reader, big.NewInt(1000000000))
 	if err != nil {
 		panic(err)
 	}
-	recordID := randomNumber.String()
-	jsonData := fmt.Sprintf(
+	recordId := randomNumber.String()
+	recordDefinition := fmt.Sprintf(
 		"%s%s%s",
 		`{"SOCIAL_HANDLE": "flavorh", "DATE_OF_BIRTH": "4/8/1983", "ADDR_STATE": "LA", "ADDR_POSTAL_CODE": "71232", "SSN_NUMBER": "053-39-3251", "ENTITY_TYPE": "TEST", "GENDER": "F", "srccode": "MDMPER", "CC_ACCOUNT_NUMBER": "5534202208773608", "RECORD_ID": "`,
-		recordID,
+		recordId,
 		`", "DSRC_ACTION": "A", "ADDR_CITY": "Delhi", "DRIVERS_LICENSE_STATE": "DE", "PHONE_NUMBER": "225-671-0796", "NAME_LAST": "SEAMAN", "entityid": "284430058", "ADDR_LINE1": "772 Armstrong RD"}`)
-	loadID := dataSourceCode
-	var flags int64 = 0
+	flags := sz.SZ_WITH_INFO
 
-	// Using G2Engine: Add record and return "withInfo".
+	// Using SzEngine: Add record and return "withInfo".
 
-	return g2Engine.AddRecordWithInfo(ctx, dataSourceCode, recordID, jsonData, loadID, flags)
+	return szEngine.AddRecord(ctx, dataSourceCode, recordId, recordDefinition, flags)
 }
 
-func demonstrateAdditionalFunctions(ctx context.Context, g2Diagnostic g2api.G2diagnostic, g2Engine g2api.G2engine, g2Product g2api.G2product) error {
+func demonstrateAdditionalFunctions(ctx context.Context, szDiagnostic sz.SzDiagnostic, szEngine sz.SzEngine, szProduct sz.SzProduct) error {
 
-	// Using G2Engine: Purge repository.
+	// Using SzDiagnostic: Purge repository.
 
-	err := g2Diagnostic.PurgeRepository(ctx)
+	err := szDiagnostic.PurgeRepository(ctx)
 	if err != nil {
 		failOnError(5301, err)
 	}
 
-	// Using G2Engine: Add records with information returned.
+	// Using SzEngine: Add records with information returned.
 
-	withInfo, err := demonstrateAddRecord(ctx, g2Engine)
+	withInfo, err := demonstrateAddRecord(ctx, szEngine)
 	if err != nil {
 		failOnError(5302, err)
 	}
 	logger.Log(2003, withInfo)
 
-	// Using G2Product: Show license metadata.
+	// Using szProduct: Show license metadata.
 
-	license, err := g2Product.License(ctx)
+	license, err := szProduct.GetLicense(ctx)
 	if err != nil {
 		failOnError(5303, err)
 	}
 	logger.Log(2004, license)
 
-	// Using G2Engine: Purge repository again.
+	// Using SzDiagnostic: Purge repository again.
 
-	err = g2Diagnostic.PurgeRepository(ctx)
+	err = szDiagnostic.PurgeRepository(ctx)
 	if err != nil {
 		failOnError(5304, err)
-	}
-
-	return err
-}
-
-func destroyObjects(ctx context.Context, g2Config g2api.G2config, g2Configmgr g2api.G2configmgr, g2Diagnostic g2api.G2diagnostic, g2Engine g2api.G2engine, g2Product g2api.G2product) error {
-	var err error = nil
-
-	// Destroy is only needed for "base" implementation.
-
-	if g2Config.GetSdkId(ctx) == factory.ImplementedByBase {
-		err = g2Config.Destroy(ctx)
-		if err != nil {
-			failOnError(5401, err)
-		}
-
-		err = g2Configmgr.Destroy(ctx)
-		if err != nil {
-			failOnError(5402, err)
-		}
-
-		err = g2Diagnostic.Destroy(ctx)
-		if err != nil {
-			failOnError(5403, err)
-		}
-
-		err = g2Engine.Destroy(ctx)
-		if err != nil {
-			failOnError(5404, err)
-		}
-
-		err = g2Product.Destroy(ctx)
-		if err != nil {
-			failOnError(5405, err)
-		}
 	}
 
 	return err
@@ -202,7 +155,7 @@ func failOnError(msgId int, err error) {
 
 func main() {
 	var err error = nil
-	var senzingFactory factory.SdkAbstractFactory
+	var szAbstractFactory sz.SzAbstractFactory
 	var testcaseList []int
 	ctx := context.TODO()
 
@@ -214,34 +167,18 @@ func main() {
 		failOnError(5000, err)
 	}
 
-	// Test logger.
-
-	programmMetadataMap := map[string]interface{}{
-		"ProgramName":    programName,
-		"BuildVersion":   buildVersion,
-		"BuildIteration": buildIteration,
-	}
-
 	fmt.Printf("\n-------------------------------------------------------------------------------\n\n")
-	logger.Log(2001, "Just a test of logging", programmMetadataMap)
-
-	// Create 2 observers.
-
-	observer1 := &observer.ObserverNull{
-		Id: "Observer 1",
-	}
-	observer2 := &observer.ObserverNull{
-		Id: "Observer 2",
-	}
+	logger.Log(2001, "Just a test of logging")
 
 	// Create Senzing's Engine Configuration JSON.
 
-	moduleName := "Test module name"
-	iniParams, err := g2engineconfigurationjson.BuildSimpleSystemConfigurationJsonUsingEnvVars()
+	instanceName := "Test name"
+	settings, err := engineconfigurationjson.BuildSimpleSystemConfigurationJsonUsingEnvVars()
 	if err != nil {
 		failOnError(5001, err)
 	}
-	verboseLogging := int64(0)
+	verboseLogging := sz.SZ_NO_LOGGING
+	configId := sz.SZ_INITIALIZE_WITH_DEFAULT_CONFIGURATION
 
 	// Determine if specific testcase is requested.
 
@@ -252,9 +189,8 @@ func main() {
 			failOnError(5002, err)
 		}
 		testcaseList = append(testcaseList, testcaseInt)
-
 	} else {
-		testcaseList = append(testcaseList, 1, 2)
+		testcaseList = append(testcaseList, 1)
 	}
 
 	// Iterate through different instantiations of SdkAbstractFactory.
@@ -267,11 +203,9 @@ func main() {
 		switch runNumber {
 		case 1:
 			logger.Log(2001, "Local SDK")
-			senzingFactory = &factory.SdkAbstractFactoryImpl{}
-		case 2:
-			logger.Log(2001, "gRPC SDK")
-			senzingFactory = &factory.SdkAbstractFactoryImpl{
-				GrpcTarget: "localhost:8261",
+			szAbstractFactory, err = szfactorycreator.CreateCoreAbstractFactory(instanceName, settings, verboseLogging, configId)
+			if err != nil {
+				failOnError(9999, err)
 			}
 		default:
 			failOnError(5003, fmt.Errorf("unknown testcase number"))
@@ -279,107 +213,52 @@ func main() {
 
 		// Get Senzing objects for installing a Senzing Engine configuration.
 
-		g2Config, err := senzingFactory.GetG2config(ctx)
+		szConfig, err := szAbstractFactory.CreateSzConfig(ctx)
 		if err != nil {
 			failOnError(5004, err)
 		}
-		err = g2Config.RegisterObserver(ctx, observer1)
-		if err != nil {
-			failOnError(5005, err)
-		}
-		err = g2Config.RegisterObserver(ctx, observer2)
-		if err != nil {
-			failOnError(5006, err)
-		}
+		defer szConfig.Destroy(ctx)
 
-		g2Configmgr, err := senzingFactory.GetG2configmgr(ctx)
+		szConfigManager, err := szAbstractFactory.CreateSzConfigManager(ctx)
 		if err != nil {
 			failOnError(5007, err)
 		}
-		err = g2Configmgr.RegisterObserver(ctx, observer1)
-		if err != nil {
-			failOnError(5008, err)
-		}
-
-		// Initialize "base" implementations.
-
-		if g2Config.GetSdkId(ctx) == factory.ImplementedByBase {
-			err = g2Config.Init(ctx, moduleName, iniParams, verboseLogging)
-			if err != nil {
-				failOnError(5009, err)
-			}
-			err = g2Configmgr.Init(ctx, moduleName, iniParams, verboseLogging)
-			if err != nil {
-				failOnError(5010, err)
-			}
-		}
+		defer szConfigManager.Destroy(ctx)
 
 		// Persist the Senzing configuration to the Senzing repository.
 
-		err = demonstrateConfigFunctions(ctx, g2Config, g2Configmgr)
+		err = demonstrateConfigFunctions(ctx, szConfig, szConfigManager)
 		if err != nil {
 			failOnError(5011, err)
 		}
 
 		// Now that a Senzing configuration is installed, get the remainder of the Senzing objects.
 
-		g2Diagnostic, err := senzingFactory.GetG2diagnostic(ctx)
+		szDiagnostic, err := szAbstractFactory.CreateSzDiagnostic(ctx)
 		if err != nil {
 			failOnError(5012, err)
 		}
-		err = g2Diagnostic.RegisterObserver(ctx, observer1)
-		if err != nil {
-			failOnError(5013, err)
-		}
+		defer szDiagnostic.Destroy(ctx)
 
-		g2Engine, err := senzingFactory.GetG2engine(ctx)
+		szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
 		if err != nil {
 			failOnError(5014, err)
 		}
-		err = g2Engine.RegisterObserver(ctx, observer1)
-		if err != nil {
-			failOnError(5015, err)
-		}
+		defer szEngine.Destroy(ctx)
 
-		g2Product, err := senzingFactory.GetG2product(ctx)
+		szProduct, err := szAbstractFactory.CreateSzProduct(ctx)
 		if err != nil {
 			failOnError(5016, err)
 		}
-		err = g2Product.RegisterObserver(ctx, observer1)
-		if err != nil {
-			failOnError(5017, err)
-		}
-
-		// Initialize "base" implementations.
-
-		if g2Diagnostic.GetSdkId(ctx) == factory.ImplementedByBase {
-			err = g2Diagnostic.Init(ctx, moduleName, iniParams, verboseLogging)
-			if err != nil {
-				failOnError(5018, err)
-			}
-			err = g2Engine.Init(ctx, moduleName, iniParams, verboseLogging)
-			if err != nil {
-				failOnError(5019, err)
-			}
-			err = g2Product.Init(ctx, moduleName, iniParams, verboseLogging)
-			if err != nil {
-				failOnError(5020, err)
-			}
-		}
+		defer szProduct.Destroy(ctx)
 
 		// Demonstrate tests.
 
-		err = demonstrateAdditionalFunctions(ctx, g2Diagnostic, g2Engine, g2Product)
+		err = demonstrateAdditionalFunctions(ctx, szDiagnostic, szEngine, szProduct)
 		if err != nil {
 			failOnError(5021, err)
 		}
 
-		// Destroy Senzing objects.
-
-		err = destroyObjects(ctx, g2Config, g2Configmgr, g2Diagnostic, g2Engine, g2Product)
-		if err != nil {
-			failOnError(5022, err)
-		}
 	}
 	fmt.Printf("\n-------------------------------------------------------------------------------\n\n")
 }
