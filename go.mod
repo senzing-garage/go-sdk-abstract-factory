@@ -5,11 +5,11 @@ go 1.21
 require (
 	github.com/senzing-garage/go-helpers v0.5.1
 	github.com/senzing-garage/go-logging v1.4.1
-	github.com/senzing-garage/sz-sdk-go v0.12.3
+	github.com/senzing-garage/sz-sdk-go v0.12.4
 	github.com/senzing-garage/sz-sdk-go-core v0.7.1
 	github.com/senzing-garage/sz-sdk-go-grpc v0.7.1
 	github.com/stretchr/testify v1.9.0
-	google.golang.org/grpc v1.63.2
+	google.golang.org/grpc v1.64.0
 )
 
 require (
