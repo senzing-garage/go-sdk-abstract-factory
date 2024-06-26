@@ -10,11 +10,11 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/senzing-garage/go-helpers/engineconfigurationjson"
+	"github.com/senzing-garage/go-helpers/settings"
 	"github.com/senzing-garage/go-helpers/truthset"
 	"github.com/senzing-garage/go-logging/logging"
 	"github.com/senzing-garage/go-sdk-abstract-factory/szfactorycreator"
-	"github.com/senzing-garage/sz-sdk-go/sz"
+	"github.com/senzing-garage/sz-sdk-go/senzing"
 )
 
 // ----------------------------------------------------------------------------
@@ -32,21 +32,21 @@ var IdMessages = map[int]string{
 	2999: "Cannot retrieve last error message.",
 }
 
-var logger logging.LoggingInterface = nil
+var logger logging.Logging = nil
 
 // ----------------------------------------------------------------------------
 // Internal methods
 // ----------------------------------------------------------------------------
 
-func getLogger(ctx context.Context) (logging.LoggingInterface, error) {
+func getLogger(ctx context.Context) (logging.Logging, error) {
 	_ = ctx
 	loggerOptions := []interface{}{
 		&logging.OptionCallerSkip{Value: 3},
 	}
-	return logging.NewSenzingToolsLogger(9999, IdMessages, loggerOptions...)
+	return logging.NewSenzingLogger(9999, IdMessages, loggerOptions...)
 }
 
-func demonstrateConfigFunctions(ctx context.Context, szConfig sz.SzConfig, szConfigmgr sz.SzConfigManager) error {
+func demonstrateConfigFunctions(ctx context.Context, szConfig senzing.SzConfig, szConfigmgr senzing.SzConfigManager) error {
 	now := time.Now()
 
 	// Using SzConfig: Create a default configuration in memory.
@@ -82,7 +82,7 @@ func demonstrateConfigFunctions(ctx context.Context, szConfig sz.SzConfig, szCon
 
 	// Using SzConfigmgr: Set new configuration as the default.
 
-	err = szConfigmgr.SetDefaultConfigId(ctx, configID)
+	err = szConfigmgr.SetDefaultConfigID(ctx, configID)
 	if err != nil {
 		return logger.NewError(5104, err)
 	}
@@ -90,7 +90,7 @@ func demonstrateConfigFunctions(ctx context.Context, szConfig sz.SzConfig, szCon
 	return err
 }
 
-func demonstrateAddRecord(ctx context.Context, szEngine sz.SzEngine) (string, error) {
+func demonstrateAddRecord(ctx context.Context, szEngine senzing.SzEngine) (string, error) {
 	dataSourceCode := "TEST"
 	randomNumber, err := rand.Int(rand.Reader, big.NewInt(1000000000))
 	if err != nil {
@@ -102,14 +102,14 @@ func demonstrateAddRecord(ctx context.Context, szEngine sz.SzEngine) (string, er
 		`{"SOCIAL_HANDLE": "flavorh", "DATE_OF_BIRTH": "4/8/1983", "ADDR_STATE": "LA", "ADDR_POSTAL_CODE": "71232", "SSN_NUMBER": "053-39-3251", "ENTITY_TYPE": "TEST", "GENDER": "F", "srccode": "MDMPER", "CC_ACCOUNT_NUMBER": "5534202208773608", "RECORD_ID": "`,
 		recordId,
 		`", "DSRC_ACTION": "A", "ADDR_CITY": "Delhi", "DRIVERS_LICENSE_STATE": "DE", "PHONE_NUMBER": "225-671-0796", "NAME_LAST": "SEAMAN", "entityid": "284430058", "ADDR_LINE1": "772 Armstrong RD"}`)
-	flags := sz.SZ_WITH_INFO
+	flags := senzing.SzWithInfo
 
 	// Using SzEngine: Add record and return "withInfo".
 
 	return szEngine.AddRecord(ctx, dataSourceCode, recordId, recordDefinition, flags)
 }
 
-func demonstrateAdditionalFunctions(ctx context.Context, szDiagnostic sz.SzDiagnostic, szEngine sz.SzEngine, szProduct sz.SzProduct) error {
+func demonstrateAdditionalFunctions(ctx context.Context, szDiagnostic senzing.SzDiagnostic, szEngine senzing.SzEngine, szProduct senzing.SzProduct) error {
 
 	// Using SzDiagnostic: Purge repository.
 
@@ -155,7 +155,7 @@ func failOnError(msgId int, err error) {
 
 func main() {
 	var err error = nil
-	var szAbstractFactory sz.SzAbstractFactory
+	var szAbstractFactory senzing.SzAbstractFactory
 	var testcaseList []int
 	ctx := context.TODO()
 
@@ -173,12 +173,12 @@ func main() {
 	// Create Senzing's Engine Configuration JSON.
 
 	instanceName := "Test name"
-	settings, err := engineconfigurationjson.BuildSimpleSystemConfigurationJsonUsingEnvVars()
+	settings, err := settings.BuildSimpleSettingsUsingEnvVars()
 	if err != nil {
 		failOnError(5001, err)
 	}
-	verboseLogging := sz.SZ_NO_LOGGING
-	configId := sz.SZ_INITIALIZE_WITH_DEFAULT_CONFIGURATION
+	verboseLogging := senzing.SzNoLogging
+	configId := senzing.SzInitializeWithDefaultConfiguration
 
 	// Determine if specific testcase is requested.
 
