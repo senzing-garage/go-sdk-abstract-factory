@@ -19,12 +19,12 @@ func ExampleCreateCoreAbstractFactory() {
 	ctx := context.TODO()
 	instanceName := "Test name"
 	verboseLogging := senzing.SzNoLogging
-	configId := senzing.SzInitializeWithDefaultConfiguration
+	configID := senzing.SzInitializeWithDefaultConfiguration
 	settings, err := settings.BuildSimpleSettingsUsingEnvVars()
 	if err != nil {
 		fmt.Println(err)
 	}
-	szAbstractFactory, err := CreateCoreAbstractFactory(instanceName, settings, verboseLogging, configId)
+	szAbstractFactory, err := CreateCoreAbstractFactory(instanceName, settings, verboseLogging, configID)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -32,7 +32,12 @@ func ExampleCreateCoreAbstractFactory() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	defer szEngine.Destroy(ctx)
+	defer func() {
+		err := szEngine.Destroy(ctx)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}()
 	// Output:
 }
 
@@ -52,6 +57,11 @@ func ExampleCreateGrpcAbstractFactory() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	defer szEngine.Destroy(ctx)
+	defer func() {
+		err := szEngine.Destroy(ctx)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}()
 	// Output:
 }

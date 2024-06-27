@@ -21,7 +21,7 @@ import (
 // Variables
 // ----------------------------------------------------------------------------
 
-var IdMessages = map[int]string{
+var IDMessages = map[int]string{
 	1:    "%s",
 	2:    "WithInfo: %s",
 	2001: "Testing %s.",
@@ -32,7 +32,99 @@ var IdMessages = map[int]string{
 	2999: "Cannot retrieve last error message.",
 }
 
-var logger logging.Logging = nil
+var logger logging.Logging
+
+// ----------------------------------------------------------------------------
+// Main
+// ----------------------------------------------------------------------------
+
+func main() {
+	var err error
+	var szAbstractFactory senzing.SzAbstractFactory
+	var testcaseList []int
+	ctx := context.TODO()
+
+	// Configure the "log" standard library.
+
+	log.SetFlags(0)
+	logger, err = getLogger(ctx)
+	failOnError(5000, err)
+
+	fmt.Printf("\n-------------------------------------------------------------------------------\n\n")
+	logger.Log(2001, "Just a test of logging")
+
+	// Create Senzing's Engine Configuration JSON.
+
+	instanceName := "Test name"
+	settings, err := settings.BuildSimpleSettingsUsingEnvVars()
+	failOnError(5001, err)
+	verboseLogging := senzing.SzNoLogging
+	configID := senzing.SzInitializeWithDefaultConfiguration
+
+	// Determine if specific testcase is requested.
+
+	testcaseNumber := os.Getenv("SENZING_TOOLS_TESTCASE_NUMBER")
+	if len(testcaseNumber) > 0 {
+		testcaseInt, err := strconv.Atoi(testcaseNumber)
+		failOnError(5002, err)
+		testcaseList = append(testcaseList, testcaseInt)
+	} else {
+		testcaseList = append(testcaseList, 1)
+	}
+
+	// Iterate through different instantiations of SdkAbstractFactory.
+
+	for _, runNumber := range testcaseList {
+		fmt.Printf("\n-------------------------------------------------------------------------------\n\n")
+
+		// Choose different implementations.
+
+		switch runNumber {
+		case 1:
+			logger.Log(2001, "Local SDK")
+			szAbstractFactory, err = szfactorycreator.CreateCoreAbstractFactory(instanceName, settings, verboseLogging, configID)
+			failOnError(9999, err)
+		default:
+			failOnError(5003, fmt.Errorf("unknown testcase number"))
+		}
+
+		// Get Senzing objects for installing a Senzing Engine configuration.
+
+		szConfig, err := szAbstractFactory.CreateSzConfig(ctx)
+		failOnError(5004, err)
+		defer func() { deferredError(szConfig.Destroy(ctx)) }()
+
+		szConfigManager, err := szAbstractFactory.CreateSzConfigManager(ctx)
+		failOnError(5007, err)
+		defer func() { deferredError(szConfigManager.Destroy(ctx)) }()
+
+		// Persist the Senzing configuration to the Senzing repository.
+
+		err = demonstrateConfigFunctions(ctx, szConfig, szConfigManager)
+		failOnError(5011, err)
+
+		// Now that a Senzing configuration is installed, get the remainder of the Senzing objects.
+
+		szDiagnostic, err := szAbstractFactory.CreateSzDiagnostic(ctx)
+		failOnError(5012, err)
+		defer func() { deferredError(szDiagnostic.Destroy(ctx)) }()
+
+		szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
+		failOnError(5014, err)
+		defer func() { deferredError(szEngine.Destroy(ctx)) }()
+
+		szProduct, err := szAbstractFactory.CreateSzProduct(ctx)
+		failOnError(5016, err)
+		defer func() { deferredError(szProduct.Destroy(ctx)) }()
+
+		// Demonstrate tests.
+
+		err = demonstrateAdditionalFunctions(ctx, szDiagnostic, szEngine, szProduct)
+		failOnError(5021, err)
+
+	}
+	fmt.Printf("\n-------------------------------------------------------------------------------\n\n")
+}
 
 // ----------------------------------------------------------------------------
 // Internal methods
@@ -41,9 +133,10 @@ var logger logging.Logging = nil
 func getLogger(ctx context.Context) (logging.Logging, error) {
 	_ = ctx
 	loggerOptions := []interface{}{
-		&logging.OptionCallerSkip{Value: 3},
+		logging.OptionCallerSkip{Value: 3},
+		logging.OptionMessageFields{Value: []string{"id", "text", "reason", "errors"}},
 	}
-	return logging.NewSenzingLogger(9999, IdMessages, loggerOptions...)
+	return logging.NewSenzingLogger(9999, IDMessages, loggerOptions...)
 }
 
 func demonstrateConfigFunctions(ctx context.Context, szConfig senzing.SzConfig, szConfigmgr senzing.SzConfigManager) error {
@@ -96,17 +189,17 @@ func demonstrateAddRecord(ctx context.Context, szEngine senzing.SzEngine) (strin
 	if err != nil {
 		panic(err)
 	}
-	recordId := randomNumber.String()
+	recordID := randomNumber.String()
 	recordDefinition := fmt.Sprintf(
 		"%s%s%s",
 		`{"SOCIAL_HANDLE": "flavorh", "DATE_OF_BIRTH": "4/8/1983", "ADDR_STATE": "LA", "ADDR_POSTAL_CODE": "71232", "SSN_NUMBER": "053-39-3251", "ENTITY_TYPE": "TEST", "GENDER": "F", "srccode": "MDMPER", "CC_ACCOUNT_NUMBER": "5534202208773608", "RECORD_ID": "`,
-		recordId,
+		recordID,
 		`", "DSRC_ACTION": "A", "ADDR_CITY": "Delhi", "DRIVERS_LICENSE_STATE": "DE", "PHONE_NUMBER": "225-671-0796", "NAME_LAST": "SEAMAN", "entityid": "284430058", "ADDR_LINE1": "772 Armstrong RD"}`)
 	flags := senzing.SzWithInfo
 
 	// Using SzEngine: Add record and return "withInfo".
 
-	return szEngine.AddRecord(ctx, dataSourceCode, recordId, recordDefinition, flags)
+	return szEngine.AddRecord(ctx, dataSourceCode, recordID, recordDefinition, flags)
 }
 
 func demonstrateAdditionalFunctions(ctx context.Context, szDiagnostic senzing.SzDiagnostic, szEngine senzing.SzEngine, szProduct senzing.SzProduct) error {
@@ -114,151 +207,37 @@ func demonstrateAdditionalFunctions(ctx context.Context, szDiagnostic senzing.Sz
 	// Using SzDiagnostic: Purge repository.
 
 	err := szDiagnostic.PurgeRepository(ctx)
-	if err != nil {
-		failOnError(5301, err)
-	}
+	failOnError(5301, err)
 
 	// Using SzEngine: Add records with information returned.
 
 	withInfo, err := demonstrateAddRecord(ctx, szEngine)
-	if err != nil {
-		failOnError(5302, err)
-	}
+	failOnError(5302, err)
 	logger.Log(2003, withInfo)
 
 	// Using szProduct: Show license metadata.
 
 	license, err := szProduct.GetLicense(ctx)
-	if err != nil {
-		failOnError(5303, err)
-	}
+	failOnError(5303, err)
 	logger.Log(2004, license)
 
 	// Using SzDiagnostic: Purge repository again.
 
 	err = szDiagnostic.PurgeRepository(ctx)
-	if err != nil {
-		failOnError(5304, err)
-	}
+	failOnError(5304, err)
 
 	return err
 }
 
-func failOnError(msgId int, err error) {
-	logger.Log(msgId, err)
-	panic(err.Error())
+func failOnError(msgID int, err error) {
+	if err != nil {
+		logger.Log(msgID, err)
+		panic(err)
+	}
 }
 
-// ----------------------------------------------------------------------------
-// Main
-// ----------------------------------------------------------------------------
-
-func main() {
-	var err error = nil
-	var szAbstractFactory senzing.SzAbstractFactory
-	var testcaseList []int
-	ctx := context.TODO()
-
-	// Configure the "log" standard library.
-
-	log.SetFlags(0)
-	logger, err = getLogger(ctx)
+func deferredError(err error) {
 	if err != nil {
-		failOnError(5000, err)
+		panic(err)
 	}
-
-	fmt.Printf("\n-------------------------------------------------------------------------------\n\n")
-	logger.Log(2001, "Just a test of logging")
-
-	// Create Senzing's Engine Configuration JSON.
-
-	instanceName := "Test name"
-	settings, err := settings.BuildSimpleSettingsUsingEnvVars()
-	if err != nil {
-		failOnError(5001, err)
-	}
-	verboseLogging := senzing.SzNoLogging
-	configId := senzing.SzInitializeWithDefaultConfiguration
-
-	// Determine if specific testcase is requested.
-
-	testcaseNumber := os.Getenv("SENZING_TOOLS_TESTCASE_NUMBER")
-	if len(testcaseNumber) > 0 {
-		testcaseInt, err := strconv.Atoi(testcaseNumber)
-		if err != nil {
-			failOnError(5002, err)
-		}
-		testcaseList = append(testcaseList, testcaseInt)
-	} else {
-		testcaseList = append(testcaseList, 1)
-	}
-
-	// Iterate through different instantiations of SdkAbstractFactory.
-
-	for _, runNumber := range testcaseList {
-		fmt.Printf("\n-------------------------------------------------------------------------------\n\n")
-
-		// Choose different implementations.
-
-		switch runNumber {
-		case 1:
-			logger.Log(2001, "Local SDK")
-			szAbstractFactory, err = szfactorycreator.CreateCoreAbstractFactory(instanceName, settings, verboseLogging, configId)
-			if err != nil {
-				failOnError(9999, err)
-			}
-		default:
-			failOnError(5003, fmt.Errorf("unknown testcase number"))
-		}
-
-		// Get Senzing objects for installing a Senzing Engine configuration.
-
-		szConfig, err := szAbstractFactory.CreateSzConfig(ctx)
-		if err != nil {
-			failOnError(5004, err)
-		}
-		defer szConfig.Destroy(ctx)
-
-		szConfigManager, err := szAbstractFactory.CreateSzConfigManager(ctx)
-		if err != nil {
-			failOnError(5007, err)
-		}
-		defer szConfigManager.Destroy(ctx)
-
-		// Persist the Senzing configuration to the Senzing repository.
-
-		err = demonstrateConfigFunctions(ctx, szConfig, szConfigManager)
-		if err != nil {
-			failOnError(5011, err)
-		}
-
-		// Now that a Senzing configuration is installed, get the remainder of the Senzing objects.
-
-		szDiagnostic, err := szAbstractFactory.CreateSzDiagnostic(ctx)
-		if err != nil {
-			failOnError(5012, err)
-		}
-		defer szDiagnostic.Destroy(ctx)
-
-		szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
-		if err != nil {
-			failOnError(5014, err)
-		}
-		defer szEngine.Destroy(ctx)
-
-		szProduct, err := szAbstractFactory.CreateSzProduct(ctx)
-		if err != nil {
-			failOnError(5016, err)
-		}
-		defer szProduct.Destroy(ctx)
-
-		// Demonstrate tests.
-
-		err = demonstrateAdditionalFunctions(ctx, szDiagnostic, szEngine, szProduct)
-		if err != nil {
-			failOnError(5021, err)
-		}
-
-	}
-	fmt.Printf("\n-------------------------------------------------------------------------------\n\n")
 }
