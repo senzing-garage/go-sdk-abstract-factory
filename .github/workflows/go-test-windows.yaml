@@ -1,9 +1,12 @@
 name: go test windows
 
-on: [push]
+on: [pull_request, workflow_dispatch]
 
 env:
-  SENZING_TOOLS_DATABASE_URL: 'sqlite3://na:na@nowhere/C:\Temp\sqlite\G2C.db'
+  CGO_ENABLED: 1
+  GO111MODULE: on
+  SENZING_LOG_LEVEL: TRACE
+  SENZING_TOOLS_DATABASE_URL: "sqlite3://na:na@nowhere/C:\\Temp\\sqlite\\G2C.db"
 
 permissions:
   contents: read
@@ -29,6 +32,11 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
 
+      - name: Set up gotestfmt
+        uses: gotesttools/gotestfmt-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: install Senzing API
         uses: senzing-factory/github-action-install-senzing-api@v3
         with:
@@ -43,8 +51,26 @@ jobs:
       - name: copy test database files
         run: mkdir "C:\Temp\sqlite" && copy testdata/sqlite/G2C.db "C:\Temp\sqlite\G2C.db"
 
-      - name: TODO - install senzing-tools
-        run: echo "TODO - Run senzing-tools serve-grpc"
+      - name: run go test
+        run: |
+          go test -json -v -p 1 -coverprofile=cover -covermode=atomic -coverpkg=./... ./... 2>&1 | tee "C:\Temp\gotest.log" | gotestfmt
+          cp cover cover.out
 
-      # - name: run go test
-      #   run: go test -v -p 1 ./...
+      - name: Store coverage file
+        uses: actions/upload-artifact@v4
+        with:
+          name: cover.out
+          path: cover.out
+
+      - name: Upload test log
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-log
+          path: "C:\\Temp\\gotest.log"
+          if-no-files-found: error
+
+  coverage:
+    name: coverage
+    needs: go-test-windows
+    uses: senzing-factory/build-resources/.github/workflows/go-coverage.yaml@v2
