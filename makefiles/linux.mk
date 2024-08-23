@@ -63,7 +63,7 @@ setup-osarch-specific:
 		--publish 8261:8261 \
 		--rm \
 		senzing/serve-grpc
-	@echo "senzing/senzing-tools server-grpc running in background."
+	$(info senzing/serve-grpc running in background.)
 
 
 .PHONY: test-osarch-specific

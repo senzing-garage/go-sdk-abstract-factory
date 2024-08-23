@@ -13,7 +13,6 @@ These are "one-time tasks" which may already have been completed.
 1. The following software programs need to be installed:
     1. [git]
     1. [make]
-    1. [docker]
     1. [go]
 
 ## Install Senzing C library
@@ -73,37 +72,64 @@ Since the Senzing library is a prerequisite, it must be installed first.
 
     ```
 
-## Run
-
-These instructions run testcases for both local and gRPC implementations of the Senzing Go SDK.
-
-1. Run a Senzing gRPC server, visit
-   [Senzing/servegrpc](https://github.com/senzing-garage/servegrpc).
-
-    1. Optionally, initialize a SqlLite database.
-       Example:
-
-        ```console
-        export SENZING_TOOLS_DATABASE_URL=sqlite3://na:na@/tmp/sqlite/G2C.db
-        senzing-tools init-database
-
-        ```
-
-    1. Start Senzing gRPC server.
-       Example:
-
-        ```console
-        senzing-tools serve-grpc --enable-all
-
-        ```
+## Test
 
 1. Run tests.
+   Example:
 
     ```console
     cd ${GIT_REPOSITORY_DIR}
-    make test
+    make clean setup test
 
     ```
+
+## Coverage
+
+Create a code coverage map.
+
+1. Run Go tests.
+   Example:
+
+    ```console
+    cd ${GIT_REPOSITORY_DIR}
+    make clean setup coverage
+
+    ```
+
+   A web-browser will show the results of the coverage.
+   The goal is to have over 80% coverage.
+   Anything less needs to be reflected in [testcoverage.yaml].
+
+## Documentation
+
+1. View documentation.
+   Example:
+
+    ```console
+    cd ${GIT_REPOSITORY_DIR}
+    make clean documentation
+
+    ```
+
+1. If a web page doesn't appear, visit [localhost:6060].
+1. Senzing documentation will be in the "Third party" section.
+   `github.com` > `senzing-garage` > `template-go`
+
+1. When a versioned release is published with a `v0.0.0` format tag,
+the reference can be found by clicking on the following badge at the top of the README.md page.
+Example:
+
+    [![Go Reference Badge]][Go Reference]
+
+1. To stop the `godoc` server, run
+
+    ```console
+    cd ${GIT_REPOSITORY_DIR}
+    make clean
+
+    ```
+
+## Specialty
 
 ## Test using SQLite database
 
@@ -162,56 +188,9 @@ These instructions run testcases for both local and gRPC implementations of the 
 
     ```
 
-## Coverage
-
-Create a code coverage map.
-
-1. Run Go tests.
-   Example:
-
-    ```console
-    cd ${GIT_REPOSITORY_DIR}
-    make clean setup coverage
-
-    ```
-
-   A web-browser will show the results of the coverage.
-   The goal is to have over 80% coverage.
-   Anything less needs to be reflected in [testcoverage.yaml].
-
-## Documentation
-
-1. View documentation.
-   Example:
-
-    ```console
-    cd ${GIT_REPOSITORY_DIR}
-    make clean documentation
-
-    ```
-
-1. If a web page doesn't appear, visit [localhost:6060].
-1. Senzing documentation will be in the "Third party" section.
-   `github.com` > `senzing-garage` > `template-go`
-
-1. When a versioned release is published with a `v0.0.0` format tag,
-the reference can be found by clicking on the following badge at the top of the README.md page.
-Example:
-
-    [![Go Reference Badge]][Go Reference]
-
-1. To stop the `godoc` server, run
-
-    ```console
-    cd ${GIT_REPOSITORY_DIR}
-    make clean
-
-    ```
-
 ## References
 
 [clone-repository]: https://github.com/senzing-garage/knowledge-base/blob/main/HOWTO/clone-repository.md
-[docker]: https://github.com/senzing-garage/knowledge-base/blob/main/WHATIS/docker.md
 [git]: https://github.com/senzing-garage/knowledge-base/blob/main/WHATIS/git.md
 [go]: https://github.com/senzing-garage/knowledge-base/blob/main/WHATIS/go.md
 [How to Install Senzing for Go Development]: https://github.com/senzing-garage/knowledge-base/blob/main/HOWTO/install-senzing-for-go-development.md
