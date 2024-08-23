@@ -26,6 +26,8 @@ github.com/senzing-garage/sz-sdk-go-core v0.8.0 h1:cUvAZ82ZedmxAwK1TOXwZPvBEqQrX
 github.com/senzing-garage/sz-sdk-go-core v0.8.0/go.mod h1:b2bLdApK/a03UrK0PMWCXAnjG1gHZ1Zkf73qGB7wTxk=
 github.com/senzing-garage/sz-sdk-go-grpc v0.8.0 h1:bHAmYQkdH4gLHVBbcaRqWBBDRBciUnBnmUpP9Y9lwqg=
 github.com/senzing-garage/sz-sdk-go-grpc v0.8.0/go.mod h1:+LmOdW6RnweJRAv/jm/OH9YUXSRtQC5uqerVn8eXTAk=
+github.com/senzing-garage/sz-sdk-go-mock v0.8.0 h1:ucDEaJ9Qli2YO5dOFlrM5n1uR9+WF6Xdrmu7HOv3Pjg=
+github.com/senzing-garage/sz-sdk-go-mock v0.8.0/go.mod h1:W9xAwNEq7DIc5pUYcTg2vRkGwnKluqtQC8uHejU53Yk=
 github.com/senzing-garage/sz-sdk-proto v0.7.6 h1:mHiZr094UTBcRW1OkNam1Pu/pMLZRO/4cIIyjQ/yDlY=
 github.com/senzing-garage/sz-sdk-proto v0.7.6/go.mod h1:7CZSZ5yEVmT2T0yiijjdq7dWsdQ/KtRgvKRqCy+j7SI=
 github.com/stretchr/testify v1.9.0 h1:HtqpIVDClZ4nwg75+f6Lvsy/wHu+3BoSGCbBAcpTsTg=
