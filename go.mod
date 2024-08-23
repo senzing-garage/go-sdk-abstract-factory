@@ -3,10 +3,10 @@ module github.com/senzing-garage/go-sdk-abstract-factory
 go 1.21
 
 require (
-	github.com/senzing-garage/go-helpers v0.5.2
+	github.com/senzing-garage/go-helpers v0.6.0
 	github.com/senzing-garage/go-logging v1.5.0
-	github.com/senzing-garage/sz-sdk-go v0.13.6
-	github.com/senzing-garage/sz-sdk-go-core v0.7.5
+	github.com/senzing-garage/sz-sdk-go v0.14.0
+	github.com/senzing-garage/sz-sdk-go-core v0.8.0
 	github.com/senzing-garage/sz-sdk-go-grpc v0.7.3
 	github.com/stretchr/testify v1.9.0
 	google.golang.org/grpc v1.65.0
@@ -22,7 +22,7 @@ require (
 	golang.org/x/net v0.28.0 // indirect
 	golang.org/x/sys v0.24.0 // indirect
 	golang.org/x/text v0.17.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240812133136-8ffd90a71988 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240820151423-278611b39280 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
