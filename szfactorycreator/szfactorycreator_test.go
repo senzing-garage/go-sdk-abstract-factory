@@ -40,3 +40,12 @@ func TestSzfactorycreator_CreateGrpcAbstractFactory(test *testing.T) {
 	require.NoError(test, err)
 	defer require.NoError(test, szEngine.Destroy(ctx))
 }
+
+func TestSzfactorycreator_CreateMockAbstractFactory(test *testing.T) {
+	ctx := context.TODO()
+	szAbstractFactory, err := CreateMockAbstractFactory()
+	require.NoError(test, err)
+	szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
+	require.NoError(test, err)
+	defer require.NoError(test, szEngine.Destroy(ctx))
+}

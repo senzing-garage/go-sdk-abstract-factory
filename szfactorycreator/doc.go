@@ -1,5 +1,4 @@
 /*
-TODO:  Write description for szfactorycreator
-The szfactorycreator package...
+Package szfactorycreator implements CreateXxxxAbstractFactory functions.
 */
 package szfactorycreator
