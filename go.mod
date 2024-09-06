@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/senzing-garage/go-helpers v0.6.0
 	github.com/senzing-garage/go-logging v1.5.1
-	github.com/senzing-garage/sz-sdk-go v0.14.0
+	github.com/senzing-garage/sz-sdk-go v0.14.1
 	github.com/senzing-garage/sz-sdk-go-core v0.8.1
 	github.com/senzing-garage/sz-sdk-go-grpc v0.8.1
 	github.com/senzing-garage/sz-sdk-go-mock v0.8.0
