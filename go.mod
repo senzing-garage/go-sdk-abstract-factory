@@ -12,7 +12,7 @@ require (
 	github.com/senzing-garage/sz-sdk-go-grpc v0.8.2
 	github.com/senzing-garage/sz-sdk-go-mock v0.8.1
 	github.com/stretchr/testify v1.9.0
-	google.golang.org/grpc v1.67.0
+	google.golang.org/grpc v1.67.1
 )
 
 require (
