@@ -28,16 +28,12 @@ func ExampleCreateCoreAbstractFactory() {
 	if err != nil {
 		fmt.Println(err)
 	}
+	defer func() { handleError(szAbstractFactory.Destroy(ctx)) }()
 	szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
 	if err != nil {
 		fmt.Println(err)
 	}
-	defer func() {
-		err := szEngine.Destroy(ctx)
-		if err != nil {
-			fmt.Println(err)
-		}
-	}()
+	_ = szEngine // Use szEngine.
 	// Output:
 }
 
@@ -53,15 +49,11 @@ func ExampleCreateGrpcAbstractFactory() {
 	if err != nil {
 		fmt.Println(err)
 	}
+	defer func() { handleError(szAbstractFactory.Destroy(ctx)) }()
 	szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
 	if err != nil {
 		fmt.Println(err)
 	}
-	defer func() {
-		err := szEngine.Destroy(ctx)
-		if err != nil {
-			fmt.Println(err)
-		}
-	}()
+	_ = szEngine // Use szEngine.
 	// Output:
 }

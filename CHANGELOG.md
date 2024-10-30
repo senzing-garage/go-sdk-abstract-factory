@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning].
 
 -
 
+## [0.9.3] - 2024-10-30
+
+### Changed in 0.9.3
+
+- Migrate to using `SzAbastractFactory.Destroy()`
+- Update dependencies
+
 ## [0.9.2] - 2024-09-12
 
 ### Changed in 0.9.2

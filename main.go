@@ -87,40 +87,36 @@ func main() {
 		default:
 			failOnError(5003, fmt.Errorf("unknown testcase number"))
 		}
+		defer func() { deferredError(szAbstractFactory.Destroy(ctx)) }()
 
 		// Get Senzing objects for installing a Senzing Engine configuration.
 
 		szConfig, err := szAbstractFactory.CreateSzConfig(ctx)
 		failOnError(5004, err)
-		defer func() { deferredError(szConfig.Destroy(ctx)) }()
 
 		szConfigManager, err := szAbstractFactory.CreateSzConfigManager(ctx)
+		failOnError(5005, err)
+
+		szDiagnostic, err := szAbstractFactory.CreateSzDiagnostic(ctx)
+		failOnError(5006, err)
+
+		szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
 		failOnError(5007, err)
-		defer func() { deferredError(szConfigManager.Destroy(ctx)) }()
+
+		szProduct, err := szAbstractFactory.CreateSzProduct(ctx)
+		failOnError(5008, err)
 
 		// Persist the Senzing configuration to the Senzing repository.
 
 		err = demonstrateConfigFunctions(ctx, szConfig, szConfigManager)
-		failOnError(5011, err)
+		failOnError(5009, err)
 
 		// Now that a Senzing configuration is installed, get the remainder of the Senzing objects.
-
-		szDiagnostic, err := szAbstractFactory.CreateSzDiagnostic(ctx)
-		failOnError(5012, err)
-		defer func() { deferredError(szDiagnostic.Destroy(ctx)) }()
-
-		szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
-		failOnError(5014, err)
-		defer func() { deferredError(szEngine.Destroy(ctx)) }()
-
-		szProduct, err := szAbstractFactory.CreateSzProduct(ctx)
-		failOnError(5016, err)
-		defer func() { deferredError(szProduct.Destroy(ctx)) }()
 
 		// Demonstrate tests.
 
 		err = demonstrateAdditionalFunctions(ctx, szDiagnostic, szEngine, szProduct)
-		failOnError(5021, err)
+		failOnError(5010, err)
 
 	}
 	fmt.Printf("\n-------------------------------------------------------------------------------\n\n")

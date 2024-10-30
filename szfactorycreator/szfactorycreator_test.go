@@ -24,9 +24,8 @@ func TestSzfactorycreator_CreateCoreAbstractFactory(test *testing.T) {
 	configID := senzing.SzInitializeWithDefaultConfiguration
 	szAbstractFactory, err := CreateCoreAbstractFactory(instanceName, settings, verboseLogging, configID)
 	require.NoError(test, err)
-	szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
+	_, err = szAbstractFactory.CreateSzEngine(ctx)
 	require.NoError(test, err)
-	defer require.NoError(test, szEngine.Destroy(ctx))
 }
 
 func TestSzfactorycreator_CreateGrpcAbstractFactory(test *testing.T) {
@@ -36,16 +35,20 @@ func TestSzfactorycreator_CreateGrpcAbstractFactory(test *testing.T) {
 	require.NoError(test, err)
 	szAbstractFactory, err := CreateGrpcAbstractFactory(grpcConnection)
 	require.NoError(test, err)
-	szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
+	_, err = szAbstractFactory.CreateSzEngine(ctx)
 	require.NoError(test, err)
-	defer require.NoError(test, szEngine.Destroy(ctx))
 }
 
 func TestSzfactorycreator_CreateMockAbstractFactory(test *testing.T) {
 	ctx := context.TODO()
 	szAbstractFactory, err := CreateMockAbstractFactory()
 	require.NoError(test, err)
-	szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
+	_, err = szAbstractFactory.CreateSzEngine(ctx)
 	require.NoError(test, err)
-	defer require.NoError(test, szEngine.Destroy(ctx))
+}
+
+func handleError(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
