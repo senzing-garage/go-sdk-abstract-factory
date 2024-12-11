@@ -7,7 +7,7 @@ toolchain go1.23.2
 require (
 	github.com/senzing-garage/go-helpers v0.6.3
 	github.com/senzing-garage/go-logging v1.5.1
-	github.com/senzing-garage/sz-sdk-go v0.14.3
+	github.com/senzing-garage/sz-sdk-go v0.14.4
 	github.com/senzing-garage/sz-sdk-go-core v0.8.5
 	github.com/senzing-garage/sz-sdk-go-grpc v0.8.4
 	github.com/senzing-garage/sz-sdk-go-mock v0.8.3
