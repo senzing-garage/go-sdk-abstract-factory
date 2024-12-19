@@ -91,19 +91,19 @@ func main() {
 
 		// Get Senzing objects for installing a Senzing Engine configuration.
 
-		szConfig, err := szAbstractFactory.CreateSzConfig(ctx)
+		szConfig, err := szAbstractFactory.CreateConfig(ctx)
 		failOnError(5004, err)
 
-		szConfigManager, err := szAbstractFactory.CreateSzConfigManager(ctx)
+		szConfigManager, err := szAbstractFactory.CreateConfigManager(ctx)
 		failOnError(5005, err)
 
-		szDiagnostic, err := szAbstractFactory.CreateSzDiagnostic(ctx)
+		szDiagnostic, err := szAbstractFactory.CreateDiagnostic(ctx)
 		failOnError(5006, err)
 
-		szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
+		szEngine, err := szAbstractFactory.CreateEngine(ctx)
 		failOnError(5007, err)
 
-		szProduct, err := szAbstractFactory.CreateSzProduct(ctx)
+		szProduct, err := szAbstractFactory.CreateProduct(ctx)
 		failOnError(5008, err)
 
 		// Persist the Senzing configuration to the Senzing repository.
