@@ -18,7 +18,6 @@ jobs:
       matrix:
         go: ["1.21"]
         os: [ubuntu-latest]
-        senzingsdk-version: [staging-v4]
 
     services:
       servegrpc:
