@@ -32,8 +32,8 @@ github.com/senzing-garage/sz-sdk-go v0.14.4 h1:sw4GokZhuIvkoBf/QYyjolD/Uz5IxCQ+P
 github.com/senzing-garage/sz-sdk-go v0.14.4/go.mod h1:4VXZYdA6Fg4GkTFsd2HsPxxd3dMRadLD4An4BbhcvWk=
 github.com/senzing-garage/sz-sdk-go-core v0.8.8 h1:/8pp7pykyBU+DonHJLYJ1RyCfeJ0RcfRV0gwYAqrkps=
 github.com/senzing-garage/sz-sdk-go-core v0.8.8/go.mod h1:ughHKXzs5eIzxVUavH+YTxIjmG7apz0HKWIjKmV1bKA=
-github.com/senzing-garage/sz-sdk-go-grpc v0.8.6 h1:9TLYGozYmMvX4ufE5kCuxZSjh+BoMVEYGM4hd7O2yag=
-github.com/senzing-garage/sz-sdk-go-grpc v0.8.6/go.mod h1:e0bpSL03Xd2uGxq6Ft0qM0wRWHL0SsIrg5C+je9ufjY=
+github.com/senzing-garage/sz-sdk-go-grpc v0.8.7 h1:ganMdZELPC3JwxDSL9CGekVaEJiBu2+/Cphsh74tHFg=
+github.com/senzing-garage/sz-sdk-go-grpc v0.8.7/go.mod h1:VJdYQvjJn+mppivWPbuSP4gFUyj8RhCB7JqqHSaadt8=
 github.com/senzing-garage/sz-sdk-go-mock v0.8.4 h1:aZSYuoDWatR7PJRUM0Yt3OX7NM4aQRgpFyh4NuU0kss=
 github.com/senzing-garage/sz-sdk-go-mock v0.8.4/go.mod h1:ZXayN7Us1aoOW+rIWAt5tcnk2//9NaEVXE6jxBe7BNg=
 github.com/senzing-garage/sz-sdk-proto v0.7.10 h1:T5T4W63awD9znLrDk94vVzgy1+GBb1ouEkCbtCqJans=
