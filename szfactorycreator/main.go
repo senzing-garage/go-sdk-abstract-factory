@@ -41,7 +41,12 @@ Input
 Output
   - A [szabstractfactorycore.Szabstractfactory] implementation conforming to the [senzing.SzAbstractFactory] interface.
 */
-func CreateCoreAbstractFactory(instanceName string, settings string, verboseLogging int64, configID int64) (senzing.SzAbstractFactory, error) {
+func CreateCoreAbstractFactory(
+	instanceName string,
+	settings string,
+	verboseLogging int64,
+	configID int64,
+) (senzing.SzAbstractFactory, error) {
 	szAbstractFactory := &szabstractfactorycore.Szabstractfactory{
 		ConfigID:       configID,
 		InstanceName:   instanceName,
