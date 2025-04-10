@@ -1,10 +1,11 @@
-package szfactorycreator
+package szfactorycreator_test
 
 import (
 	"context"
 	"fmt"
 
 	"github.com/senzing-garage/go-helpers/settings"
+	"github.com/senzing-garage/go-sdk-abstract-factory/szfactorycreator"
 	"github.com/senzing-garage/sz-sdk-go/senzing"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -24,7 +25,12 @@ func ExampleCreateCoreAbstractFactory() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	szAbstractFactory, err := CreateCoreAbstractFactory(instanceName, settings, verboseLogging, configID)
+	szAbstractFactory, err := szfactorycreator.CreateCoreAbstractFactory(
+		instanceName,
+		settings,
+		verboseLogging,
+		configID,
+	)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -45,7 +51,7 @@ func ExampleCreateGrpcAbstractFactory() {
 	if err != nil {
 		fmt.Printf("Did not connect: %v\n", err)
 	}
-	szAbstractFactory, err := CreateGrpcAbstractFactory(grpcConnection)
+	szAbstractFactory, err := szfactorycreator.CreateGrpcAbstractFactory(grpcConnection)
 	if err != nil {
 		fmt.Println(err)
 	}
