@@ -30,8 +30,8 @@ github.com/senzing-garage/go-messaging v1.5.2 h1:lU9W2HV3zKQsDU9Vs7lwe/C/LbHVCMn
 github.com/senzing-garage/go-messaging v1.5.2/go.mod h1:iEWGVuDGWjolIkwLqnn9oJS7ifF3aoZjTtI44tf1gWQ=
 github.com/senzing-garage/go-observing v0.3.3 h1:AhQYgOG012sDZtWXYcXVAaS5qEoDjlWmPYJDVCUZ/g0=
 github.com/senzing-garage/go-observing v0.3.3/go.mod h1:qFUi5Dwb6vmd7izTZGjGbWKUGRHzWzsgbsX3oNSD198=
-github.com/senzing-garage/sz-sdk-go v0.15.0 h1:hNs69b0chrdihialDWj6UsSKkAp6o4TjSP5UYiANKXw=
-github.com/senzing-garage/sz-sdk-go v0.15.0/go.mod h1:awKwu1SVrNEVR8eHZGRuVUMOObDMfD33UYja2ojV3qY=
+github.com/senzing-garage/sz-sdk-go v0.15.1 h1:I5q8dXNRxDpfhCVZ1w2tjCngcNqnG0EI7XVdhgGYpDU=
+github.com/senzing-garage/sz-sdk-go v0.15.1/go.mod h1:awKwu1SVrNEVR8eHZGRuVUMOObDMfD33UYja2ojV3qY=
 github.com/senzing-garage/sz-sdk-go-core v0.9.1 h1:HpYPtp4CQTAAQm5OT0N5G9WABTDnM3/oGuxoHnm3zOk=
 github.com/senzing-garage/sz-sdk-go-core v0.9.1/go.mod h1:hUE2GCicpisu9KGNh/zcxIktTD4YTPerQQLGMo+sfLc=
 github.com/senzing-garage/sz-sdk-go-grpc v0.9.3 h1:wKD+6FxyyCAx47y6sVrD0X77/OXpFfkSwjfQqURpYvk=
