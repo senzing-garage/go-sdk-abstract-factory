@@ -1,7 +1,6 @@
 package szfactorycreator_test
 
 import (
-	"context"
 	"testing"
 
 	"github.com/senzing-garage/go-helpers/settings"
@@ -17,10 +16,12 @@ import (
 // ----------------------------------------------------------------------------
 
 func TestSzfactorycreator_CreateCoreAbstractFactory(test *testing.T) {
-	ctx := context.TODO()
+	test.Parallel()
+	ctx := test.Context()
 	instanceName := "Test name"
 	settings, err := settings.BuildSimpleSettingsUsingEnvVars()
 	require.NoError(test, err)
+
 	verboseLogging := senzing.SzNoLogging
 	configID := senzing.SzInitializeWithDefaultConfiguration
 	szAbstractFactory, err := szfactorycreator.CreateCoreAbstractFactory(
@@ -35,7 +36,8 @@ func TestSzfactorycreator_CreateCoreAbstractFactory(test *testing.T) {
 }
 
 func TestSzfactorycreator_CreateGrpcAbstractFactory(test *testing.T) {
-	ctx := context.TODO()
+	test.Parallel()
+	ctx := test.Context()
 	grpcAddress := "localhost:8261"
 	grpcConnection, err := grpc.NewClient(grpcAddress, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	require.NoError(test, err)
@@ -46,7 +48,8 @@ func TestSzfactorycreator_CreateGrpcAbstractFactory(test *testing.T) {
 }
 
 func TestSzfactorycreator_CreateMockAbstractFactory(test *testing.T) {
-	ctx := context.TODO()
+	test.Parallel()
+	ctx := test.Context()
 	szAbstractFactory, err := szfactorycreator.CreateMockAbstractFactory()
 	require.NoError(test, err)
 	_, err = szAbstractFactory.CreateEngine(ctx)

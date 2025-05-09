@@ -13,27 +13,28 @@ linters:
     - copyloopvar
     - cyclop
     - decorder
-    # - depguard
+    - depguard
     - dogsled
     - dupl
     - dupword
     - durationcheck
-    # - err113
+    - err113
     - errcheck
     - errchkjson
     - errname
     - errorlint
     - exhaustive
-    # - exhaustruct
+    - exhaustruct
     - exptostd
     - fatcontext
-    # - forbidigo
+    - forbidigo
     - forcetypeassert
-    # - funlen
+    - funcorder
+    - funlen
     - ginkgolinter
     - gocheckcompilerdirectives
-    # - gochecknoglobals
-    # - gochecknoinits
+    - gochecknoglobals
+    - gochecknoinits
     - gochecksumtype
     - gocognit
     - goconst
@@ -55,27 +56,27 @@ linters:
     - ineffassign
     - interfacebloat
     - intrange
-    # - ireturn
-    # - lll
+    - ireturn
+    - lll
     - loggercheck
     - maintidx
     - makezero
     - mirror
     - misspell
-    # - mnd
+    - mnd
     - musttag
     - nakedret
     - nestif
     - nilerr
     - nilnesserr
     - nilnil
-    # - nlreturn
+    - nlreturn
     - noctx
     - nolintlint
     - nonamedreturns
     - nosprintfhostport
-    # - paralleltest
-    # - perfsprint
+    - paralleltest
+    - perfsprint
     - prealloc
     - predeclared
     - promlinter
@@ -92,20 +93,23 @@ linters:
     - tagliatelle
     - testableexamples
     - testifylint
-    # - testpackage
+    - testpackage
     - thelper
     - tparallel
     - unconvert
     - unparam
     - unused
     - usestdlibvars
-    # - usetesting
+    - usetesting
     - varnamelen
     - wastedassign
-    # - whitespace
-    # - wrapcheck
-    # - wsl
+    - whitespace
+    - wrapcheck
+    - wsl
     - zerologlint
+  disable:
+    - gochecknoglobals
+    - lll
   exclusions:
     generated: lax
     presets:
@@ -117,17 +121,51 @@ linters:
       - third_party$
       - builtin$
       - examples$
-
+  settings:
+    depguard:
+      rules:
+        prevent_unmaintained_packages:
+          list-mode: lax # allow unless explicitely denied
+          allow:
+            - github.com/stretchr/testify/*
+          deny:
+            - pkg: io/ioutil
+              desc: "replaced by io and os packages since Go 1.16: https://tip.golang.org/doc/go1.16#ioutil"
+    exhaustruct:
+      exclude:
+        - '.+/cobra\.Command$'
+        - '.+/szabstractfactorymock\.Szabstractfactory$'
+        - '.+/szabstractfactory\.Szabstractfactory$'
+    ireturn:
+      allow:
+        - anon
+        - empty
+        - error
+        - stdlib
+        - logging.Logging
+        - senzing.SzAbstractFactory
+    mnd:
+      ignored-functions:
+        - '^big\.NewInt$'
+        - '^logger\.Log$'
+        - '^logger\.NewError$'
+        - '^logging\.NewSenzingLogger$'
+        - '^logging\.OptionCallerSkip$'
+        - '^rand\.Int$'
+        - "^failOnError$"
 formatters:
   enable:
-    # - gci
+    - gci
     - gofmt
-    # - gofumpt
+    - gofumpt
     - goimports
-    # - golines
+    - golines
   exclusions:
     generated: lax
     paths:
       - third_party$
       - builtin$
       - examples$
+  settings:
+    golines:
+      max-len: 120
