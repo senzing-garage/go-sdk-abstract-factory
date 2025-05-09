@@ -33,8 +33,8 @@ linters:
     - funlen
     - ginkgolinter
     - gocheckcompilerdirectives
-    # - gochecknoglobals
-    # - gochecknoinits
+    - gochecknoglobals
+    - gochecknoinits
     - gochecksumtype
     - gocognit
     - goconst
@@ -56,21 +56,21 @@ linters:
     - ineffassign
     - interfacebloat
     - intrange
-    # - ireturn
-    # - lll
+    - ireturn
+    - lll
     - loggercheck
     - maintidx
     - makezero
     - mirror
     - misspell
-    # - mnd
+    - mnd
     - musttag
     - nakedret
     - nestif
     - nilerr
     - nilnesserr
     - nilnil
-    # - nlreturn
+    - nlreturn
     - noctx
     - nolintlint
     - nonamedreturns
@@ -110,6 +110,7 @@ linters:
   disable:
     - gochecknoglobals
     - gochecknoinits
+    - lll
   exclusions:
     generated: lax
     presets:
@@ -142,9 +143,17 @@ linters:
         - empty
         - error
         - stdlib
+        - logging.Logging
+        - senzing.SzAbstractFactory
     mnd:
       ignored-functions:
+        - '^big\.NewInt$'
         - '^logger\.Log$'
+        - '^logger\.NewError$'
+        - '^logging\.NewSenzingLogger$'
+        - '^logging\.OptionCallerSkip$'
+        - '^rand\.Int$'
+        - "^failOnError$"
 formatters:
   enable:
     # - gci

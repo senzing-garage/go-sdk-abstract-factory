@@ -19,6 +19,8 @@ import (
 	"github.com/senzing-garage/sz-sdk-go/senzing"
 )
 
+const optionCallerSkip = 3
+
 // ----------------------------------------------------------------------------
 // Variables
 // ----------------------------------------------------------------------------
@@ -267,8 +269,9 @@ func testCases(ctx context.Context, testcaseList []int) {
 func getLogger(ctx context.Context) (logging.Logging, error) {
 	_ = ctx
 	loggerOptions := []interface{}{
-		logging.OptionCallerSkip{Value: 3},
+		logging.OptionCallerSkip{Value: optionCallerSkip},
 		logging.OptionMessageFields{Value: []string{"id", "text", "reason", "errors"}},
 	}
+
 	return logging.NewSenzingLogger(9999, IDMessages, loggerOptions...)
 }

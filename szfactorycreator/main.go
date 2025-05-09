@@ -53,6 +53,7 @@ func CreateCoreAbstractFactory(
 		Settings:       settings,
 		VerboseLogging: verboseLogging,
 	}
+
 	return szAbstractFactory, nil
 }
 
@@ -73,6 +74,7 @@ func CreateGrpcAbstractFactory(grpcConnection *grpc.ClientConn) (senzing.SzAbstr
 	szAbstractFactory := &szabstractfactorygrpc.Szabstractfactory{
 		GrpcConnection: grpcConnection,
 	}
+
 	return szAbstractFactory, nil
 }
 
@@ -87,5 +89,6 @@ Output
 */
 func CreateMockAbstractFactory() (senzing.SzAbstractFactory, error) {
 	szAbstractFactory := &szabstractfactorymock.Szabstractfactory{}
+
 	return szAbstractFactory, nil
 }
