@@ -10,10 +10,8 @@ import (
 	szabstractfactorycore "github.com/senzing-garage/sz-sdk-go-core/szabstractfactory"
 	szabstractfactorygrpc "github.com/senzing-garage/sz-sdk-go-grpc/szabstractfactory"
 	szabstractfactorymock "github.com/senzing-garage/sz-sdk-go-mock/szabstractfactory"
-
-	"google.golang.org/grpc"
-
 	"github.com/senzing-garage/sz-sdk-go/senzing"
+	"google.golang.org/grpc"
 )
 
 // ----------------------------------------------------------------------------
