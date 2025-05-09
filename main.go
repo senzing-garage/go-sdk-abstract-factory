@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"crypto/rand"
+	"errors"
 	"fmt"
 	"log"
 	"math/big"
@@ -12,6 +13,7 @@ import (
 
 	"github.com/senzing-garage/go-helpers/settings"
 	"github.com/senzing-garage/go-helpers/truthset"
+	"github.com/senzing-garage/go-helpers/wraperror"
 	"github.com/senzing-garage/go-logging/logging"
 	"github.com/senzing-garage/go-sdk-abstract-factory/szfactorycreator"
 	"github.com/senzing-garage/sz-sdk-go/senzing"
@@ -34,13 +36,14 @@ var IDMessages = map[int]string{
 
 var logger logging.Logging
 
+var errMain = errors.New("main")
+
 // ----------------------------------------------------------------------------
 // Main
 // ----------------------------------------------------------------------------
 
 func main() {
 	var err error
-	var szAbstractFactory senzing.SzAbstractFactory
 	var testcaseList []int
 	ctx := context.TODO()
 
@@ -50,16 +53,8 @@ func main() {
 	logger, err = getLogger(ctx)
 	failOnError(5000, err)
 
-	fmt.Printf("\n-------------------------------------------------------------------------------\n\n")
+	outputf("\n-------------------------------------------------------------------------------\n\n")
 	logger.Log(2001, "Just a test of logging")
-
-	// Create Senzing's Engine Configuration JSON.
-
-	instanceName := "Test name"
-	settings, err := settings.BuildSimpleSettingsUsingEnvVars()
-	failOnError(5001, err)
-	verboseLogging := senzing.SzNoLogging
-	configID := senzing.SzInitializeWithDefaultConfiguration
 
 	// Determine if specific testcase is requested.
 
@@ -74,52 +69,9 @@ func main() {
 
 	// Iterate through different instantiations of SdkAbstractFactory.
 
-	for _, runNumber := range testcaseList {
-		fmt.Printf("\n-------------------------------------------------------------------------------\n\n")
+	testCases(ctx, testcaseList)
 
-		// Choose different implementations.
-
-		switch runNumber {
-		case 1:
-			logger.Log(2001, "Local SDK")
-			szAbstractFactory, err = szfactorycreator.CreateCoreAbstractFactory(
-				instanceName,
-				settings,
-				verboseLogging,
-				configID,
-			)
-			failOnError(9999, err)
-		default:
-			failOnError(5003, fmt.Errorf("unknown testcase number"))
-		}
-		defer func() { panicOnError(szAbstractFactory.Destroy(ctx)) }()
-
-		// Get Senzing objects for installing a Senzing Engine configuration.
-
-		_, err = szAbstractFactory.CreateConfigManager(ctx)
-		failOnError(5005, err)
-
-		_, err = szAbstractFactory.CreateDiagnostic(ctx)
-		failOnError(5006, err)
-
-		_, err = szAbstractFactory.CreateEngine(ctx)
-		failOnError(5007, err)
-
-		_, err = szAbstractFactory.CreateProduct(ctx)
-		failOnError(5008, err)
-
-		// Persist the Senzing configuration to the Senzing repository.
-
-		err = demonstrateConfigFunctions(ctx, szAbstractFactory)
-		failOnError(5009, err)
-
-		// Demonstrate tests.
-
-		err = demonstrateAdditionalFunctions(ctx, szAbstractFactory)
-		failOnError(5010, err)
-
-	}
-	fmt.Printf("\n-------------------------------------------------------------------------------\n\n")
+	outputf("\n-------------------------------------------------------------------------------\n\n")
 }
 
 // ----------------------------------------------------------------------------
@@ -243,9 +195,72 @@ func failOnError(msgID int, err error) {
 	}
 }
 
+func outputf(format string, message ...any) {
+	fmt.Printf(format, message...) //nolint
+}
+
 func panicOnError(err error) {
 	if err != nil {
 		panic(err)
+	}
+}
+
+func testCases(ctx context.Context, testcaseList []int) {
+	var err error
+	var szAbstractFactory senzing.SzAbstractFactory
+
+	// Create Senzing's Engine Configuration JSON.
+
+	instanceName := "Test name"
+	settings, err := settings.BuildSimpleSettingsUsingEnvVars()
+	failOnError(5001, err)
+	verboseLogging := senzing.SzNoLogging
+	configID := senzing.SzInitializeWithDefaultConfiguration
+
+	for _, runNumber := range testcaseList {
+		outputf("\n-------------------------------------------------------------------------------\n\n")
+
+		// Choose different implementations.
+
+		switch runNumber {
+		case 1:
+			logger.Log(2001, "Local SDK")
+			szAbstractFactory, err = szfactorycreator.CreateCoreAbstractFactory(
+				instanceName,
+				settings,
+				verboseLogging,
+				configID,
+			)
+			failOnError(9999, err)
+		default:
+			failOnError(5003, wraperror.Errorf(errMain, "unknown testcase number"))
+		}
+		defer func() { panicOnError(szAbstractFactory.Destroy(ctx)) }()
+
+		// Get Senzing objects for installing a Senzing Engine configuration.
+
+		_, err = szAbstractFactory.CreateConfigManager(ctx)
+		failOnError(5005, err)
+
+		_, err = szAbstractFactory.CreateDiagnostic(ctx)
+		failOnError(5006, err)
+
+		_, err = szAbstractFactory.CreateEngine(ctx)
+		failOnError(5007, err)
+
+		_, err = szAbstractFactory.CreateProduct(ctx)
+		failOnError(5008, err)
+
+		// Persist the Senzing configuration to the Senzing repository.
+
+		err = demonstrateConfigFunctions(ctx, szAbstractFactory)
+		failOnError(5009, err)
+
+		// Demonstrate tests.
+
+		err = demonstrateAdditionalFunctions(ctx, szAbstractFactory)
+		failOnError(5010, err)
+
 	}
 }
 
