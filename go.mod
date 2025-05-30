@@ -3,7 +3,7 @@ module github.com/senzing-garage/go-sdk-abstract-factory
 go 1.24
 
 require (
-	github.com/senzing-garage/go-helpers v0.6.11
+	github.com/senzing-garage/go-helpers v0.6.12
 	github.com/senzing-garage/go-logging v1.5.2
 	github.com/senzing-garage/sz-sdk-go v0.15.4
 	github.com/senzing-garage/sz-sdk-go-core v0.9.4
