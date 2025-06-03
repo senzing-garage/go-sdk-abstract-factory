@@ -38,7 +38,7 @@ var IDMessages = map[int]string{
 
 var logger logging.Logging
 
-var errMain = errors.New("main")
+var errForMain = errors.New("main")
 
 // ----------------------------------------------------------------------------
 // Main
@@ -105,7 +105,7 @@ func demonstrateAddRecord(ctx context.Context, szEngine senzing.SzEngine) (strin
 
 	result, err := szEngine.AddRecord(ctx, dataSourceCode, recordID, recordDefinition, flags)
 
-	return result, wraperror.Errorf(err, "demonstrateAddRecord error: %w", err)
+	return result, wraperror.Errorf(err, wraperror.NoMessage)
 }
 
 func demonstrateConfigFunctions(ctx context.Context, szAbstractFactory senzing.SzAbstractFactory) error {
@@ -115,20 +115,12 @@ func demonstrateConfigFunctions(ctx context.Context, szAbstractFactory senzing.S
 
 	szConfigManager, err := szAbstractFactory.CreateConfigManager(ctx)
 	if err != nil {
-		return wraperror.Errorf(
-			err,
-			"demonstrateConfigFunctions.CreateConfigManager error: %w",
-			logger.NewError(5100, err),
-		)
+		return wraperror.Errorf(err, "CreateConfigManager")
 	}
 
 	szConfig, err := szConfigManager.CreateConfigFromTemplate(ctx)
 	if err != nil {
-		return wraperror.Errorf(
-			err,
-			"demonstrateConfigFunctions.CreateConfigFromTemlate error: %w",
-			logger.NewError(5101, err),
-		)
+		return wraperror.Errorf(err, "CreateConfigFromTemlate")
 	}
 
 	// Using SzConfig: Add data sources to Senzing configuration.
@@ -136,11 +128,7 @@ func demonstrateConfigFunctions(ctx context.Context, szAbstractFactory senzing.S
 	for dataSourceCode := range truthset.TruthsetDataSources {
 		_, err := szConfig.AddDataSource(ctx, dataSourceCode)
 		if err != nil {
-			return wraperror.Errorf(
-				err,
-				"demonstrateConfigFunctions.AddDataSource error: %w",
-				logger.NewError(5102, err),
-			)
+			return wraperror.Errorf(err, "AddDataSource: %s", dataSourceCode)
 		}
 	}
 
@@ -148,7 +136,7 @@ func demonstrateConfigFunctions(ctx context.Context, szAbstractFactory senzing.S
 
 	configDefinition, err := szConfig.Export(ctx)
 	if err != nil {
-		return wraperror.Errorf(err, "demonstrateConfigFunctions.Export error: %w", logger.NewError(5103, err))
+		return wraperror.Errorf(err, "Export")
 	}
 
 	// Using SzConfigManager: Persist configuration string to database.
@@ -157,14 +145,10 @@ func demonstrateConfigFunctions(ctx context.Context, szAbstractFactory senzing.S
 
 	_, err = szConfigManager.SetDefaultConfig(ctx, configDefinition, configComment)
 	if err != nil {
-		return wraperror.Errorf(
-			err,
-			"demonstrateConfigFunctions.SetDefaultConfig error: %w",
-			logger.NewError(5104, err),
-		)
+		return wraperror.Errorf(err, "SetDefaultConfig: %s", configComment)
 	}
 
-	return wraperror.Errorf(err, "demonstrateConfigFunctions error: %w", err)
+	return wraperror.Errorf(err, wraperror.NoMessage)
 }
 
 func demonstrateAdditionalFunctions(
@@ -177,29 +161,17 @@ func demonstrateAdditionalFunctions(
 
 	szDiagnostic, err := szAbstractFactory.CreateDiagnostic(ctx)
 	if err != nil {
-		return wraperror.Errorf(
-			err,
-			"demonstrateAdditionalFunctions.CreateDiagnostic error: %w",
-			logger.NewError(5300, err),
-		)
+		return wraperror.Errorf(err, "CreateDiagnostic")
 	}
 
 	szEngine, err := szAbstractFactory.CreateEngine(ctx)
 	if err != nil {
-		return wraperror.Errorf(
-			err,
-			"demonstrateAdditionalFunctions.CreateEngine error: %w",
-			logger.NewError(5301, err),
-		)
+		return wraperror.Errorf(err, "CreateEngine")
 	}
 
 	szProduct, err := szAbstractFactory.CreateProduct(ctx)
 	if err != nil {
-		return wraperror.Errorf(
-			err,
-			"demonstrateAdditionalFunctions.CreateProduct error: %w",
-			logger.NewError(5302, err),
-		)
+		return wraperror.Errorf(err, "CreateProduct")
 	}
 
 	// Using SzDiagnostic: Purge repository.
@@ -224,7 +196,7 @@ func demonstrateAdditionalFunctions(
 	err = szDiagnostic.PurgeRepository(ctx)
 	failOnError(5306, err)
 
-	return wraperror.Errorf(err, "demonstrateAdditionalFunctions error: %w", err)
+	return wraperror.Errorf(err, wraperror.NoMessage)
 }
 
 func failOnError(msgID int, err error) {
@@ -275,7 +247,7 @@ func testCases(ctx context.Context, testcaseList []int) {
 			)
 			failOnError(9999, err)
 		default:
-			failOnError(5003, wraperror.Errorf(errMain, "unknown testcase number"))
+			failOnError(5003, wraperror.Errorf(errForMain, "unknown testcase number: %d", runNumber))
 		}
 
 		defer func() { panicOnError(szAbstractFactory.Destroy(ctx)) }()
@@ -315,5 +287,5 @@ func getLogger(ctx context.Context) (logging.Logging, error) {
 
 	result, err := logging.NewSenzingLogger(9999, IDMessages, loggerOptions...)
 
-	return result, wraperror.Errorf(err, "main.getLogger error: %w", err)
+	return result, wraperror.Errorf(err, wraperror.NoMessage)
 }
