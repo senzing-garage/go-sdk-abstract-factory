@@ -7,7 +7,7 @@ require (
 	github.com/senzing-garage/go-logging v1.5.3
 	github.com/senzing-garage/sz-sdk-go v0.15.6
 	github.com/senzing-garage/sz-sdk-go-core v0.9.7
-	github.com/senzing-garage/sz-sdk-go-grpc v0.9.7-0.20250617222838-e1230f44e8e1
+	github.com/senzing-garage/sz-sdk-go-grpc v0.9.7
 	github.com/senzing-garage/sz-sdk-go-mock v0.8.9
 	github.com/stretchr/testify v1.10.0
 	google.golang.org/grpc v1.73.0
