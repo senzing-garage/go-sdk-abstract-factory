@@ -5,10 +5,10 @@ go 1.24.4
 require (
 	github.com/senzing-garage/go-helpers v0.6.13
 	github.com/senzing-garage/go-logging v1.5.3
-	github.com/senzing-garage/sz-sdk-go v0.15.7-0.20250701204611-971d3ff5210f
-	github.com/senzing-garage/sz-sdk-go-core v0.9.8-0.20250701210809-edde03db0c00
-	github.com/senzing-garage/sz-sdk-go-grpc v0.9.8-0.20250701223526-9f3366abea1e
-	github.com/senzing-garage/sz-sdk-go-mock v0.8.10-0.20250701211938-abbef33c5a87
+	github.com/senzing-garage/sz-sdk-go v0.15.7
+	github.com/senzing-garage/sz-sdk-go-core v0.9.8
+	github.com/senzing-garage/sz-sdk-go-grpc v0.9.8
+	github.com/senzing-garage/sz-sdk-go-mock v0.8.10
 	github.com/stretchr/testify v1.10.0
 	google.golang.org/grpc v1.73.0
 )
@@ -18,7 +18,7 @@ require (
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/senzing-garage/go-messaging v1.5.3 // indirect
 	github.com/senzing-garage/go-observing v0.3.6 // indirect
-	github.com/senzing-garage/sz-sdk-proto v0.8.7-0.20250701201436-d9185754dee8 // indirect
+	github.com/senzing-garage/sz-sdk-proto v0.8.7 // indirect
 	golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b // indirect
 	golang.org/x/net v0.41.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
