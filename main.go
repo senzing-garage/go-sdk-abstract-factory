@@ -126,9 +126,9 @@ func demonstrateConfigFunctions(ctx context.Context, szAbstractFactory senzing.S
 	// Using SzConfig: Add data sources to Senzing configuration.
 
 	for dataSourceCode := range truthset.TruthsetDataSources {
-		_, err := szConfig.AddDataSource(ctx, dataSourceCode)
+		_, err := szConfig.RegisterDataSource(ctx, dataSourceCode)
 		if err != nil {
-			return wraperror.Errorf(err, "AddDataSource: %s", dataSourceCode)
+			return wraperror.Errorf(err, "RegisterDataSource: %s", dataSourceCode)
 		}
 	}
 
