@@ -31,12 +31,13 @@ func TestSzfactorycreator_CreateCoreAbstractFactory(test *testing.T) {
 		configID,
 	)
 	require.NoError(test, err)
+
 	defer func() { handleError(szAbstractFactory.Close(ctx)) }()
 
 	szEngine, err := szAbstractFactory.CreateEngine(ctx)
 	require.NoError(test, err)
-	defer func() { handleError(szEngine.Destroy(ctx)) }()
 
+	defer func() { handleError(szEngine.Destroy(ctx)) }()
 }
 
 func TestSzfactorycreator_CreateGrpcAbstractFactory(test *testing.T) {
