@@ -44,6 +44,8 @@ func ExampleCreateCoreAbstractFactory() {
 		fmt.Println(err)
 	}
 
+	defer func() { handleError(szEngine.Destroy(ctx)) }()
+
 	_ = szEngine // Use szEngine.
 	// Output:
 }
