@@ -250,7 +250,7 @@ func testCases(ctx context.Context, testcaseList []int) {
 			failOnError(5003, wraperror.Errorf(errForMain, "unknown testcase number: %d", runNumber))
 		}
 
-		defer func() { panicOnError(szAbstractFactory.Destroy(ctx)) }()
+		defer func() { panicOnError(szAbstractFactory.Close(ctx)) }()
 
 		// Get Senzing objects for installing a Senzing Engine configuration.
 
