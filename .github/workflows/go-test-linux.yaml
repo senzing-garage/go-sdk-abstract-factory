@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
         env:
           SENZING_TOOLS_ENABLE_ALL: true
-        image: senzing/serve-grpc
+        image: senzing/serve-grpc:0.9.21
         ports:
           - 8261:8261
 
