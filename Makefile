@@ -37,7 +37,6 @@ GO_ARCH = $(word 2, $(GO_OSARCH))
 
 GOBIN ?= $(shell go env GOPATH)/bin
 LD_LIBRARY_PATH ?= /opt/senzing/er/lib
-SENZING_TOOLS_DATABASE_URL ?= sqlite3://na:na@/tmp/sqlite/G2C.db
 
 # Export environment variables.
 

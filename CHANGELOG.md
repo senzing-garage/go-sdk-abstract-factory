@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning].
 
 -
 
+## [0.9.16] - 2025-10-24
+
+### Changed in 0.9.16
+
+- Update dependencies
+
 ## [0.9.15] - 2025-07-18
 
 ### Changed in 0.9.15
@@ -133,11 +139,6 @@ and this project adheres to [Semantic Versioning].
 - Renamed module to `github.com/senzing-garage/go-sdk-abstract-factory`
 - Refactor to [template-go](https://github.com/senzing-garage-garage/template-go)
 - Update dependencies
-  - google.golang.org/grpc v1.61.0
-  - github.com/senzing-garage/g2-sdk-go v0.9.0
-  - github.com/senzing-garage/g2-sdk-go-base v0.5.0
-  - github.com/senzing-garage/g2-sdk-go-grpc v0.6.0
-  - github.com/senzing-garage/g2-sdk-proto/go v0.0.0-20240126210601-d02d3beb81d4
 
 ## [0.5.0] - 2024-01-03
 
@@ -145,13 +146,6 @@ and this project adheres to [Semantic Versioning].
 
 - Refactor to [template-go](https://github.com/senzing-garage-garage/template-go)
 - Update dependencies
-  - github.com/senzing-garage/go-common v0.4.0
-  - github.com/senzing-garage/go-logging v1.4.0
-  - github.com/senzing-garage/go-observing v0.3.0
-  - github.com/senzing/g2-sdk-go v0.8.0
-  - github.com/senzing/g2-sdk-go-base v0.4.0
-  - github.com/senzing/g2-sdk-go-grpc v0.5.0
-  - google.golang.org/grpc v1.60.1
 
 ## [0.4.3] - 2023-11-01
 
@@ -167,14 +161,6 @@ and this project adheres to [Semantic Versioning].
 
 - Update to [template-go](https://github.com/senzing-garage/template-go)
 - Update dependencies
-  - github.com/senzing/g2-sdk-go v0.7.4
-  - github.com/senzing/g2-sdk-go-base v0.3.2
-  - github.com/senzing/g2-sdk-go-grpc v0.4.3
-  - github.com/senzing/g2-sdk-proto/go v0.0.0-20231016131354-0d0fba649357
-  - github.com/senzing-garage/go-common v0.3.1
-  - github.com/senzing-garage/go-logging v1.3.3
-  - github.com/senzing-garage/go-observing v0.2.8
-  - google.golang.org/grpc v1.59.0
 
 ## [0.4.1] - 2023-10-13
 
@@ -182,8 +168,6 @@ and this project adheres to [Semantic Versioning].
 
 - Changed from int to int64 where required by the SenzingAPI
 - Update dependencies
-  - github.com/senzing/g2-sdk-go v0.7.3
-  - google.golang.org/grpc v1.58.3
 
 ## [0.4.0] - 2023-10-03
 
@@ -192,11 +176,6 @@ and this project adheres to [Semantic Versioning].
 - Supports SenzingAPI 3.8.0
 - Deprecated functions have been removed
 - Update dependencies
-  - github.com/senzing/g2-sdk-go v0.7.0
-  - github.com/senzing/g2-sdk-go-base v0.3.0
-  - github.com/senzing/g2-sdk-go-grpc v0.4.1
-  - github.com/senzing/g2-sdk-proto/go v0.0.0-20230925212041-8259762ae97e
-  - google.golang.org/grpc v1.58.2
 
 ## [0.3.3] - 2023-09-01
 
@@ -210,28 +189,12 @@ and this project adheres to [Semantic Versioning].
 
 - Refactor to `template-go`
 - Update dependencies
-  - github.com/senzing/g2-sdk-go v0.6.8
-  - github.com/senzing/g2-sdk-go-base v0.2.4
-  - github.com/senzing/g2-sdk-go-grpc v0.3.2
-  - github.com/senzing-garage/go-common v0.2.11
-  - github.com/senzing-garage/go-logging v1.3.2
-  - github.com/senzing-garage/go-observing v0.2.7
-  - google.golang.org/grpc v1.57.0
 
 ## [0.3.1] - 2023-06-16
 
 ### Changed in 0.3.1
 
 - Update dependencies
-  - github.com/senzing/g2-sdk-go v0.6.6
-  - github.com/senzing/g2-sdk-go-base v0.2.1
-  - github.com/senzing/g2-sdk-go-grpc v0.3.1
-  - github.com/senzing/g2-sdk-proto/go v0.0.0-20230608182106-25c8cdc02e3c
-  - github.com/senzing-garage/go-common v0.1.4
-  - github.com/senzing-garage/go-logging v1.2.6
-  - github.com/senzing-garage/go-observing v0.2.6
-  - github.com/stretchr/testify v1.8.4
-  - google.golang.org/grpc v1.56.0
 
 ## [0.3.0] - 2023-05-26
 
@@ -255,22 +218,12 @@ and this project adheres to [Semantic Versioning].
 ### Changed in 0.2.3
 
 - Update dependencies
-  - github.com/senzing/g2-sdk-go v0.6.2
-  - github.com/senzing/g2-sdk-go-base v0.1.10
-  - github.com/senzing/g2-sdk-go-grpc v0.2.6
-  - github.com/senzing-garage/go-common v0.1.3
-  - github.com/senzing-garage/go-logging v1.2.3
-  - github.com/senzing-garage/go-observing v0.2.2
-  - google.golang.org/grpc v1.55.0
 
 ## [0.2.2] - 2023-04-21
 
 ### Changed in 0.2.2
 
 - Update dependencies
-  - github.com/senzing/g2-sdk-go v0.6.1
-  - github.com/senzing/g2-sdk-go-base v0.1.8
-  - github.com/senzing/g2-sdk-go-grpc v0.2.4
 
 ## [0.2.1] - 2023-03-02
 
