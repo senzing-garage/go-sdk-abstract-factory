@@ -162,23 +162,22 @@ Create a code coverage map.
 
 1. Run a Senzing gRPC server, visit
    [Senzing/servegrpc](https://github.com/senzing-garage/servegrpc).
+   1. Optionally, initialize a SqlLite database.
+      Example:
 
-    1. Optionally, initialize a SqlLite database.
-       Example:
+      ```console
+      export SENZING_TOOLS_DATABASE_URL=sqlite3://na:na@/tmp/sqlite/G2C.db
+      senzing-tools init-database
 
-       ```console
-       export SENZING_TOOLS_DATABASE_URL=sqlite3://na:na@/tmp/sqlite/G2C.db
-       senzing-tools init-database
+      ```
 
-       ```
+   1. Start Senzing gRPC server.
+      Example:
 
-    1. Start Senzing gRPC server.
-       Example:
+      ```console
+      senzing-tools serve-grpc --enable-all
 
-       ```console
-       senzing-tools serve-grpc --enable-all
-
-       ```
+      ```
 
 1. Run tests.
 
