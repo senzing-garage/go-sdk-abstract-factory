@@ -52,12 +52,6 @@ go test -v -run TestSzfactorycreator_CreateCoreAbstractFactory ./szfactorycreato
 - Tests use SQLite database at `/tmp/sqlite/G2C.db`
 - Use `SENZING_LOG_LEVEL=TRACE` for verbose test output
 
-## Branch Naming Convention
-
-Branch names must follow: `<issue-number>-<github-username>-<monotonically-increasing-integer>`
-
-Example: `344-docktermj-1`
-
 ## Code Style
 
 - Uses `golangci-lint` with extensive linter configuration at `.github/linters/.golangci.yaml`
