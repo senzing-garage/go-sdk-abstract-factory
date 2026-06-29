@@ -3,14 +3,14 @@ module github.com/senzing-garage/go-sdk-abstract-factory
 go 1.26.0
 
 require (
-	github.com/senzing-garage/go-helpers v0.6.15
+	github.com/senzing-garage/go-helpers v0.6.16
 	github.com/senzing-garage/go-logging v1.5.4
-	github.com/senzing-garage/sz-sdk-go v0.15.12
+	github.com/senzing-garage/sz-sdk-go v0.15.14
 	github.com/senzing-garage/sz-sdk-go-core v0.9.14
 	github.com/senzing-garage/sz-sdk-go-grpc v0.9.12
 	github.com/senzing-garage/sz-sdk-go-mock v0.8.14
 	github.com/stretchr/testify v1.11.1
-	google.golang.org/grpc v1.79.3
+	google.golang.org/grpc v1.81.1
 )
 
 require (
@@ -19,11 +19,11 @@ require (
 	github.com/senzing-garage/go-messaging v1.5.3 // indirect
 	github.com/senzing-garage/go-observing v0.3.7 // indirect
 	github.com/senzing-garage/sz-sdk-proto v0.8.8 // indirect
-	golang.org/x/exp v0.0.0-20260218203240-3dfff04db8fa // indirect
-	golang.org/x/net v0.51.0 // indirect
-	golang.org/x/sys v0.42.0 // indirect
-	golang.org/x/text v0.34.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260226221140-a57be14db171 // indirect
+	golang.org/x/exp v0.0.0-20260611194520-c48552f49976 // indirect
+	golang.org/x/net v0.56.0 // indirect
+	golang.org/x/sys v0.46.0 // indirect
+	golang.org/x/text v0.38.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260622175928-b703f567277d // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
