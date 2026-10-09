@@ -162,7 +162,7 @@ Create a code coverage map.
 
 1. Run a Senzing gRPC server, visit
    [Senzing/servegrpc](https://github.com/senzing-garage/servegrpc).
-   1. Optionally, initialize a SqlLite database.
+   1. Optionally, initialize a SQLite database.
       Example:
 
       ```console

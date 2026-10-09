@@ -18,7 +18,7 @@ import (
 // Constants
 // ----------------------------------------------------------------------------
 
-// Identfier of the szfactorycreator package found messages having the format "senzing-6041xxxx".
+// Identifier of the szfactorycreator package found messages having the format "senzing-6041xxxx".
 const ComponentID = 6041
 
 // ----------------------------------------------------------------------------
