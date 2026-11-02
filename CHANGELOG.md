@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning].
 
 ## [Unreleased]
 
--
+- Update `golang.org/x/net` to `v0.62.0` (CVE-2026-78661, CVE-2026-97045)
 
 ## [0.10.0] - 2026-10-09
 
